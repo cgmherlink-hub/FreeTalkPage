@@ -1,1 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Let Them 人生分流選擇</title>
+<style>
+    body {
+        font-family: "Arial", sans-serif;
+        background: linear-gradient(to right, #667eea, #764ba2);
+        color: white;
+        text-align: center;
+        padding: 30px;
+    }
+    .card {
+        background: rgba(255,255,255,0.1);
+        padding: 20px;
+        border-radius: 15px;
+        margin: 20px auto;
+        max-width: 500px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    button {
+        background: #ffcc00;
+        border: none;
+        padding: 12px 20px;
+        margin: 10px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    button:hover {
+        background: #ffaa00;
+    }
+    .hidden {
+        display: none;
+    }
+</style>
+</head>
+<body>
 
+<h1>🧠 Let Them 人生選擇模擬器</h1>
+<p>你會怎麼選？每個選擇，決定你的情緒走向</p>
+
+<div class="card" id="step1">
+    <h2>情境一</h2>
+    <p>朋友已讀不回你三天</p>
+    <button onclick="choose('control')">😤 一直傳訊息追問</button>
+    <button onclick="choose('let')">😌 Let them（讓他）</button>
+</div>
+
+<div class="card hidden" id="result_control">
+    <h2>結果：控制路線</h2>
+    <p>你開始焦慮、反覆查看手機、情緒被綁架</p>
+    <p>甚至懷疑自己是不是做錯什麼</p>
+    <h3>👉 你的人生被「他」控制了</h3>
+    <button onclick="restart()">重新選擇</button>
+</div>
+
+<div class="card hidden" id="result_let">
+    <h2>結果：Let Them 路線</h2>
+    <p>你接受他有他的節奏</p>
+    <p>你把時間拿去做自己的事</p>
+    <h3>👉 你的人生回到自己手上</h3>
+    <button onclick="nextStep()">下一關</button>
+</div>
+
+<div class="card hidden" id="step2">
+    <h2>情境二</h2>
+    <p>同事在背後批評你</p>
+    <button onclick="choose2('fight')">🔥 立刻反擊解釋</button>
+    <button onclick="choose2('letme')">🧘 Let me（我選擇不內耗）</button>
+</div>
+
+<div class="card hidden" id="result_fight">
+    <h2>結果：對抗路線</h2>
+    <p>你陷入解釋、辯論、內耗</p>
+    <p>對方可能根本不在乎</p>
+    <h3>👉 你浪費了能量</h3>
+    <button onclick="restart()">重新選擇</button>
+</div>
+
+<div class="card hidden" id="result_letme">
+    <h2>結果：Let Me 路線</h2>
+    <p>你專注提升自己</p>
+    <p>用實力與時間說話</p>
+    <h3>👉 你成長了，別人只是背景</h3>
+    <button onclick="finalStep()">最終結局</button>
+</div>
+
+<div class="card hidden" id="final">
+    <h2>🎯 最終領悟</h2>
+    <p>Let Them = 別人的人生</p>
+    <p>Let Me = 我的選擇</p>
+    <h2>真正的自由是：</h2>
+    <h1>👉 不再想控制別人</h1>
+    <h1>👉 開始掌控自己</h1>
+    <button onclick="restart()">再玩一次</button>
+</div>
+
+<script>
+function choose(type) {
+    document.getElementById("step1").classList.add("hidden");
+    if (type === 'control') {
+        document.getElementById("result_control").classList.remove("hidden");
+    } else {
+        document.getElementById("result_let").classList.remove("hidden");
+    }
+}
+
+function nextStep() {
+    document.getElementById("result_let").classList.add("hidden");
+    document.getElementById("step2").classList.remove("hidden");
+}
+
+function choose2(type) {
+    document.getElementById("step2").classList.add("hidden");
+    if (type === 'fight') {
+        document.getElementById("result_fight").classList.remove("hidden");
+    } else {
+        document.getElementById("result_letme").classList.remove("hidden");
+    }
+}
+
+function finalStep() {
+    document.getElementById("result_letme").classList.add("hidden");
+    document.getElementById("final").classList.remove("hidden");
+}
+
+function restart() {
+    location.reload();
+}
+</script>
+
+</body>
+</html>
