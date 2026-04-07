@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -8,9 +7,10 @@
     <style>
         :root {
             --primary-color: #4a6362;
-            --bg-color: #faf9f6; /* 更溫暖的米色底 */
+            --bg-color: #faf9f6; 
             --text-color: #2c3e50;
-            --accent-color: #e6b89c; /* 柔和的光影金 */
+            --accent-color: #e6b89c; 
+            --highlight-color: #d4a373; /* 強調色 */
             --glass-bg: rgba(255, 255, 255, 0.7);
         }
 
@@ -65,14 +65,12 @@
             margin: 1.5rem auto 0;
         }
 
-        /* 網格佈局 */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2.5rem;
         }
 
-        /* 浮光卡片設計 */
         .card {
             background: var(--glass-bg);
             backdrop-filter: blur(10px);
@@ -104,7 +102,6 @@
             font-size: 0.8rem;
         }
 
-        /* 列表樣式 */
         ul {
             list-style: none;
             padding: 0;
@@ -125,7 +122,13 @@
         }
 
         li a:hover {
-            color: var(--accent-color);
+            color: var(--highlight-color);
+        }
+
+        /* 第一篇文章特殊樣式 */
+        .featured-link {
+            font-weight: 600;
+            color: var(--primary-color);
         }
 
         .date {
@@ -135,19 +138,11 @@
             letter-spacing: 1px;
         }
 
-        /* 底部裝飾 */
         footer {
             text-align: center;
             padding: 5rem 2rem;
             color: #b0b0b0;
             font-size: 0.85rem;
-            letter-spacing: 0.05rem;
-        }
-
-        /* 響應式調整 */
-        @media (max-width: 600px) {
-            header h1 { font-size: 1.5rem; }
-            .container { padding: 0 1.5rem; }
         }
     </style>
 </head>
@@ -167,6 +162,10 @@
         <div class="card">
             <h3>浮光隨筆</h3>
             <ul>
+                <li>
+                    <a href="SelfGrowth/Number7.html" class="featured-link">📌 第七名思維</a>
+                    <span class="date">APR 07</span>
+                </li>
                 <li>
                     <a href="#">鏡頭下的靜止時刻：晨間咖啡</a>
                     <span class="date">APR 07</span>
@@ -197,7 +196,7 @@
         <div class="card" style="max-width: 100%;">
             <h3>月度卷軸 Archive</h3>
             <p style="color: #666; font-size: 0.95rem;">
-                <strong>2026 四月：</strong> 在春日微光中尋找新生的力量 (2 則紀錄)<br>
+                <strong>2026 四月：</strong> 在春日微光中尋找新生的力量 (3 則紀錄)<br>
                 <strong>2026 三月：</strong> 關於平衡、深度工作與生活隱喻 (4 則紀錄)
             </p>
         </div>
