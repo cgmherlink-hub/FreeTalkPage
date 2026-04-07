@@ -1,1 +1,160 @@
 
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第七名思維｜人生選擇模擬器</title>
+<style>
+body {
+  font-family: "Noto Sans TC", sans-serif;
+  background: #f4f6f9;
+  margin: 0;
+  padding: 20px;
+}
+.container {
+  max-width: 700px;
+  margin: auto;
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+h1 {
+  text-align: center;
+}
+.button {
+  display: block;
+  margin: 10px 0;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #007BFF;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+.button:hover {
+  background: #0056b3;
+}
+.result {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 10px;
+  background: #eef3ff;
+  display: none;
+}
+.reset {
+  background: #28a745;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>🎯 第七名思維人生模擬器</h1>
+
+<p>你是「阿哲」，一位能力不錯的年輕人，目前在職場中排名前段班。</p>
+<p>現在，你面臨三個關鍵選擇👇</p>
+
+<div id="question"></div>
+
+<div id="options"></div>
+
+<div id="result" class="result"></div>
+
+<button class="button reset" onclick="restart()">🔄 重新開始</button>
+
+</div>
+
+<script>
+
+let step = 0;
+let score = 0;
+
+const story = [
+{
+  question: "📊 你目前是部門第一名，公司打算重用你，你會？",
+  options: [
+    { text: "A. 全力衝刺，維持第一名", score: 0, feedback: "你進入高壓模式，開始害怕失誤…" },
+    { text: "B. 保持穩定，開始學其他技能", score: 1, feedback: "你保留空間，開始探索新可能…" }
+  ]
+},
+{
+  question: "🚀 公司提供升遷機會，但會鎖死你的專業領域，你會？",
+  options: [
+    { text: "A. 接受升遷，確保地位", score: 0, feedback: "你變得更穩，但也更難轉向…" },
+    { text: "B. 延後決定，發展第二專長", score: 1, feedback: "你開始建立第二曲線…" }
+  ]
+},
+{
+  question: "🌱 你有一個不確定的興趣（例如創業/寫作），但短期沒回報，你會？",
+  options: [
+    { text: "A. 放棄，專注主業", score: 0, feedback: "你變得更穩定，但成長開始停滯…" },
+    { text: "B. 保留時間投入", score: 1, feedback: "你開始累積未來的可能性…" }
+  ]
+}
+];
+
+function showQuestion() {
+  const q = story[step];
+  document.getElementById("question").innerHTML = `<h3>${q.question}</h3>`;
+  
+  let optionsHTML = "";
+  q.options.forEach((opt, index) => {
+    optionsHTML += `<button class="button" onclick="choose(${index})">${opt.text}</button>`;
+  });
+
+  document.getElementById("options").innerHTML = optionsHTML;
+}
+
+function choose(index) {
+  const choice = story[step].options[index];
+  score += choice.score;
+
+  document.getElementById("result").style.display = "block";
+  document.getElementById("result").innerHTML = choice.feedback;
+
+  step++;
+
+  if (step < story.length) {
+    setTimeout(() => {
+      showQuestion();
+      document.getElementById("result").style.display = "none";
+    }, 1200);
+  } else {
+    showFinal();
+  }
+}
+
+function showFinal() {
+  let message = "";
+
+  if (score <= 1) {
+    message = "⚠️ 你選擇了「第一名思維」：短期穩定，但長期可能受限。你正在把自己困在單一路徑中。";
+  } else if (score == 2) {
+    message = "⚖️ 你介於兩者之間：有穩定，也有探索，但還可以更大膽。";
+  } else {
+    message = "🔥 你展現了「第七名思維」：你懂得保留空間、建立第二曲線，長期成長潛力極高！";
+  }
+
+  document.getElementById("question").innerHTML = "<h2>🎉 結果分析</h2>";
+  document.getElementById("options").innerHTML = "";
+  document.getElementById("result").style.display = "block";
+  document.getElementById("result").innerHTML = message;
+}
+
+function restart() {
+  step = 0;
+  score = 0;
+  showQuestion();
+  document.getElementById("result").style.display = "none";
+}
+
+showQuestion();
+
+</script>
+
+</body>
+</html>
