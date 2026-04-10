@@ -1,1 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>老師社交智慧測驗</title>
 
+<style>
+body {
+    font-family: "Noto Sans TC", sans-serif;
+    background: #f4f7fb;
+    margin: 0;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+h1 {
+    text-align: center;
+    color: #2c7be5;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #eaf2ff;
+    cursor: pointer;
+}
+
+.result {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>👩‍🏫 老師社交智慧測驗</h1>
+
+<div id="quiz"></div>
+
+<div id="result" class="card result" style="display:none;"></div>
+
+</div>
+
+<script>
+
+const questions = [
+
+{
+q: "學生上課滑手機，你的第一反應是？",
+options: [
+"A. 立刻制止並警告",
+"B. 覺得不尊重，心裡不舒服",
+"C. 先觀察他最近狀態"
+],
+score: [2,1,0]
+},
+
+{
+q: "學生頂嘴時，你會怎麼想？",
+options: [
+"A. 他在挑戰權威",
+"B. 他態度不好",
+"C. 他可能有情緒或壓力"
+],
+score: [2,1,0]
+},
+
+{
+q: "班上氣氛不好時，你通常？",
+options: [
+"A. 加強管理",
+"B. 照原計畫上課",
+"C. 先處理情緒氛圍"
+],
+score: [2,1,0]
+},
+
+{
+q: "學生成績退步，你直覺是？",
+options: [
+"A. 他不夠努力",
+"B. 他需要被督促",
+"C. 可能有其他困難"
+],
+score: [2,1,0]
+},
+
+{
+q: "當學生沉默不回應時？",
+options: [
+"A. 點名逼他回答",
+"B. 略過",
+"C. 給他時間與安全感"
+],
+score: [2,1,0]
+}
+
+];
+
+let current = 0;
+let totalScore = 0;
+
+function renderQuestion() {
+    const quiz = document.getElementById("quiz");
+
+    if (current >= questions.length) {
+        showResult();
+        return;
+    }
+
+    const q = questions[current];
+
+    quiz.innerHTML = `
+    <div class="card">
+        <h3>Q${current+1}. ${q.q}</h3>
+        ${q.options.map((opt,i)=>
+            `<button onclick="answer(${q.score[i]})">${opt}</button>`
+        ).join("")}
+    </div>`;
+}
+
+function answer(score) {
+    totalScore += score;
+    current++;
+    renderQuestion();
+}
+
+function showResult() {
+    document.getElementById("quiz").style.display = "none";
+
+    let text = "";
+
+    if (totalScore <= 3) {
+        text = "🟢 高社交智慧型老師<br><small>你能看見行為背後的需求</small>";
+    } else if (totalScore <=7) {
+        text = "🟡 理性管理型老師<br><small>你重視秩序，但可以更理解情緒</small>";
+    } else {
+        text = "🔴 控制導向型老師<br><small>容易用權威解決問題</small>";
+    }
+
+    const result = document.getElementById("result");
+    result.style.display = "block";
+
+    result.innerHTML = `
+    ${text}
+    <p style="font-size:14px;margin-top:10px;">
+    👉 高社交智慧的關鍵：先理解，再引導
+    </p>
+    `;
+}
+
+renderQuestion();
+
+</script>
+
+</body>
+</html>
