@@ -3,231 +3,192 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Let Them 人生分流選擇</title>
- <a href="https://www.youtube.com/watch?v=P91b4civBxA"> Let Them Theory</a>
+<title>Let Them 人生選擇模擬器</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  /* ── Top Nav Bar ── */
-  .topbar {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(30, 20, 60, 0.72);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255,255,255,0.12);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-  }
-
-  /* Left nav links */
-  .nav-left { display: flex; gap: 8px; }
-  .nav-btn {
-    text-decoration: none;
-    color: #fff;
-    font-size: 0.8rem;
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 6px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.2s;
-    white-space: nowrap;
-  }
-  .nav-btn:hover { background: rgba(255,255,255,0.25); }
-
-  /* Right visitor badge */
-  .visitor-badge {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255,255,255,0.25);
-    border-radius: 8px;
-    padding: 5px 14px;
-    line-height: 1.4;
-  }
-  .vb-label { font-size: 0.65rem; color: rgba(255,255,255,0.7); }
-  .vb-count { font-size: 1rem; font-weight: 600; color: #ffee88; letter-spacing: 0.04em; }
-  .vb-sub { font-size: 0.62rem; color: rgba(255,255,255,0.55); }
-
-  /* ── Page Body ── */
-  body {
-    font-family: "Arial", sans-serif;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    min-height: 100vh;
-    text-align: center;
-    padding: 30px 20px 50px;
-  }
-
-  h1 { font-size: 1.8rem; margin-bottom: 8px; }
-  p { font-size: 1rem; opacity: 0.9; margin-bottom: 6px; }
-
-  .card {
-    background: rgba(255,255,255,0.13);
-    padding: 28px 24px;
-    border-radius: 16px;
-    margin: 24px auto;
-    max-width: 500px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    border: 1px solid rgba(255,255,255,0.15);
-  }
-  .card h2 { margin-bottom: 12px; font-size: 1.2rem; }
-  .card h3 { margin-top: 14px; font-size: 1rem; }
-  .card p  { margin-bottom: 6px; }
-
-  .btn-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 16px; }
-
-  button {
-    background: #ffcc00;
-    color: #333;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 0.95rem;
-    font-weight: 600;
-    transition: background 0.2s, transform 0.1s;
-  }
-  button:hover  { background: #ffaa00; }
-  button:active { transform: scale(0.97); }
-
+  body { font-family: Arial, sans-serif; background: #f5f4f0; color: #1a1a1a; min-height: 100vh; }
+  .sim-wrap { padding: 2rem 1rem; max-width: 520px; margin: 0 auto; }
+  .sim-title { font-size: 22px; font-weight: 500; color: #1a1a1a; margin-bottom: 6px; }
+  .sim-sub { font-size: 14px; color: #666; margin-bottom: 2rem; }
+  .scene-card { background: #fff; border: 0.5px solid rgba(0,0,0,0.15); border-radius: 12px; padding: 1.5rem 1.25rem; }
+  .step-badge { display: inline-block; font-size: 11px; color: #666; background: #f5f4f0; border: 0.5px solid rgba(0,0,0,0.15); border-radius: 8px; padding: 3px 10px; margin-bottom: 12px; }
+  .scene-emoji { font-size: 32px; margin-bottom: 8px; display: block; }
+  .scene-q { font-size: 17px; font-weight: 500; color: #1a1a1a; margin-bottom: 6px; }
+  .scene-desc { font-size: 14px; color: #666; margin-bottom: 1.5rem; line-height: 1.6; }
+  .btn-group { display: flex; flex-direction: column; gap: 10px; }
+  .choice-btn { background: #f5f4f0; border: 0.5px solid rgba(0,0,0,0.25); border-radius: 8px; padding: 14px 16px; text-align: left; cursor: pointer; transition: background 0.15s; color: #1a1a1a; font-size: 14px; display: flex; align-items: flex-start; gap: 12px; width: 100%; }
+  .choice-btn:hover { background: #ebe9e2; }
+  .choice-btn:active { transform: scale(0.99); }
+  .choice-icon { font-size: 18px; line-height: 1; flex-shrink: 0; margin-top: 1px; }
+  .choice-text strong { display: block; font-weight: 500; margin-bottom: 2px; }
+  .choice-text span { font-size: 13px; color: #666; }
+  .result-card { background: #fff; border: 0.5px solid rgba(0,0,0,0.15); border-radius: 12px; padding: 1.5rem 1.25rem; }
+  .result-icon { font-size: 36px; margin-bottom: 12px; display: block; }
+  .result-title { font-size: 17px; font-weight: 500; margin-bottom: 10px; }
+  .result-body { font-size: 14px; color: #666; line-height: 1.7; margin-bottom: 1.25rem; }
+  .result-insight { font-size: 14px; font-weight: 500; padding: 12px 14px; border-radius: 8px; margin-bottom: 1.25rem; }
+  .insight-good { background: #EAF3DE; color: #3B6D11; border: 0.5px solid #C0DD97; }
+  .insight-bad { background: #FCEBEB; color: #A32D2D; border: 0.5px solid #F7C1C1; }
+  .next-btn { background: #f5f4f0; border: 0.5px solid rgba(0,0,0,0.25); border-radius: 8px; padding: 10px 20px; cursor: pointer; font-size: 14px; color: #1a1a1a; transition: background 0.15s; }
+  .next-btn:hover { background: #ebe9e2; }
+  .progress-bar { display: flex; gap: 6px; margin-bottom: 1.5rem; }
+  .prog-dot { height: 4px; flex: 1; border-radius: 2px; background: rgba(0,0,0,0.12); }
+  .prog-dot.active { background: #534AB7; }
+  .prog-dot.done { background: #1D9E75; }
+  .final-card { background: #fff; border: 0.5px solid rgba(0,0,0,0.15); border-radius: 12px; padding: 2rem 1.5rem; text-align: center; }
+  .final-title { font-size: 20px; font-weight: 500; margin-bottom: 1rem; }
+  .principle { display: flex; align-items: flex-start; gap: 12px; text-align: left; padding: 12px 14px; border-radius: 8px; margin-bottom: 10px; }
+  .p-them { background: #EEEDFE; border: 0.5px solid #AFA9EC; }
+  .p-me { background: #E1F5EE; border: 0.5px solid #5DCAA5; }
+  .p-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+  .p-text strong { font-size: 14px; font-weight: 500; display: block; color: #1a1a1a; }
+  .p-text span { font-size: 13px; color: #555; }
   .hidden { display: none; }
 
-  @media (max-width: 480px) {
-    .nav-btn { font-size: 0.72rem; padding: 5px 9px; }
-    h1 { font-size: 1.4rem; }
+  @media (prefers-color-scheme: dark) {
+    body { background: #1c1c1a; color: #e8e6df; }
+    .sim-title, .scene-q, .result-title, .final-title { color: #e8e6df; }
+    .sim-sub, .scene-desc, .result-body, .choice-text span { color: #aaa; }
+    .scene-card, .result-card, .final-card { background: #2c2c2a; border-color: rgba(255,255,255,0.12); }
+    .step-badge { background: #3a3a38; color: #aaa; border-color: rgba(255,255,255,0.12); }
+    .choice-btn { background: #3a3a38; border-color: rgba(255,255,255,0.2); color: #e8e6df; }
+    .choice-btn:hover { background: #484844; }
+    .next-btn { background: #3a3a38; border-color: rgba(255,255,255,0.2); color: #e8e6df; }
+    .next-btn:hover { background: #484844; }
+    .prog-dot { background: rgba(255,255,255,0.15); }
+    .insight-good { background: #27500A; color: #C0DD97; border-color: #3B6D11; }
+    .insight-bad { background: #791F1F; color: #F7C1C1; border-color: #A32D2D; }
+    .p-them { background: #26215C; border-color: #534AB7; }
+    .p-me { background: #04342C; border-color: #0F6E56; }
+    .p-text strong { color: #e8e6df; }
+    .p-text span { color: #aaa; }
   }
 </style>
 </head>
 <body>
+<div class="sim-wrap">
+  <h1 class="sim-title">Let Them 人生選擇模擬器</h1>
+  <p class="sim-sub">每個選擇，決定你的情緒走向</p>
 
-<!-- ── Sticky Nav Bar ── -->
-<div class="topbar">
-  <div class="nav-left">
-    <a href="../index.html" class="nav-btn">🏠 回到首頁</a>
-    <a href="javascript:history.back()" class="nav-btn">⬅️ 上一頁</a>
+  <div class="progress-bar">
+    <div class="prog-dot active" id="dot0"></div>
+    <div class="prog-dot" id="dot1"></div>
+    <div class="prog-dot" id="dot2"></div>
   </div>
-  <div class="visitor-badge">
-    <span class="vb-label">👥 今日到訪</span>
-    <span class="vb-count" id="today-count">—</span>
-    <span class="vb-sub">累計 <span id="total-count">—</span> 人次</span>
+
+  <div id="view-step1">
+    <div class="scene-card">
+      <span class="step-badge">情境 1 / 2</span>
+      <span class="scene-emoji">💬</span>
+      <p class="scene-q">朋友已讀不回你三天</p>
+      <p class="scene-desc">你傳了訊息但對方一直沒有回應。你會怎麼做？</p>
+      <div class="btn-group">
+        <button class="choice-btn" onclick="choose1('control')">
+          <span class="choice-icon">😤</span>
+          <div class="choice-text"><strong>一直追問</strong><span>持續傳訊息，要求對方回應</span></div>
+        </button>
+        <button class="choice-btn" onclick="choose1('let')">
+          <span class="choice-icon">😌</span>
+          <div class="choice-text"><strong>Let them（放手）</strong><span>接受對方有自己的節奏</span></div>
+        </button>
+      </div>
+    </div>
   </div>
-</div>
 
-<!-- ── Content ── -->
-<h1 style="margin-top: 28px;">🧠 Let Them 人生選擇模擬器</h1>
-<p>你會怎麼選？每個選擇，決定你的情緒走向</p>
-
-<div class="card" id="step1">
-  <h2>情境一</h2>
-  <p>朋友已讀不回你三天</p>
-  <div class="btn-row">
-    <button onclick="choose('control')">😤 一直傳訊息追問</button>
-    <button onclick="choose('let')">😌 Let them（讓他）</button>
+  <div id="view-r1-control" class="hidden">
+    <div class="result-card">
+      <span class="result-icon">😰</span>
+      <p class="result-title">控制路線的結果</p>
+      <p class="result-body">你開始焦慮、反覆查看手機。<br>你的情緒被對方的沉默完全綁架，甚至開始懷疑自己是否做錯了什麼。</p>
+      <div class="result-insight insight-bad">你的平靜，交給了別人掌控</div>
+      <button class="next-btn" onclick="restart()">重新開始</button>
+    </div>
   </div>
-</div>
 
-<div class="card hidden" id="result_control">
-  <h2>結果：控制路線</h2>
-  <p>你開始焦慮、反覆查看手機、情緒被綁架</p>
-  <p>甚至懷疑自己是不是做錯什麼</p>
-  <h3>👉 你的人生被「他」控制了</h3>
-  <div class="btn-row">
-    <button onclick="restart()">重新選擇</button>
+  <div id="view-r1-let" class="hidden">
+    <div class="result-card">
+      <span class="result-icon">✨</span>
+      <p class="result-title">Let Them 的結果</p>
+      <p class="result-body">你接受他有自己的節奏。<br>你把時間還給自己，做想做的事，情緒保持穩定。</p>
+      <div class="result-insight insight-good">你的人生回到自己手上</div>
+      <button class="next-btn" onclick="goStep2()">下一關 →</button>
+    </div>
   </div>
-</div>
 
-<div class="card hidden" id="result_let">
-  <h2>結果：Let Them 路線</h2>
-  <p>你接受他有他的節奏</p>
-  <p>你把時間拿去做自己的事</p>
-  <h3>👉 你的人生回到自己手上</h3>
-  <div class="btn-row">
-    <button onclick="nextStep()">下一關 →</button>
+  <div id="view-step2" class="hidden">
+    <div class="scene-card">
+      <span class="step-badge">情境 2 / 2</span>
+      <span class="scene-emoji">🗣️</span>
+      <p class="scene-q">同事在背後批評你</p>
+      <p class="scene-desc">你聽說同事說了一些你的壞話。你打算怎麼應對？</p>
+      <div class="btn-group">
+        <button class="choice-btn" onclick="choose2('fight')">
+          <span class="choice-icon">🔥</span>
+          <div class="choice-text"><strong>立刻反擊解釋</strong><span>找對方對質，把話說清楚</span></div>
+        </button>
+        <button class="choice-btn" onclick="choose2('let')">
+          <span class="choice-icon">🧘</span>
+          <div class="choice-text"><strong>Let me（專注自己）</strong><span>不內耗，用實力說話</span></div>
+        </button>
+      </div>
+    </div>
   </div>
-</div>
 
-<div class="card hidden" id="step2">
-  <h2>情境二</h2>
-  <p>同事在背後批評你</p>
-  <div class="btn-row">
-    <button onclick="choose2('fight')">🔥 立刻反擊解釋</button>
-    <button onclick="choose2('letme')">🧘 Let me（我選擇不內耗）</button>
+  <div id="view-r2-fight" class="hidden">
+    <div class="result-card">
+      <span class="result-icon">😤</span>
+      <p class="result-title">對抗路線的結果</p>
+      <p class="result-body">你陷入解釋、辯論與內耗的漩渦。<br>對方可能根本不在乎，但你卻消耗了大量能量。</p>
+      <div class="result-insight insight-bad">你把能量浪費在別人的評價上</div>
+      <button class="next-btn" onclick="restart()">重新開始</button>
+    </div>
   </div>
-</div>
 
-<div class="card hidden" id="result_fight">
-  <h2>結果：對抗路線</h2>
-  <p>你陷入解釋、辯論、內耗</p>
-  <p>對方可能根本不在乎</p>
-  <h3>👉 你浪費了能量</h3>
-  <div class="btn-row">
-    <button onclick="restart()">重新選擇</button>
+  <div id="view-r2-let" class="hidden">
+    <div class="result-card">
+      <span class="result-icon">🌱</span>
+      <p class="result-title">Let Me 的結果</p>
+      <p class="result-body">你專注提升自己，用時間與實力回應。<br>你成長了，別人的話只是背景雜音。</p>
+      <div class="result-insight insight-good">成長是最好的回應</div>
+      <button class="next-btn" onclick="goFinal()">查看最終領悟 →</button>
+    </div>
   </div>
-</div>
 
-<div class="card hidden" id="result_letme">
-  <h2>結果：Let Me 路線</h2>
-  <p>你專注提升自己</p>
-  <p>用實力與時間說話</p>
-  <h3>👉 你成長了，別人只是背景</h3>
-  <div class="btn-row">
-    <button onclick="finalStep()">最終結局 →</button>
-  </div>
-</div>
-
-<div class="card hidden" id="final">
-  <h2>🎯 最終領悟</h2>
-  <p>Let Them = 別人的人生</p>
-  <p>Let Me = 我的選擇</p>
-  <h2 style="margin-top: 16px;">真正的自由是：</h2>
-  <p style="font-size: 1.3rem; font-weight: bold; margin-top: 12px;">👉 不再想控制別人</p>
-  <p style="font-size: 1.3rem; font-weight: bold;">👉 開始掌控自己</p>
-  <div class="btn-row">
-    <button onclick="restart()">再玩一次</button>
+  <div id="view-final" class="hidden">
+    <div class="final-card">
+      <p class="final-title">最終領悟</p>
+      <div class="principle p-them">
+        <span class="p-icon">👐</span>
+        <div class="p-text"><strong>Let Them</strong><span>別人有選擇自己人生的自由，你無法也不需要控制</span></div>
+      </div>
+      <div class="principle p-me">
+        <span class="p-icon">🎯</span>
+        <div class="p-text"><strong>Let Me</strong><span>你有掌控自己反應與方向的力量</span></div>
+      </div>
+      <p style="font-size: 14px; color: #666; margin-top: 1.25rem; margin-bottom: 1.5rem; line-height: 1.7;">真正的自由，不是控制別人的行為，而是不再被別人的行為所控制。</p>
+      <button class="next-btn" onclick="restart()">再玩一次</button>
+    </div>
   </div>
 </div>
 
 <script>
-  /* ── Visitor Counter ── */
-  (function () {
-    var today = new Date().toISOString().slice(0, 10);
-    var data = {};
-    try { data = JSON.parse(localStorage.getItem('letthem_visits') || '{}'); } catch (e) {}
-    if (!sessionStorage.getItem('letthem_visited')) {
-      sessionStorage.setItem('letthem_visited', '1');
-      data[today] = (data[today] || 0) + 1;
-      data['__total__'] = (data['__total__'] || 0) + 1;
-      try { localStorage.setItem('letthem_visits', JSON.stringify(data)); } catch (e) {}
+  function show(id) {
+    ['view-step1','view-r1-control','view-r1-let','view-step2','view-r2-fight','view-r2-let','view-final'].forEach(function(v) {
+      document.getElementById(v).classList.add('hidden');
+    });
+    document.getElementById(id).classList.remove('hidden');
+  }
+  function setDots(active, done) {
+    for (var i = 0; i < 3; i++) {
+      var d = document.getElementById('dot'+i);
+      d.className = 'prog-dot' + (i < done ? ' done' : i === active ? ' active' : '');
     }
-    document.getElementById('today-count').textContent = (data[today] || 1).toLocaleString() + ' 人';
-    document.getElementById('total-count').textContent = (data['__total__'] || 1).toLocaleString();
-  })();
-
-  /* ── Game Logic ── */
-  function choose(type) {
-    document.getElementById('step1').classList.add('hidden');
-    document.getElementById(type === 'control' ? 'result_control' : 'result_let').classList.remove('hidden');
   }
-  function nextStep() {
-    document.getElementById('result_let').classList.add('hidden');
-    document.getElementById('step2').classList.remove('hidden');
-  }
-  function choose2(type) {
-    document.getElementById('step2').classList.add('hidden');
-    document.getElementById(type === 'fight' ? 'result_fight' : 'result_letme').classList.remove('hidden');
-  }
-  function finalStep() {
-    document.getElementById('result_letme').classList.add('hidden');
-    document.getElementById('final').classList.remove('hidden');
-  }
-  function restart() { location.reload(); }
+  function choose1(t) { show(t === 'control' ? 'view-r1-control' : 'view-r1-let'); setDots(0,0); }
+  function goStep2() { show('view-step2'); setDots(1,1); }
+  function choose2(t) { show(t === 'fight' ? 'view-r2-fight' : 'view-r2-let'); setDots(1,1); }
+  function goFinal() { show('view-final'); setDots(2,3); }
+  function restart() { show('view-step1'); setDots(0,0); }
 </script>
-
 </body>
 </html>
