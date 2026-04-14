@@ -1,1 +1,128 @@
 
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>高手思維｜你努力錯地方了嗎？</title>
+<style>
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f5f7fa;
+  margin: 0;
+  padding: 20px;
+  line-height: 1.6;
+}
+.container {
+  max-width: 600px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+h1 {
+  font-size: 22px;
+  color: #2c3e50;
+}
+.question {
+  margin: 20px 0;
+}
+button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 10px;
+  background: #3498db;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+button:hover {
+  background: #2980b9;
+}
+.result {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 10px;
+  display: none;
+}
+.good { background: #d4edda; }
+.bad { background: #f8d7da; }
+.neutral { background: #fff3cd; }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🔥 你努力錯地方了嗎？</h1>
+<p>診間裡，阿川說：「我已經很努力了，為什麼還失敗？」</p>
+<p>👉 也許問題不是努力，而是「方向」</p>
+
+<div class="question">
+<h3>問題 1️⃣：你現在的努力是？</h3>
+<button onclick="showResult('q1','bad')">拼命硬撐（靠意志力）</button>
+<button onclick="showResult('q1','good')">有系統、有策略</button>
+
+<div id="q1" class="result"></div>
+</div>
+
+<div class="question">
+<h3>問題 2️⃣：你的生活方式？</h3>
+<button onclick="showResult('q2','bad')">想到才做（不固定）</button>
+<button onclick="showResult('q2','good')">固定習慣（不用思考）</button>
+
+<div id="q2" class="result"></div>
+</div>
+
+<div class="question">
+<h3>問題 3️⃣：面對失敗時？</h3>
+<button onclick="showResult('q3','bad')">覺得自己不夠努力</button>
+<button onclick="showResult('q3','good')">檢討策略與方向</button>
+
+<div id="q3" class="result"></div>
+</div>
+
+<div id="final" class="result neutral"></div>
+
+</div>
+
+<script>
+let score = 0;
+
+function showResult(id, type) {
+  let el = document.getElementById(id);
+
+  if (type === "good") {
+    el.className = "result good";
+    el.innerHTML = "✅ 高手思維：你在用「策略」而不是硬撐";
+    score++;
+  } else {
+    el.className = "result bad";
+    el.innerHTML = "⚠️ 常見陷阱：這是「情緒努力」，容易失敗";
+  }
+
+  el.style.display = "block";
+  checkFinal();
+}
+
+function checkFinal() {
+  if (document.querySelectorAll('.result[style*="block"]').length >= 3) {
+    let final = document.getElementById("final");
+    final.style.display = "block";
+
+    if (score >= 2) {
+      final.innerHTML = "🎯 你已經接近高手思維：你不是更努力，而是更聰明！";
+    } else {
+      final.innerHTML = "💥 你現在很努力，但可能努力錯方向！是時候升級思維了";
+    }
+  }
+}
+</script>
+
+</body>
+</html>
