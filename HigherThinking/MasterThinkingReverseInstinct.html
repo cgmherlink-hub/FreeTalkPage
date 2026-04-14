@@ -1,1 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>高手思維測驗</title>
+<style>
+body {
+  font-family: -apple-system, BlinkMacSystemFont;
+  background: #eef2f7;
+  padding: 20px;
+}
+.container {
+  max-width: 600px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+}
+.progress {
+  height: 8px;
+  background: #ddd;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+.progress-bar {
+  height: 8px;
+  width: 0%;
+  background: #3498db;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+button {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 10px;
+  background: #3498db;
+  color: white;
+  font-size: 16px;
+}
+.result {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  display: none;
+}
+.good { background: #d4edda; }
+.bad { background: #f8d7da; }
+.final { margin-top:20px; padding:15px; border-radius:12px; display:none;}
+</style>
+</head>
 
+<body>
+<div class="container">
+
+<h2>🔥 你是「努力型」還是「高手型」？</h2>
+
+<div class="progress"><div class="progress-bar" id="bar"></div></div>
+
+<div class="q">
+<p>Q1：你如何改善健康？</p>
+<button onclick="ans(1,'bad')">靠意志力撐</button>
+<button onclick="ans(1,'good')">設計環境讓自己自動做到</button>
+<div id="r1" class="result"></div>
+</div>
+
+<div class="q">
+<p>Q2：面對失敗？</p>
+<button onclick="ans(2,'bad')">覺得自己不夠努力</button>
+<button onclick="ans(2,'good')">調整策略</button>
+<div id="r2" class="result"></div>
+</div>
+
+<div class="q">
+<p>Q3：你的習慣？</p>
+<button onclick="ans(3,'bad')">想到才做</button>
+<button onclick="ans(3,'good')">固定化自動執行</button>
+<div id="r3" class="result"></div>
+</div>
+
+<div id="final" class="final"></div>
+
+</div>
+
+<script>
+let score = 0;
+let answered = 0;
+
+function ans(q, type) {
+  let r = document.getElementById("r"+q);
+  if (r.style.display === "block") return;
+
+  if (type === "good") {
+    r.className="result good";
+    r.innerHTML="✅ 高手思維：你在用策略";
+    score++;
+  } else {
+    r.className="result bad";
+    r.innerHTML="⚠️ 這是情緒努力，容易失敗";
+  }
+
+  r.style.display="block";
+  answered++;
+  updateBar();
+  checkFinal();
+}
+
+function updateBar() {
+  let percent = (answered/3)*100;
+  document.getElementById("bar").style.width = percent + "%";
+}
+
+function checkFinal() {
+  if (answered === 3) {
+    let f = document.getElementById("final");
+    f.style.display="block";
+
+    if (score === 3) {
+      f.innerHTML="🟢 高手型：你已經在用高階思維，成功只是時間問題";
+      f.style.background="#d4edda";
+    } else if (score === 2) {
+      f.innerHTML="🟡 成長型：你方向正確，但還可以更精準";
+      f.style.background="#fff3cd";
+    } else {
+      f.innerHTML="🔴 努力型：你很拼，但方向需要調整";
+      f.style.background="#f8d7da";
+    }
+  }
+}
+</script>
+
+</body>
+</html>
