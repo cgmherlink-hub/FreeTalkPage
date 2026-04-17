@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -33,14 +32,23 @@
             margin: 0;
             font-size: 1.4em;
         }
+        .image-container {
+            width: 100%;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
         .main-content {
             padding: 20px;
             color: #1c1e21;
             line-height: 1.6;
             font-size: 16px;
-        }
-        .intro {
-            margin-bottom: 20px;
         }
         .symptom-box {
             background-color: #f7f8fa;
@@ -69,23 +77,18 @@
             padding: 15px;
             margin: 20px 0;
         }
-        .warning-card strong {
-            color: #e67e22;
-        }
         .footer-tags {
             padding: 15px 20px;
             border-top: 1px solid #ebedf0;
-            color: #65676b;
+            color: #1877f2;
             font-size: 14px;
         }
         .hashtag {
-            color: #1877f2;
-            margin-right: 5px;
-            cursor: pointer;
+            margin-right: 8px;
+            text-decoration: none;
         }
         ul {
             padding-left: 20px;
-            margin: 10px 0;
         }
         li {
             margin-bottom: 8px;
@@ -99,12 +102,13 @@
         <h1>📢 【阿美的「腹」愁者聯盟】</h1>
     </div>
 
-    <div class="main-content">
-        <p class="intro">
-            大家身邊有沒有像「阿美」這樣的朋友？身材苗條，卻常在廁所蹲到腳麻，出來還是一臉哀怨... 🚽
-        </p>
+    <div class="image-container">
+        <img src="bowel_movement.png" alt="腸道健康示意圖" onerror="this.alt='圖片載入失敗，請檢查檔案名稱是否正確'; this.style.padding='20px';">
+    </div>
 
-        <p>阿美這幾年總覺得：</p>
+    <div class="main-content">
+        <p>大家身邊有沒有像「阿美」這樣的朋友？身材苗條，卻常在廁所蹲到腳麻，出來還是一臉哀怨... 🚽</p>
+
         <div class="symptom-box">
             1️⃣ <strong>「解不乾淨」</strong>：剛出廁所，又覺得肚子脹脹想跑廁所。<br>
             2️⃣ <strong>「左下腹硬塊」</strong>：摸左下腹有硬硬的東西，像糞便又像腫塊。
@@ -112,21 +116,21 @@
 
         <span class="section-title">🧐 為什麼左下腹會摸到硬硬的？</span>
         <p>
-            左下腹是<strong>乙狀結腸</strong>的位置，也是糞便進入直腸前的最後一站。纖瘦的人因為皮下脂肪薄，若最近排便不順，堆積的<strong>宿便</strong>確實容易被摸到。通常排便後，硬塊會減輕。
+            左下腹是<strong>乙狀結腸</strong>的位置，纖瘦的人因為皮下脂肪薄，堆積的<strong>宿便</strong>確實容易被摸到。通常排便後，硬塊會減輕。
         </p>
 
         <span class="section-title">💩 什麼是「排便不淨感」？</span>
         <p>
-            醫學上稱為<strong>「裏急後重」</strong>。這代表直腸受到刺激，可能是腸躁症或糞便太乾。但若腸道內有<strong>瘜肉或腫瘤</strong>，直腸也會誤以為是糞便，產生持續便意。
+            醫學上稱為<strong>「裏急後重」</strong>。這代表直腸受到刺激，可能是腸躁症，但也需警惕是否有<strong>瘜肉或腫瘤</strong>，讓大腦誤以為還有便意。
         </p>
 
         <div class="highlight-card">
             <strong>💡 順暢生活建議：</strong>
             <ul>
-                <li><strong>姿勢：</strong>蹲馬桶墊高腳，幫助肌肉放鬆。</li>
+                <li><strong>姿勢：</strong>蹲馬桶墊高腳，呈 35 度角。</li>
                 <li><strong>水分：</strong>每日飲水 體重 x 35cc。</li>
                 <li><strong>纖維：</strong>多吃木耳、秋葵等水溶性纖維。</li>
-                <li><strong>按摩：</strong>順時針輕揉腹部促進蠕動。</li>
+                <li><strong>按摩：</strong>順時針輕揉腹部。</li>
             </ul>
         </div>
 
@@ -143,7 +147,6 @@
         <span class="hashtag">#便秘</span>
         <span class="hashtag">#衛教</span>
         <span class="hashtag">#大腸鏡檢查</span>
-        <span class="hashtag">#健康生活</span>
     </div>
 </div>
 
