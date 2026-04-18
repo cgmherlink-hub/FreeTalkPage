@@ -1,1 +1,117 @@
 
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大腦化學怪物測驗</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f4f7f6; color: #333; line-height: 1.6; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #2c3e50; font-size: 24px; }
+        p.subtitle { text-align: center; color: #666; margin-bottom: 30px; }
+        .question-item { margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #eee; }
+        .question-text { font-weight: bold; margin-bottom: 10px; display: block; }
+        .options { display: grid; gap: 10px; }
+        label { background: #f9f9f9; padding: 10px 15px; border-radius: 8px; cursor: pointer; border: 1px solid #ddd; transition: 0.3s; }
+        label:hover { background: #eef2ff; border-color: #4f46e5; }
+        input[type="radio"] { margin-right: 10px; }
+        .footer { text-align: center; margin-top: 30px; font-size: 14px; color: #999; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>👾 大腦化學怪物：10秒殘酷測驗</h1>
+    <p class="subtitle">別再裝了，選一個最接近你現在「慘狀」的描述：</p>
+
+    <form id="quiz-form">
+        <div class="question-item">
+            <span class="question-text">1. 看到手機通知亮起時，你的反射動作是？</span>
+            <div class="options">
+                <label><input type="radio" name="q1" value="T"> 瞬間心悸，覺得有人要找我麻煩</label>
+                <label><input type="radio" name="q1" value="A"> 期待是能讓我興奮的消息，結果只是廣告（失望）</label>
+            </div>
+        </div>
+
+        <div class="question-item">
+            <span class="question-text">2. 目前的工作效率更接近哪種狀態？</span>
+            <div class="options">
+                <label><input type="radio" name="q2" value="A"> 打開 Excel 卻在看貓咪影片，已經一小時了</label>
+                <label><input type="radio" name="q2" value="B"> 腦袋空空，就算火燒屁股也只想原地躺下</label>
+            </div>
+        </div>
+
+        <div class="question-item">
+            <span class="question-text">3. 關於「咖啡」，你的反直覺感受是？</span>
+            <div class="options">
+                <label><input type="radio" name="q3" value="T"> 越喝越累，但手停不下來</label>
+                <label><input type="radio" name="q3" value="B"> 沒喝之前，我覺得全世界都在針對我</label>
+            </div>
+        </div>
+
+        <div class="question-item">
+            <span class="question-text">4. 半夜躺在床上時，你的大腦在做什麼？</span>
+            <div class="options">
+                <label><input type="radio" name="q4" value="T"> 複習 5 年前尷尬的往事，精神百倍</label>
+                <label><input type="radio" name="q4" value="B"> 莫名想哭，覺得人生好難</label>
+            </div>
+        </div>
+
+        <div class="question-item">
+            <span class="question-text">5. 如果現在有美食放在你面前？</span>
+            <div class="options">
+                <label><input type="radio" name="q5" value="A"> 我不餓，但我就是想把它塞進嘴裡</label>
+                <label><input type="radio" name="q5" value="B"> 沒興趣，活著好累</label>
+            </div>
+        </div>
+
+        <div class="question-item">
+            <span class="question-text">6. 下午三點的你，靈魂在哪裡？</span>
+            <div class="options">
+                <label><input type="radio" name="q6" value="A"> 在購物車裡，我剛又刷了一單</label>
+                <label><input type="radio" name="q6" value="T"> 在焦慮的邊緣，感覺所有進度都落後了</label>
+            </div>
+        </div>
+
+        <div class="question-item">
+            <span class="question-text">7. 對於「社交」，你現在的想法？</span>
+            <div class="options">
+                <label><input type="radio" name="q7" value="B"> 拜託離我遠一點，我連笑都懶得笑</label>
+                <label><input type="radio" name="q7" value="T"> 很想找人說話，但開口就想抱怨</label>
+            </div>
+        </div>
+
+        <div class="question-item">
+            <span class="question-text">8. 你的專注力持續時間大約是？</span>
+            <div class="options">
+                <label><input type="radio" name="q8" value="A"> 短影音的長度，超過 15 秒我就不行了</label>
+                <label><input type="radio" name="q8" value="T"> 很專注...專注在擔心還沒發生的災難</label>
+            </div>
+        </div>
+
+        <div class="question-item">
+            <span class="question-text">9. 早上鬧鐘響起時，你的第一念頭？</span>
+            <div class="options">
+                <label><input type="radio" name="q9" value="B"> 毀滅吧，我不想面對太陽</label>
+                <label><input type="radio" name="q9" value="O"> 居然有人能起床不痛苦？（我不信）</label>
+            </div>
+        </div>
+
+        <div class="question-item">
+            <span class="question-text">10. 測完這 10 題，你的感覺是？</span>
+            <div class="options">
+                <label><input type="radio" name="q10" value="A"> 很有共鳴，想趕快看解答</label>
+                <label><input type="radio" name="q10" value="T"> 煩死了，怎麼這麼多題</label>
+            </div>
+        </div>
+    </form>
+
+    <div class="footer">
+        記下你選最多次的字母：<br>
+        <strong>A: 多巴胺餓鬼 | B: 血清素邊緣人 | T: 皮質醇瘋狗</strong>
+    </div>
+</div>
+
+</body>
+</html>
