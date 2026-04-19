@@ -23,6 +23,7 @@
       margin: 0;
       background-image: radial-gradient(circle at 90% 10%, #fff4e6 0%, transparent 20%);
     }
+
     .top-nav {
       position: sticky;
       top: 0;
@@ -65,6 +66,7 @@
     .vb-label { font-size: 0.65rem; color: #999; letter-spacing: 0.05em; font-family: Arial, sans-serif; }
     .vb-count { font-size: 1rem; font-weight: 600; color: var(--primary-color); letter-spacing: 0.06em; font-family: Arial, sans-serif; }
     .vb-sub { font-size: 0.62rem; color: #b0b0b0; font-family: Arial, sans-serif; }
+
     header {
       background: linear-gradient(to bottom, #ffffff, var(--bg-color));
       padding: 4rem 2rem 2.5rem;
@@ -82,6 +84,7 @@
       letter-spacing: 0.1rem;
       margin: 0;
     }
+
     .container {
       max-width: 960px;
       margin: 0 auto;
@@ -164,12 +167,14 @@
       align-items: center;
     }
     .category-item:last-child { border-bottom: none; }
+
     footer {
       text-align: center;
       padding: 5rem 2rem;
       color: #b0b0b0;
       font-size: 0.85rem;
     }
+
     @media (max-width: 600px) {
       .nav-link span { display: none; }
       header h1 { font-size: 1.4rem; letter-spacing: 0.15rem; }
@@ -177,6 +182,7 @@
   </style>
 </head>
 <body>
+
 <nav class="top-nav">
   <div class="nav-left">
     <a href="https://d8600010-gmail.github.io/DRJimmyHealthExaminationMedicalEducation/" class="nav-link">🏠 <span>回到首頁</span></a>
@@ -188,15 +194,19 @@
     <span class="vb-sub">累計 <span id="total-count">—</span> 人次</span>
   </div>
 </nav>
+
 <header>
   <h1>歲月拾光 | 生活浮光繪影</h1>
   <p>Capture the moments, Paint the memories.</p>
 </header>
+
 <div class="container">
   <section class="quote-section">
     「那些遺落在時光裡的片段，都是生命最美的投影。」
   </section>
+
   <div class="grid">
+
     <!-- Card 1: 浮光隨筆 -->
     <div class="card">
       <h3>浮光隨筆</h3>
@@ -227,6 +237,7 @@
         </li>
       </ul>
     </div>
+
     <!-- Card 2: 影蹤分類 -->
     <div class="card">
       <h3>影蹤分類</h3>
@@ -253,6 +264,7 @@
         </li>
       </ul>
     </div>
+
     <!-- Card 3: 溝通的陷阱 -->
     <div class="card">
       <h3>溝通的陷阱</h3>
@@ -271,39 +283,44 @@
         </li>
       </ul>
     </div>
-    <!-- Card 4: 雜項目錄 -->
+
+    <!-- Card 4: 提昇你的認知 ★ 新增 -->
     <div class="card">
-      <h3>雜項目錄</h3>
+      <h3>提昇你的認知</h3>
       <ul>
         <li>
-          <a href="Others/ColonicUlcer.html" class="featured-link">📌 大腸潰瘍</a>
-          <span class="date">APR 17</span>
+          <a href="HigherThinking/DOSEView.html" class="featured-link">📌 關於 DOSE</a>
+          <span class="date">APR 19</span>
         </li>
         <li>
-          <a href="Others/Constipation.html" class="featured-link">📌 便秘的困擾</a>
-          <span class="date">APR 17</span>
+          <a href="HigherThinking/DOSEControlBrain.html" class="featured-link">📌 DOSE 控制你的大腦</a>
+          <span class="date">APR 19</span>
         </li>
         <li>
-          <a href="Others/PalpitationAtNight.html" class="featured-link">📌 夜間的心悸</a>
-          <span class="date">APR 17</span>
+          <a href="HigherThinking/UpgradeDopamine.html" class="featured-link">📌 提昇你的 Dopamine</a>
+          <span class="date">APR 19</span>
         </li>
       </ul>
     </div>
+
   </div>
+
   <!-- Archive -->
   <section style="margin-top: 3rem; margin-bottom: 1rem;">
     <div class="card">
       <h3>月度卷軸 Archive</h3>
       <p style="color: #666; font-size: 0.95rem; margin: 0;">
-        <strong>2026 四月：</strong>在春日微光中尋找新生的力量（4 則紀錄）<br>
+        <strong>2026 四月：</strong>在春日微光中尋找新生的力量（7 則紀錄）<br>
         <strong>2026 三月：</strong>關於平衡、深度工作與生活隱喻（4 則紀錄）
       </p>
     </div>
   </section>
 </div>
+
 <footer>
   <p>&copy; 2026 歲月拾光 | 生活浮光繪影 BY CHING-MING CHEN</p>
 </footer>
+
 <script>
   (function () {
     var today = new Date().toISOString().slice(0, 10);
@@ -321,5 +338,6 @@
     document.getElementById('total-count').textContent = totalCount.toLocaleString();
   })();
 </script>
+
 </body>
 </html>
