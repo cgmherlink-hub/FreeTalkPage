@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>🧠 反直覺教練式評估</title>
+<style>
+body {
+  font-family: "Noto Sans TC", Arial, sans-serif;
+  line-height: 1.8;
+  padding: 24px;
+  background: #fafafa;
+}
+h1 {
+  margin-bottom: 10px;
+}
+h2 {
+  margin-top: 32px;
+  border-left: 6px solid #5b7c99;
+  padding-left: 10px;
+}
+.section {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.question {
+  margin: 18px 0;
+}
+.options label {
+  margin-right: 16px;
+  white-space: nowrap;
+}
+.result-box {
+  margin-top: 16px;
+  padding: 14px;
+  background: #f4f7fa;
+  border-radius: 8px;
+}
+.score {
+  font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🧠 反直覺教練式評估</h1>
+
+<div class="section">
+<h2>A. 目前行為與狀態</h2>
+
+<div class="question">
+<p>常覺得事情自己來比較快</p>
+<div class="options">
+<label><input type="radio" name="a1"> 很不同意</label>
+<label><input type="radio" name="a1"> 不同意</label>
+<label><input type="radio" name="a1"> 普通</label>
+<label><input type="radio" name="a1"> 同意</label>
+<label><input type="radio" name="a1"> 很同意</label>
+</div>
+</div>
+
+<div class="question">
+<p>下班後仍在回工作或情緒訊息</p>
+<div class="options">
+<label><input type="radio" name="a2"> 很不同意</label>
+<label><input type="radio" name="a2"> 不同意</label>
+<label><input type="radio" name="a2"> 普通</label>
+<label><input type="radio" name="a2"> 同意</label>
+<label><input type="radio" name="a2"> 很同意</label>
+</div>
+</div>
+
+<div class="question">
+<p>不太敢拒絕他人</p>
+<div class="options">
+<label><input type="radio" name="a3"> 很不同意</label>
+<label><input type="radio" name="a3"> 不同意</label>
+<label><input type="radio" name="a3"> 普通</label>
+<label><input type="radio" name="a3"> 同意</label>
+<label><input type="radio" name="a3"> 很同意</label>
+</div>
+</div>
+
+<div class="question">
+<p>做很多但不太被看見</p>
+<div class="options">
+<label><input type="radio" name="a4"> 很不同意</label>
+<label><input type="radio" name="a4"> 不同意</label>
+<label><input type="radio" name="a4"> 普通</label>
+<label><input type="radio" name="a4"> 同意</label>
+<label><input type="radio" name="a4"> 很同意</label>
+</div>
+</div>
+
+<div class="question">
+<p>想升遷但內心矛盾</p>
+<div class="options">
+<label><input type="radio" name="a5"> 很不同意</label>
+<label><input type="radio" name="a5"> 不同意</label>
+<label><input type="radio" name="a5"> 普通</label>
+<label><input type="radio" name="a5"> 同意</label>
+<label><input type="radio" name="a5"> 很同意</label>
+</div>
+</div>
+</div>
+
+<div class="section">
+<h2>B. 內在挑戰</h2>
+
+<div class="question">
+<p>害怕失去控制</p>
+<div class="options">
+<label><input type="radio" name="b1"> 很不同意</label>
+<label><input type="radio" name="b1"> 不同意</label>
+<label><input type="radio" name="b1"> 普通</label>
+<label><input type="radio" name="b1"> 同意</label>
+<label><input type="radio" name="b1"> 很同意</label>
+</div>
+</div>
+
+<div class="question">
+<p>擔心被貼負面標籤</p>
+<div class="options">
+<label><input type="radio" name="b2"> 很不同意</label>
+<label><input type="radio" name="b2"> 不同意</label>
+<label><input type="radio" name="b2"> 普通</label>
+<label><input type="radio" name="b2"> 同意</label>
+<label><input type="radio" name="b2"> 很同意</label>
+</div>
+</div>
+
+<div class="question">
+<p>自我懷疑</p>
+<div class="options">
+<label><input type="radio" name="b3"> 很不同意</label>
+<label><input type="radio" name="b3"> 不同意</label>
+<label><input type="radio" name="b3"> 普通</label>
+<label><input type="radio" name="b3"> 同意</label>
+<label><input type="radio" name="b3"> 很同意</label>
+</div>
+</div>
+
+<div class="question">
+<p>過度承擔責任</p>
+<div class="options">
+<label><input type="radio" name="b4"> 很不同意</label>
+<label><input type="radio" name="b4"> 不同意</label>
+<label><input type="radio" name="b4"> 普通</label>
+<label><input type="radio" name="b4"> 同意</label>
+<label><input type="radio" name="b4"> 很同意</label>
+</div>
+</div>
+
+<div class="question">
+<p>界線不清</p>
+<div class="options">
+<label><input type="radio" name="b5"> 很不同意</label>
+<label><input type="radio" name="b5"> 不同意</label>
+<label><input type="radio" name="b5"> 普通</label>
+<label><input type="radio" name="b5"> 同意</label>
+<label><input type="radio" name="b5"> 很同意</label>
+</div>
+</div>
+</div>
+
+<div class="section">
+<h2>C. 可能正在被犧牲的面向</h2>
+
+<div class="question">
+<p>下班休息</p>
+<div class="options">
+<label><input type="radio" name="c1"> 很不同意</label>
+<label><input type="radio" name="c1"> 不同意</label>
+<label><input type="radio" name="c1"> 普通</label>
+<label><input type="radio" name="c1"> 同意</label>
+<label><input type="radio" name="c1"> 很同意</label>
+</div>
+</div>
+
+<div class="question">
+<p>親密關係</p>
+<div class="options">
+<label><input type="radio" name="c2"> 很不同意</label>
+<label><input type="radio" name="c2"> 不同意</label>
+<label><input type="radio" name="c2"> 普通</label>
+<label><input type="radio" name="c2"> 同意</label>
+<label><input type="radio" name="c2"> 很同意</label>
+</div>
+</div>
+
+<div class="question">
+<p>長期發展</p>
+<div class="options">
+<label><input type="radio" name="c3"> 很不同意</label>
+<label><input type="radio" name="c3"> 不同意</label>
+<label><input type="radio" name="c3"> 普通</label>
+<label><input type="radio" name="c3"> 同意</label>
+<label><input type="radio" name="c3"> 很同意</label>
+</div>
+</div>
+
+<div class="question">
+<p>身心健康</p>
+<div class="options">
+<label><input type="radio" name="c4"> 很不同意</label>
+<label><input type="radio" name="c4"> 不同意</label>
+<label><input type="radio" name="c4"> 普通</label>
+<label><input type="radio" name="c4"> 同意</label>
+<label><input type="radio" name="c4"> 很同意</label>
+</div>
+</div>
+
+<div class="question">
+<p>被尊重的界線</p>
+<div class="options">
+<label><input type="radio" name="c5"> 很不同意</label>
+<label><input type="radio" name="c5"> 不同意</label>
+<label><input type="radio" name="c5"> 普通</label>
+<label><input type="radio" name="c5"> 同意</label>
+<label><input type="radio" name="c5"> 很同意</label>
+</div>
+</div>
+</div>
+
+<div class="section">
+<h2>D. 教練式評分總覽（非診斷）</h2>
+
+<p>界線感（Boundary）指數：<span class="score" id="boundaryScore">尚未計算</span></p>
+<p>自信穩定度（Confidence）指數：<span class="score" id="confidenceScore">尚未計算</span></p>
+
+<div class="result-box" id="coachSummary">
+完成勾選後，將自動顯示教練式提醒。
+</div>
+</div>
+
+<script>
+function calculateScores() {
+  const boundaryItems = ["a2","a3","b4","b5","c1","c5"];
+  const confidenceItems = ["a4","a5","b2","b3","c3"];
+
+  function getScore(name) {
+    const radios = document.getElementsByName(name);
+    for (let i = 0; i < radios.length; i++) {
+      if (radios[i].checked) return i + 1;
+    }
+    return null;
+  }
+
+  let bt = 0, bc = 0, ct = 0, cc = 0;
+
+  boundaryItems.forEach(q => {
+    const s = getScore(q);
+    if (s) { bt += s; bc++; }
+  });
+
+  confidenceItems.forEach(q => {
+    const s = getScore(q);
+    if (s) { ct += s; cc++; }
+  });
+
+  if (bc) document.getElementById("boundaryScore").innerText = (bt / bc).toFixed(1);
+  if (cc) document.getElementById("confidenceScore").innerText = (ct / cc).toFixed(1);
+
+  let msg = "";
+  if (bc && cc) {
+    const b = bt / bc, c = ct / cc;
+    if (b >= 4 && c >= 4)
+      msg = "你在界線與自我肯定上都有一定穩定度，真正需要的不是再撐，而是選擇何時不用撐。";
+    else if (b < 3 && c < 3)
+      msg = "你可能長期用「多做一點」來換取安全感，這不是不夠好，而是太少被保護。";
+    else if (b < 3)
+      msg = "你的界線容易被消耗，這不代表你不自信，而是你習慣先顧全他人。";
+    else
+      msg = "你對自己其實有一定判斷力，但在關係與角色中，仍容易壓縮自己的位置。";
+  }
+
+  document.getElementById("coachSummary").innerText = msg;
+}
+
+document.querySelectorAll("input[type=radio]").forEach(r => {
+  r.addEventListener("change", calculateScores);
+});
+</script>
+
+</body>
+</html>
