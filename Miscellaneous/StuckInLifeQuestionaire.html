@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>反直覺詢問法｜自我檢視問卷</title>
+  <style>
+    :root { --gap: 14px; --radius: 14px; }
+    body { font-family: system-ui, -apple-system, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif; margin: 0; background:#f6f7fb; color:#111; }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 22px 16px 80px; }
+    header { background: #fff; padding: 18px; border-radius: var(--radius); box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+    h1 { font-size: 20px; margin: 0 0 6px; }
+    .sub { margin: 0; line-height: 1.55; color:#444; }
+    .pill { display:inline-block; font-size: 12px; padding: 4px 10px; border-radius: 999px; background:#eef2ff; color:#2a3cff; margin-top: 10px; }
+    .card { margin-top: 16px; background:#fff; border-radius: var(--radius); box-shadow: 0 6px 18px rgba(0,0,0,.06); padding: 16px; }
+    .qhead { display:flex; align-items:flex-start; justify-content:space-between; gap: 10px; }
+    .qtitle { font-size: 16px; margin: 0; line-height: 1.5; }
+    .qmeta { font-size: 12px; color:#666; white-space:nowrap; }
+    .options { display:grid; gap: 10px; margin-top: 12px; }
+    .opt {
+      border: 1px solid #e6e8f0; border-radius: 12px; padding: 12px;
+      display:flex; gap: 10px; align-items:flex-start; cursor:pointer;
+      transition: transform .05s ease, border-color .15s ease, background .15s ease;
+      user-select:none;
+    }
+    .opt:hover { border-color:#cfd6ff; background:#fafbff; }
+    .opt:active { transform: scale(.995); }
+    .opt.selected { border-color:#2a3cff; background:#f0f3ff; }
+    .opt input { margin-top: 2px; }
+    .opt b { display:block; margin-bottom: 4px; }
+    .muted { color:#555; font-size: 13px; line-height: 1.45; }
+    .progress { margin-top: 14px; height: 10px; background:#eef0f6; border-radius: 999px; overflow:hidden; }
+    .bar { height:100%; width:0%; background:#2a3cff; transition: width .25s ease; }
+    .actions { display:flex; gap: 10px; margin-top: 14px; flex-wrap:wrap; }
+    button {
+      border: 0; border-radius: 12px; padding: 10px 14px; cursor:pointer;
+      background:#111; color:#fff; font-size: 14px;
+      transition: transform .05s ease;
+    }
+    button:hover { transform: translateY(-1px); }
+    button:active { transform: translateY(0); }
+    button.secondary { background:#eef0f6; color:#111; }
+    button:disabled { opacity:.55; cursor:not-allowed; }
+    .result { margin-top: 18px; padding: 14px; border-radius: 14px; background:#0b1026; color:#fff; }
+    .result h2 { margin: 0 0 10px; font-size: 18px; }
+    .grid { display:grid; gap: 12px; grid-template-columns: 1fr; }
+    @media (min-width: 820px) { .grid { grid-template-columns: 1.2fr .8fr; } }
+    .box { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); border-radius: 14px; padding: 12px; }
+    .box h3 { margin: 0 0 8px; font-size: 14px; color: #dbe2ff; }
+    ul { margin: 0; padding-left: 18px; }
+    li { margin: 6px 0; line-height: 1.55; }
+    code.k { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: rgba(255,255,255,.12); padding: 2px 6px; border-radius: 8px; }
+    .note { margin-top: 12px; color:#cfd6ff; font-size: 12px; line-height: 1.55; }
+    .sticky {
+      position: fixed; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,.92);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid #e6e8f0;
+      padding: 10px 14px;
+      z-index: 100;
+    }
+    .sticky .inner { max-width: 900px; margin: 0 auto; display:flex; align-items:center; justify-content:space-between; gap: 10px; }
+    .tiny { font-size: 12px; color:#444; }
+    .ok { color:#2a3cff; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header id="top">
+      <h1>反直覺詢問法｜自我檢視問卷</h1>
+      <p class="sub">
+        這份問卷不是問「你想不想變好」，而是反過來問：在真實生活裡，你最常落在什麼情況？
+        每題只有一個選項。選完會自動捲到下一題，最後自動生成結論與建議。
+      </p>
+      <span class="pill">每題 4 個常見情況｜自動結論｜自動捲動</span>
+      <div class="progress" aria-label="作答進度">
+        <div class="bar" id="bar"></div>
+      </div>
+    </header>
+    <div id="questions"></div>
+    <div class="card result" id="result" style="display:none;">
+      <h2>你的結論與建議</h2>
+      <div class="grid">
+        <div class="box">
+          <h3>一句話結論</h3>
+          <div id="oneLine" style="line-height:1.6;"></div>
+          <div class="note" id="profileNote"></div>
+        </div>
+        <div class="box">
+          <h3>你的作答輪廓</h3>
+          <div id="scores" style="line-height:1.7;"></div>
+        </div>
+        <div class="box">
+          <h3>最該做的 3 個小步驟</h3>
+          <ul id="top3"></ul>
+        </div>
+        <div class="box">
+          <h3>對應的反直覺提醒</h3>
+          <ul id="contraTips"></ul>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="secondary" id="copyBtn">複製結論</button>
+        <button class="secondary" id="resetBtn">重新作答</button>
+        <button id="backTopBtn">回到最上面</button>
+      </div>
+      <div class="note">
+        這是自我覺察工具，不是診斷。若你正處於明顯失眠、憂鬱、焦慮、或功能受影響，建議尋求專業協助。
+      </div>
+    </div>
+  </div>
+  <div class="sticky" id="sticky">
+    <div class="inner">
+      <div class="tiny">進度：<span class="ok" id="done">0</span>/<span id="total">0</span></div>
+      <div class="tiny">提示：選完一題會自動捲到下一題 ✅</div>
+    </div>
+  </div>
+<script>
+/**
+ * 反直覺詢問法：不直接問「你要不要改變」，而是用「最常發生的情境」逼近真實行為。
+ * 選項對應 4 種常見輪廓：
+ * - A 現場硬扛（行動快、忽略成本）
+ * - B 想很久才動（完美傾向、延遲）
+ * - C 先照顧關係（怕衝突、界線模糊）
+ * - D 先保護自己（退縮、逃避風險）
+ *
+ * 每題選一個。各選項會給該輪廓加分，最後依最高分輸出結論與建議。
+ */
+const PROFILES = {
+  A: { name: "硬扛型", color: "#2a3cff" },
+  B: { name: "想太多型", color: "#2a3cff" },
+  C: { name: "關係優先型", color: "#2a3cff" },
+  D: { name: "保護自己型", color: "#2a3cff" }
+};
+const QUESTIONS = [
+  {
+    id: "q1",
+    title: "遇到一個你其實不想接的任務／邀約，你最常落在哪種情況？",
+    opts: [
+      { key:"A", label:"先答應再說", desc:"當下怕失誤或怕麻煩，先扛起來，之後再想怎麼補。", score:{A:2} },
+      { key:"B", label:"先研究到很完整", desc:"你會把風險、細節、方案都想清楚，結果常常拖到最後一刻。", score:{B:2} },
+      { key:"C", label:"怕對方失望", desc:"你其實不想，但會用含糊方式答應一部分，界線不清楚。", score:{C:2} },
+      { key:"D", label:"先消失/先拖延", desc:"你會先不回、先躲開,等壓力變大才處理或乾脆放掉。", score:{D:2} }
+    ]
+  },
+  {
+    id: "q2",
+    title: "你覺得自己「最常卡住」的不是能力，而是什麼？",
+    opts: [
+      { key:"A", label:"體力與時間被榨乾", desc:"你會一直做、一直撐，直到身體先反抗。", score:{A:2} },
+      { key:"B", label:"標準太高", desc:"你想做到最好才願意交出去，反而讓進度變慢。", score:{B:2} },
+      { key:"C", label:"不好意思拒絕", desc:"你常把別人的需求放前面，自己的重要事被擠掉。", score:{C:2} },
+      { key:"D", label:"害怕失敗或被評價", desc:"你不是不會，而是怕一開始就做錯，所以先不開始。", score:{D:2} }
+    ]
+  },
+  {
+    id: "q3",
+    title: "當你壓力很大時，你最常用哪種方式「看起來還好」？",
+    opts: [
+      { key:"A", label:"更努力、更忙", desc:"忙到沒有空感覺，靠行動麻痺情緒。", score:{A:2} },
+      { key:"B", label:"把事情再想一遍", desc:"用思考取代行動，感覺比較安全，但越想越焦慮。", score:{B:2} },
+      { key:"C", label:"先安撫大家", desc:"把氣氛維持好、把人顧好，自己累不說。", score:{C:2} },
+      { key:"D", label:"縮小生活半徑", desc:"把能量收回來，少碰人事物，避免更多刺激。", score:{D:2} }
+    ]
+  },
+  {
+    id: "q4",
+    title: "你最常在哪個時刻，突然覺得自己其實「不太自由」？",
+    opts: [
+      { key:"A", label:"行程爆炸那一刻", desc:"你發現自己一直在救火，但沒有在過自己的日子。", score:{A:2} },
+      { key:"B", label:"決定前那一刻", desc:"你發現自己被「應該」綁住：應該更完美、應該更正確。", score:{B:2} },
+      { key:"C", label:"要說不那一刻", desc:"你發現自己在關係裡不敢明講需求，怕破壞和諧。", score:{C:2} },
+      { key:"D", label:"要踏出一步那一刻", desc:"你發現自己怕被看見、怕出錯，所以寧願待在原地。", score:{D:2} }
+    ]
+  },
+  {
+    id: "q5",
+    title: "如果要用一句反直覺的話描述你，你更接近哪一個？",
+    opts: [
+      { key:"A", label:"你不是懶，你是太能撐", desc:"你的問題不是沒做，而是做太多、撐太久。", score:{A:2} },
+      { key:"B", label:"你不是慢，你是怕不夠好", desc:"你的問題不是不會，而是被「最好」卡住。", score:{B:2} },
+      { key:"C", label:"你不是軟弱，你是太會顧人", desc:"你的問題不是沒原則，而是把關係放得太前面。", score:{C:2} },
+      { key:"D", label:"你不是不在乎，你是先自保", desc:"你的問題不是冷淡，而是先躲風險、再談夢想。", score:{D:2} }
+    ]
+  }
+];
+const state = {
+  answers: {},   // qid -> {profileKey, label, score}
+  totals: {A:0,B:0,C:0,D:0}
+};
+const elQ = document.getElementById("questions");
+const elBar = document.getElementById("bar");
+const elDone = document.getElementById("done");
+const elTotal = document.getElementById("total");
+const elResult = document.getElementById("result");
+const elOneLine = document.getElementById("oneLine");
+const elScores = document.getElementById("scores");
+const elTop3 = document.getElementById("top3");
+const elContra = document.getElementById("contraTips");
+const elProfileNote = document.getElementById("profileNote");
+elTotal.textContent = QUESTIONS.length;
+function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
+function renderQuestions(){
+  elQ.innerHTML = "";
+  QUESTIONS.forEach((q, idx) => {
+    const card = document.createElement("section");
+    card.className = "card";
+    card.id = q.id;
+    const head = document.createElement("div");
+    head.className = "qhead";
+    const title = document.createElement("h2");
+    title.className = "qtitle";
+    title.textContent = `${idx+1}. ${q.title}`;
+    const meta = document.createElement("div");
+    meta.className = "qmeta";
+    meta.textContent = `第 ${idx+1}/${QUESTIONS.length} 題`;
+    head.appendChild(title);
+    head.appendChild(meta);
+    const opts = document.createElement("div");
+    opts.className = "options";
+    q.opts.forEach((o, oi) => {
+      const label = document.createElement("label");
+      label.className = "opt";
+      label.setAttribute("for", `${q.id}_${oi}`);
+      const input = document.createElement("input");
+      input.type = "radio";
+      input.name = q.id;
+      input.id = `${q.id}_${oi}`;
+      input.value = o.key;
+      input.addEventListener("change", () => onAnswer(q, o, idx));
+      const text = document.createElement("div");
+      const b = document.createElement("b");
+      b.textContent = `${o.label}（${PROFILES[o.key].name}常見）`;
+      const d = document.createElement("div");
+      d.className = "muted";
+      d.textContent = o.desc;
+      text.appendChild(b);
+      text.appendChild(d);
+      label.appendChild(input);
+      label.appendChild(text);
+      opts.appendChild(label);
+    });
+    card.appendChild(head);
+    card.appendChild(opts);
+    elQ.appendChild(card);
+  });
+}
+function recomputeTotals(){
+  state.totals = {A:0,B:0,C:0,D:0};
+  for (const qid in state.answers){
+    const ans = state.answers[qid];
+    for (const k of ["A","B","C","D"]){
+      state.totals[k] += (ans.score?.[k] || 0);
+    }
+  }
+}
+function onAnswer(q, opt, idx){
+  state.answers[q.id] = {
+    profileKey: opt.key,
+    label: opt.label,
+    score: opt.score
+  };
+  recomputeTotals();
+  updateProgress();
+  updateSelectedStyles();
+  autoScroll(idx);
+  maybeFinish();
+}
+function updateSelectedStyles(){
+  // Add visual feedback for selected options
+  QUESTIONS.forEach(q => {
+    const labels = document.querySelectorAll(`#${q.id} .opt`);
+    labels.forEach(label => {
+      const input = label.querySelector('input');
+      if (input && input.checked) {
+        label.classList.add('selected');
+      } else {
+        label.classList.remove('selected');
+      }
+    });
+  });
+}
+function updateProgress(){
+  const done = Object.keys(state.answers).length;
+  elDone.textContent = done;
+  const pct = done / QUESTIONS.length * 100;
+  elBar.style.width = `${clamp(pct, 0, 100)}%`;
+}
+function autoScroll(idx){
+  const nextIdx = idx + 1;
+  const targetId = nextIdx < QUESTIONS.length ? QUESTIONS[nextIdx].id : "result";
+  const target = document.getElementById(targetId);
+  if (!target) return;
+  // slight delay so radio selection feels instant
+  setTimeout(() => {
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, 120);
+}
+function rankProfiles(){
+  const entries = Object.entries(state.totals).map(([k,v]) => ({k, v}));
+  entries.sort((a,b) => b.v - a.v);
+  return entries;
+}
+function profileSummary(topKey){
+  const map = {
+    A: {
+      oneLine: "你最常不是做不到，而是「太能撐」：事情都扛起來，代價是自己被耗光。",
+      note: "反直覺點：不是再加油，而是要「減少硬扛的場景」。",
+      steps: [
+        "把今天最重要的 1 件事寫成一句話，其他先標為「可延後」。",
+        "練習一句拒絕句：<code class='k'>我可以，但我只能做到 X</code>（先給界線）。",
+        "每天留一個 10 分鐘的「不做區塊」，讓大腦知道你不是永遠在救火。"
+      ],
+      contra: [
+        "當你想更努力時，先問：<code class='k'>我是不是在用忙碌逃避感受？</code>",
+        "如果你不救火，通常世界不會崩；會崩的是你的能量。",
+        "先保護睡眠與進食，效率反而會回來。"
+      ]
+    },
+    B: {
+      oneLine: "你最常不是不行動，而是被「更完美、更正確」綁住，於是慢慢拖延。",
+      note: "反直覺點：先做出「60 分版本」，你才有東西可以調整。",
+      steps: [
+        "替每件事設定「交付底線」：<code class='k'>先交 60 分，再補到 80 分</code>。",
+        "把任務切成 15 分鐘版本：只做第一步，不做全套。",
+        "做完就立刻回顧一句：<code class='k'>我現在缺的是什麼資訊？</code>（避免無限腦內演練）。"
+      ],
+      contra: [
+        "你以為要更準確才安全；其實「更快拿到回饋」才安全。",
+        "完美常是恐懼的化妝，先把恐懼命名出來。",
+        "拖延不是時間管理，是「評價管理」。"
+      ]
+    },
+    C: {
+      oneLine: "你最常不是沒能力，而是把關係放最前面，自己的需求常被自動消音。",
+      note: "反直覺點：界線不是冷漠，是讓關係更長久。",
+      steps: [
+        "每次答應前先停 3 秒，問：<code class='k'>我願意嗎？我付得起嗎？</code>",
+        "用「先同理、再界線」句型：<code class='k'>我懂你很急，但我這週只能…</code>",
+        "每週安排一件只為自己做的事，強化「我也值得被照顧」。"
+      ],
+      contra: [
+        "你以為不拒絕就會被喜歡；其實清楚的人更容易被信任。",
+        "關係靠清楚，不靠撐住。",
+        "把不舒服說清楚，是在保護彼此。"
+      ]
+    },
+    D: {
+      oneLine: "你最常不是不在乎，而是先自保：怕出錯、怕被看見，所以先縮回來。",
+      note: "反直覺點：先做「小暴露」而不是等到完全不怕。",
+      steps: [
+        "把行動縮到小到不可失敗：只做 2 分鐘版本。",
+        "先找一個安全回饋來源（可信任的人/小群組），不要直接面對最大舞台。",
+        "把害怕寫成一句話：<code class='k'>我怕的是…</code>，再加一句：<code class='k'>就算發生，我也能…</code>"
+      ],
+      contra: [
+        "你以為等不怕再出發；其實出發後才會慢慢不怕。",
+        "逃避讓恐懼變大，接觸讓恐懼變小。",
+        "把「失敗」改名叫「收集資料」。"
+      ]
+    }
+  };
+  return map[topKey];
+}
+function maybeFinish(){
+  const done = Object.keys(state.answers).length;
+  if (done !== QUESTIONS.length) return;
+  const ranked = rankProfiles();
+  const top = ranked[0];
+  const second = ranked[1];
+  const summary = profileSummary(top.k);
+  // 顯示分數輪廓
+  const scoreLines = ranked.map(e => {
+    const pct = Math.round((e.v / (QUESTIONS.length * 2)) * 100);
+    return `• ${PROFILES[e.k].name}：${e.v} 分（約 ${pct}%）`;
+  }).join("<br/>");
+  elScores.innerHTML = scoreLines;
+  elOneLine.textContent = summary.oneLine;
+  elProfileNote.textContent = `主輪廓：${PROFILES[top.k].name}；次輪廓：${PROFILES[second.k].name}。${summary.note}`;
+  // top 3 steps
+  elTop3.innerHTML = "";
+  summary.steps.slice(0,3).forEach(s => {
+    const li = document.createElement("li");
+    li.innerHTML = s;
+    elTop3.appendChild(li);
+  });
+  // contra tips
+  elContra.innerHTML = "";
+  summary.contra.slice(0,3).forEach(s => {
+    const li = document.createElement("li");
+    li.innerHTML = s;
+    elContra.appendChild(li);
+  });
+  elResult.style.display = "block";
+  // 捲到結果
+  setTimeout(() => {
+    elResult.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, 150);
+}
+function buildCopyText(){
+  const ranked = rankProfiles();
+  const top = ranked[0];
+  const second = ranked[1];
+  const summary = profileSummary(top.k);
+  const scorePlain = ranked.map(e => `- ${PROFILES[e.k].name}：${e.v} 分`).join("\n");
+  const stepsPlain = summary.steps.slice(0,3).map((s,i)=>`${i+1}. ${stripHtml(s)}`).join("\n");
+  const contraPlain = summary.contra.slice(0,3).map((s,i)=>`${i+1}. ${stripHtml(s)}`).join("\n");
+  return [
+    "【反直覺詢問法｜結論】",
+    summary.oneLine,
+    `主輪廓：${PROFILES[top.k].name}｜次輪廓：${PROFILES[second.k].name}`,
+    "",
+    "【分數】",
+    scorePlain,
+    "",
+    "【最該做的 3 個小步驟】",
+    stepsPlain,
+    "",
+    "【反直覺提醒】",
+    contraPlain
+  ].join("\n");
+}
+function stripHtml(html){
+  const tmp = document.createElement("div");
+  tmp.innerHTML = html;
+  return tmp.textContent || tmp.innerText || "";
+}
+document.getElementById("copyBtn").addEventListener("click", async () => {
+  const text = buildCopyText();
+  try {
+    await navigator.clipboard.writeText(text);
+    alert("已複製結論到剪貼簿 ✅");
+  } catch {
+    // fallback
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    ta.remove();
+    alert("已複製結論到剪貼簿 ✅");
+  }
+});
+document.getElementById("resetBtn").addEventListener("click", () => {
+  // reset state
+  state.answers = {};
+  state.totals = {A:0,B:0,C:0,D:0};
+  elResult.style.display = "none";
+  // clear radios
+  QUESTIONS.forEach(q => {
+    const inputs = document.querySelectorAll(`input[name="${q.id}"]`);
+    inputs.forEach(i => i.checked = false);
+  });
+  updateProgress();
+  updateSelectedStyles();
+  document.getElementById("top").scrollIntoView({ behavior: "smooth", block: "start" });
+});
+document.getElementById("backTopBtn").addEventListener("click", () => {
+  document.getElementById("top").scrollIntoView({ behavior: "smooth", block: "start" });
+});
+// init
+renderQuestions();
+updateProgress();
+</script>
+</body>
+</html>

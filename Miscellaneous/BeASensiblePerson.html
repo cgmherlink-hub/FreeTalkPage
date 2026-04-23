@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>反直覺詢問法｜自評問卷</title>
+  <style>
+    :root { --max: 980px; }
+    body { font-family: -apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif; margin: 0; background:#fafafa; color:#111; }
+    header { position: sticky; top: 0; background: #fff; border-bottom: 1px solid #eee; z-index: 10; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 16px; }
+    h1 { margin: 6px 0 2px; font-size: 20px; }
+    .sub { margin: 0 0 10px; color:#555; font-size: 14px; line-height: 1.5; }
+    .pill { display:inline-block; padding: 2px 10px; border:1px solid #e6e6e6; border-radius: 999px; font-size: 12px; color:#333; background:#fff; margin-right: 6px; }
+    .card { background:#fff; border: 1px solid #eee; border-radius: 14px; padding: 14px; margin: 12px 0; box-shadow: 0 1px 0 rgba(0,0,0,.03); }
+    .qtitle { font-size: 16px; margin: 0 0 10px; line-height: 1.55; }
+    .qmeta { font-size: 12px; color:#666; margin-bottom: 10px; }
+    .opts { display: grid; gap: 10px; }
+    label.opt { display:block; border:1px solid #e8e8e8; border-radius: 12px; padding: 10px 10px; cursor: pointer; transition: .15s; background:#fff; }
+    label.opt:hover { border-color:#cfcfcf; }
+    label.opt.selected { background:#f5f5f5; border-color:#999; }
+    label.opt input { margin-right: 8px; }
+    label.opt .ohead { font-weight: 600; }
+    label.opt .otext { color:#333; font-size: 14px; margin-top: 4px; line-height: 1.5; }
+    .progress { display:flex; align-items:center; gap: 10px; margin: 10px 0 0; }
+    .bar { flex: 1; height: 10px; background:#f0f0f0; border-radius: 999px; overflow:hidden; }
+    .bar > div { height: 100%; width: 0%; background:#111; transition: width .2s; }
+    .pct { font-size: 12px; color:#555; min-width: 74px; text-align:right; }
+    .actions { display:flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+    button { border:1px solid #ddd; background:#fff; padding: 10px 12px; border-radius: 12px; cursor:pointer; }
+    button:hover { border-color:#bbb; }
+    .result { background:#0b0b0b; color:#fff; border-radius: 14px; padding: 14px; white-space: pre-wrap; line-height: 1.6; }
+    .hint { font-size: 12px; color:#666; margin-top: 8px; }
+    .toc { display:flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .toc a { text-decoration:none; color:#111; border:1px solid #eee; background:#fff; border-radius: 999px; padding: 6px 10px; font-size: 12px; }
+    .toc a.done { opacity:.6; }
+    .toast { position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); background:#111; color:#fff; padding: 10px 12px; border-radius: 999px; font-size: 13px; opacity:0; pointer-events:none; transition:.2s; }
+    .toast.show { opacity:1; }
+    footer { color:#777; font-size: 12px; padding: 10px 0 24px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>反直覺詢問法｜自評問卷</h1>
+      <p class="sub">
+        玩法：每題都用「反直覺」角度問你——如果你真的要把關係/工作/溝通搞砸，你會怎麼做？<br/>
+        你選的越靠前（A→D），代表越接近「不自覺踩雷」；越靠後代表越能停一下、看清楚、做選擇。
+      </p>
+      <div>
+        <span class="pill">每題 4 種常見情況</span>
+        <span class="pill">選完自動捲到下一題</span>
+        <span class="pill">自動產生結論與建議</span>
+      </div>
+      <div class="progress" aria-label="進度">
+        <div class="bar"><div id="barFill"></div></div>
+        <div class="pct" id="pctText">0 / 8（0%）</div>
+      </div>
+      <div class="toc" id="toc"></div>
+    </div>
+  </header>
+  <main class="wrap" id="main">
+    <!-- Questions injected here -->
+    <section class="card" id="resultCard">
+      <h2 style="margin:0 0 8px;font-size:16px;">結論與建議（即時更新）</h2>
+      <div class="result" id="resultBox">尚未作答。先從第 1 題開始。</div>
+      <div class="actions">
+        <button id="btnCopy">複製結論</button>
+        <button id="btnReset">全部重填</button>
+        <button id="btnScrollTop">回到最上方</button>
+      </div>
+      <div class="hint">提醒：這是自我覺察工具，不是診斷。你可以把「結論」貼到筆記/工作群組當作溝通規格。</div>
+    </section>
+    <footer>
+      © 反直覺詢問法問卷（HTML 單檔）｜可自行改題目與建議規則
+    </footer>
+  </main>
+  <div class="toast" id="toast">已複製</div>
+<script>
+/** ---------------------------
+ *  題庫（你可自行增減）
+ *  每題 4 個常見情況：A 最踩雷 → D 最穩健
+ *  score: A=3, B=2, C=1, D=0 （分數越高表示越容易「不自覺踩雷」）
+ * --------------------------- */
+const QUESTIONS = [
+  {
+    id: "q1",
+    title: "第 1 題｜當你「覺得被冒犯」時，你最常出現哪種反應？",
+    tag: "情緒覺察",
+    options: [
+      { key:"A", label:"立刻反擊", text:"先酸回去或用一句話把對方壓住，讓自己贏回面子。", score:3, flags:["react","attack"] },
+      { key:"B", label:"冷處理懲罰", text:"不說清楚，改用已讀不回/冷淡，讓對方自己猜錯在哪。", score:2, flags:["avoid","punish"] },
+      { key:"C", label:"先停一下再問", text:"先把情緒放一邊，問一句：『你剛那句是什麼意思？』", score:1, flags:["pause","clarify"] },
+      { key:"D", label:"描述感受+需求", text:"說：『我聽到那句有點不舒服，我需要你再說清楚你的用意。』", score:0, flags:["repair","needs"] },
+    ]
+  },
+  {
+    id: "q2",
+    title: "第 2 題｜當你「認為自己是對的」時，你會怎麼做？（反直覺：最容易把事搞砸的方法）",
+    tag: "溝通姿態",
+    options: [
+      { key:"A", label:"用結論壓人", text:"直接丟結論：『就是這樣，照做就對了。』", score:3, flags:["attack","control"] },
+      { key:"B", label:"用專業/資歷壓人", text:"暗示：『我做這麼久了你不懂。』", score:2, flags:["status","control"] },
+      { key:"C", label:"用提問逼近", text:"問：『你認為哪裡不合理？我們先列出假設。』", score:1, flags:["clarify","structure"] },
+      { key:"D", label:"讓對方保有選擇權", text:"說：『我有一個看法，也想聽你的版本。我們一起對齊目標。』", score:0, flags:["respect","align"] },
+    ]
+  },
+  {
+    id: "q3",
+    title: "第 3 題｜當你「覺得對方很慢/很雷」時，你常見的作法？",
+    tag: "耐心與界線",
+    options: [
+      { key:"A", label:"直接貼標籤", text:"說：『你怎麼那麼笨/那麼慢？』", score:3, flags:["attack"] },
+      { key:"B", label:"默默接手然後抱怨", text:"表面幫忙，背後跟別人吐槽他不行。", score:2, flags:["resent","avoid"] },
+      { key:"C", label:"切小任務+對齊節點", text:"把任務拆小，約定：今天到哪、明天到哪。", score:1, flags:["structure","boundary"] },
+      { key:"D", label:"先問卡點再協作", text:"問：『你卡在哪裡？要我提供哪種支援最有用？』", score:0, flags:["support","clarify"] },
+    ]
+  },
+  {
+    id: "q4",
+    title: "第 4 題｜當你「不想正面衝突」時，你會怎麼處理？",
+    tag: "衝突處理",
+    options: [
+      { key:"A", label:"表面答應，私下推翻", text:"嘴上說好，回頭用行動讓它失敗。", score:3, flags:["passive","punish"] },
+      { key:"B", label:"暗示+影射", text:"用玩笑、旁敲側擊，讓對方自己覺得丟臉。", score:2, flags:["passive","attack"] },
+      { key:"C", label:"先說共同目標", text:"先說：『我跟你目標一致，但我有一個擔心。』", score:1, flags:["align","clarify"] },
+      { key:"D", label:"直接而溫和地說界線", text:"說：『我願意配合到這裡，但超過這個範圍我做不到。』", score:0, flags:["boundary","respect"] },
+    ]
+  },
+  {
+    id: "q5",
+    title: "第 5 題｜當你「收到批評」時，你的第一反射？",
+    tag: "自我防衛",
+    options: [
+      { key:"A", label:"立刻反駁", text:"先證明自己沒錯：找理由、找例外、找對方的錯。", score:3, flags:["defend","attack"] },
+      { key:"B", label:"先自責到底", text:"說：『我就是爛。』然後情緒掉到底、事情也不改。", score:2, flags:["collapse"] },
+      { key:"C", label:"先確認具體點", text:"問：『你希望我下次具體改哪一段？』", score:1, flags:["clarify","improve"] },
+      { key:"D", label:"先承接再協商", text:"說：『我聽到了。我先整理重點，然後跟你對齊期望。』", score:0, flags:["repair","structure"] },
+    ]
+  },
+  {
+    id: "q6",
+    title: "第 6 題｜當你「想要對方照你的做」時，你通常用哪種方式？",
+    tag: "影響力",
+    options: [
+      { key:"A", label:"情緒勒索", text:"『你如果在乎我/團隊，就應該…』", score:3, flags:["control","guilt"] },
+      { key:"B", label:"恐嚇後果", text:"『你不做就等著…』", score:2, flags:["threat","control"] },
+      { key:"C", label:"說明利害與選項", text:"把成本/收益講清楚，提供 2–3 個可行選項。", score:1, flags:["structure","choice"] },
+      { key:"D", label:"共創方案", text:"問：『你覺得怎樣做你最能接受？我們一起選一個可行的。』", score:0, flags:["collab","respect"] },
+    ]
+  },
+  {
+    id: "q7",
+    title: "第 7 題｜當你「壓力很大」時，你最常把壓力丟到哪裡？",
+    tag: "壓力流向",
+    options: [
+      { key:"A", label:"丟到最親近的人", text:"對家人/同事口氣變差，因為他們比較不會走。", score:3, flags:["displace","attack"] },
+      { key:"B", label:"丟到自己身上", text:"悶著、硬扛、失眠，等到爆炸再說。", score:2, flags:["internalize"] },
+      { key:"C", label:"丟到流程上", text:"用清單/排程/拆解降低不確定性。", score:1, flags:["structure"] },
+      { key:"D", label:"丟到支持系統", text:"主動求助：找人討論、分工、或短暫休息再回來。", score:0, flags:["support","regulate"] },
+    ]
+  },
+  {
+    id: "q8",
+    title: "第 8 題｜當你「想讓對方痛一下」時，你最可能做哪一種？（反直覺：承認最常見的陰影手段）",
+    tag: "關係修復",
+    options: [
+      { key:"A", label:"公開羞辱", text:"在人前講、讓對方下不來台。", score:3, flags:["attack","public"] },
+      { key:"B", label:"冷暴力", text:"減少互動、讓對方懸著，直到他先低頭。", score:2, flags:["punish","avoid"] },
+      { key:"C", label:"私下說清楚", text:"找一個私下時間，把界線與感受講清楚。", score:1, flags:["repair","boundary"] },
+      { key:"D", label:"修復優先", text:"先把關係拉回來：『我們先回到同一陣線，再談問題。』", score:0, flags:["repair","align"] },
+    ]
+  },
+];
+const STATE = {
+  answers: new Map(),   // qid -> {key, score, flags}
+};
+function el(tag, attrs={}, children=[]) {
+  const n = document.createElement(tag);
+  for (const [k,v] of Object.entries(attrs)) {
+    if (k === "class") n.className = v;
+    else if (k === "html") n.innerHTML = v;
+    else if (k.startsWith("on") && typeof v === "function") n.addEventListener(k.slice(2), v);
+    else n.setAttribute(k, v);
+  }
+  for (const c of children) n.appendChild(typeof c === "string" ? document.createTextNode(c) : c);
+  return n;
+}
+function buildTOC() {
+  const toc = document.getElementById("toc");
+  toc.innerHTML = "";
+  QUESTIONS.forEach((q, idx) => {
+    const a = el("a", { href: "#" + q.id }, [`Q${idx+1}`]);
+    a.id = `toc_${q.id}`;
+    toc.appendChild(a);
+  });
+}
+function markTOCDone(qid, done) {
+  const a = document.getElementById(`toc_${qid}`);
+  if (!a) return;
+  if (done) a.classList.add("done");
+  else a.classList.remove("done");
+}
+function buildQuestions() {
+  const main = document.getElementById("main");
+  // insert before result card
+  const resultCard = document.getElementById("resultCard");
+  QUESTIONS.forEach((q, idx) => {
+    const card = el("section", { class:"card", id: q.id });
+    const title = el("div", { class:"qtitle" }, [q.title]);
+    const meta = el("div", { class:"qmeta" }, [`主題：${q.tag}　｜　選完會自動跳下一題`]);
+    const opts = el("div", { class:"opts" });
+    q.options.forEach((o) => {
+      const rid = `${q.id}_${o.key}`;
+      const input = el("input", {
+        type:"radio",
+        name:q.id,
+        id:rid,
+        value:o.key
+      });
+      input.addEventListener("change", () => {
+        STATE.answers.set(q.id, { key:o.key, score:o.score, flags:o.flags });
+        markTOCDone(q.id, true);
+        
+        // 標記選中的選項
+        const allLabels = card.querySelectorAll('label.opt');
+        allLabels.forEach(l => l.classList.remove('selected'));
+        label.classList.add('selected');
+        
+        updateProgress();
+        updateResult();
+        
+        // 自動捲動到下一題（或結論）
+        const next = QUESTIONS[idx+1];
+        const targetId = next ? next.id : "resultCard";
+        smoothScrollTo(targetId);
+      });
+      const label = el("label", { class:"opt", for: rid }, [
+        input,
+        el("span", { class:"ohead" }, [`${o.key}. ${o.label}`]),
+        el("div", { class:"otext" }, [o.text]),
+      ]);
+      opts.appendChild(label);
+    });
+    card.appendChild(title);
+    card.appendChild(meta);
+    card.appendChild(opts);
+    main.insertBefore(card, resultCard);
+  });
+}
+function smoothScrollTo(id) {
+  const node = document.getElementById(id);
+  if (!node) return;
+  // slight delay to ensure radio selection paints first
+  setTimeout(() => {
+    // 計算要捲動到的位置，留一些空間給 sticky header
+    const headerHeight = document.querySelector('header').offsetHeight;
+    const elementPosition = node.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 20;
+    
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: "smooth"
+    });
+    
+    // optional: focus for accessibility
+    node.setAttribute("tabindex","-1");
+    node.focus({ preventScroll:true });
+  }, 150);
+}
+function updateProgress() {
+  const total = QUESTIONS.length;
+  const done = STATE.answers.size;
+  const pct = Math.round((done/total)*100);
+  document.getElementById("barFill").style.width = pct + "%";
+  document.getElementById("pctText").textContent = `${done} / ${total}（${pct}%）`;
+}
+function tallyFlags() {
+  const c = new Map(); // flag -> count
+  for (const a of STATE.answers.values()) {
+    for (const f of a.flags) c.set(f, (c.get(f)||0) + 1);
+  }
+  return c;
+}
+function sumScore() {
+  let s = 0;
+  for (const a of STATE.answers.values()) s += a.score;
+  return s;
+}
+function levelFromScore(score, maxScore) {
+  const ratio = maxScore === 0 ? 0 : score / maxScore;
+  if (ratio >= 0.67) return { name:"高風險踩雷型", desc:"你不是壞，你只是常常在『情緒先開車』。先學會停一下，勝率會大幅上升。" };
+  if (ratio >= 0.34) return { name:"中等風險｜偶爾不自覺踩雷", desc:"你多數時候是善意的，但在壓力/被冒犯時，容易用『小手段』保護自己。" };
+  return { name:"低風險｜清醒穩健型", desc:"你有能力把關係與目標一起顧到。你仍然會生氣，但你更常做出選擇而不是反射。" };
+}
+function pickTopPatterns(flagCount) {
+  const arr = Array.from(flagCount.entries()).sort((a,b)=>b[1]-a[1]);
+  return arr.slice(0, 3).filter(x=>x[1] > 0);
+}
+function adviceFor(flag) {
+  const A = {
+    attack: "把『評價對方』換成『描述情境』：少用「你就是…」，改用「剛剛那句/那個動作讓我…」。",
+    punish: "冷處理前先丟一個『可回應的句子』：例如「我需要半天整理，晚點 9 點我再回」。",
+    avoid: "把逃避換成『明確延後』：不是消失，而是訂一個談的時間點。",
+    control: "把控制換成『選項』：給 2–3 個可行選擇，讓對方有得選，你也更容易被支持。",
+    defend: "先複述對方的點再回應：『你的意思是…對嗎？』能瞬間降低對立。",
+    collapse: "自責不是改變。改成：『我願意修正哪一個具體行為？下一次怎麼做？』",
+    resent: "別把怨留到背後。用一句：『我願意幫，但我需要你承接哪一段。』",
+    threat: "不要用後果當武器。改用：『我們要守住的底線是…』",
+    guilt: "把勒索換成需求：『我需要你支持我哪一件事？』",
+    passive: "停止影射。把不爽變成一句具體請求：『我希望你下次…』",
+    status: "少用資歷，多用證據：把「我比較懂」換成「資料顯示…所以我擔心…」。",
+    public: "所有難聽的話都留到私下。公開只談目標與流程，不談人格。",
+    displace: "壓力不要往最安全的人丟。先做 90 秒降速：喝水、深呼吸、走到窗邊再回來。",
+    internalize: "硬扛會爆。把求助變成標準流程：『我需要 15 分鐘/需要分工/需要確認優先順序』。",
+    pause: "你已經在做對的事：把『停一下』變成口頭流程（例如：先問一句意思）。",
+    clarify: "把問題問『更具體』：『你希望我做到哪個標準？你最在乎的是哪一點？』",
+    structure: "你適合用清單/節點。把它講出來：『我們先對齊目標→再列選項→再定時間表』。",
+    boundary: "界線說得越早越溫柔：『我可以做到A，但B做不到；如果要B，需要資源/時間。』",
+    respect: "你有能力讓對方保有尊嚴。記得：尊嚴不是軟弱，是效率。",
+    align: "先對齊目標能少吵 70%：『我們都想要…對嗎？那接下來選哪條路？』",
+    repair: "修復句型：『我剛剛口氣不好，抱歉。我想把事情講清楚也把關係顧好。』",
+    needs: "需求句型：『我需要…』『我在乎…』『我希望…』比指責更容易被聽見。",
+    choice: "選項能降低對抗：『你想要 A、B、C 哪一個？』",
+    collab: "共創能讓人願意：『你覺得可行的方式是什麼？我們一起選一個。』",
+    support: "求助不是麻煩，是成熟：『你方便給我 10 分鐘一起想嗎？』",
+    regulate: "情緒調節優先：沒降速就溝通，容易全毀。先讓身體回來。",
+    improve: "把批評轉成『下一步』：『我下次做 X，你幫我看是否達標。』",
+  };
+  return A[flag] || "把你最常用的方式，改成『更具體、更溫和、更可被回應』的句子。";
+}
+function updateResult() {
+  const total = QUESTIONS.length;
+  const done = STATE.answers.size;
+  const maxScore = total * 3;
+  const score = sumScore();
+  const lvl = levelFromScore(score, maxScore);
+  const flags = tallyFlags();
+  const top = pickTopPatterns(flags);
+  if (done === 0) {
+    document.getElementById("resultBox").textContent = "尚未作答。先從第 1 題開始。";
+    return;
+  }
+  const lines = [];
+  lines.push(`完成度：${done}/${total}`);
+  lines.push(`總分：${score}/${maxScore}（分數越高代表越容易『不自覺踩雷』）`);
+  lines.push(`狀態判讀：${lvl.name}`);
+  lines.push(`一句話：${lvl.desc}`);
+  lines.push("");
+  lines.push("你最常出現的 3 個模式：");
+  if (top.length === 0) {
+    lines.push("（目前還看不出明顯模式）");
+  } else {
+    top.forEach(([flag, count], i) => {
+      lines.push(`${i+1}. ${flag}（出現 ${count} 次）`);
+      lines.push(`   建議：${adviceFor(flag)}`);
+    });
+  }
+  lines.push("");
+  lines.push("一個立刻可用的『反直覺替代句』：");
+  lines.push("• 「我現在有情緒，但我想把事情講清楚。我先問一句：你剛剛那句的用意是什麼？」");
+  lines.push("• 「我需要 30 分鐘整理，晚點我會回來談，因為我想好好談。」");
+  lines.push("");
+  lines.push("（你也可以把這段結論直接複製貼到筆記，當作你的溝通SOP）");
+  document.getElementById("resultBox").textContent = lines.join("\n");
+}
+function toast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"), 900);
+}
+function attachButtons() {
+  document.getElementById("btnCopy").addEventListener("click", async () => {
+    const text = document.getElementById("resultBox").textContent;
+    try {
+      await navigator.clipboard.writeText(text);
+      toast("已複製結論");
+    } catch (e) {
+      // fallback
+      const ta = el("textarea", { style:"position:fixed;left:-9999px;top:-9999px;" });
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+      toast("已複製（備援）");
+    }
+  });
+  document.getElementById("btnReset").addEventListener("click", () => {
+    STATE.answers.clear();
+    QUESTIONS.forEach(q => {
+      const inputs = document.querySelectorAll(`input[name="${q.id}"]`);
+      inputs.forEach(i => i.checked = false);
+      markTOCDone(q.id, false);
+    });
+    updateProgress();
+    updateResult();
+    smoothScrollTo(QUESTIONS[0].id);
+  });
+  document.getElementById("btnScrollTop").addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior:"smooth" });
+  });
+}
+function init() {
+  buildTOC();
+  buildQuestions();
+  attachButtons();
+  updateProgress();
+  updateResult();
+}
+init();
+</script>
+</body>
+</html>
