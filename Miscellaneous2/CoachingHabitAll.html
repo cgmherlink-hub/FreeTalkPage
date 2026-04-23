@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>反直覺詢問法 × Coaching Habit 自我評估</title>
+<style>
+    body {
+        font-family: "Noto Sans TC", Arial, sans-serif;
+        background: #f7f9fb;
+        margin: 0;
+        padding: 20px;
+    }
+    .container {
+        max-width: 900px;
+        margin: auto;
+        background: #ffffff;
+        padding: 25px 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+    h1 {
+        text-align: center;
+    }
+    .question {
+        margin-bottom: 18px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #e5e5e5;
+    }
+    .question p {
+        margin: 0 0 8px 0;
+        font-weight: bold;
+    }
+    .scale label {
+        margin-right: 12px;
+        cursor: pointer;
+    }
+    .note {
+        font-size: 0.9em;
+        color: #666;
+    }
+    button {
+        display: block;
+        width: 100%;
+        margin-top: 25px;
+        padding: 14px;
+        font-size: 1.1em;
+        background: #2b7cff;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+    button:hover {
+        background: #1f66d1;
+    }
+    .result {
+        margin-top: 30px;
+        padding: 20px;
+        border-radius: 8px;
+        background: #eef4ff;
+        display: none;
+    }
+</style>
+</head>
+
+<body>
+<div class="container">
+<h1>反直覺詢問法 × Coaching Habit<br>上班族自我評估</h1>
+
+<p class="note">
+請依直覺作答（1–5 分）：<br>
+1 = 幾乎沒有　｜　3 = 有時　｜　5 = 幾乎總是
+</p>
+
+<form id="quiz">
+
+<!-- Q1 -->
+<div class="question">
+<p>1️⃣ 如果我這次不給建議，事情真的會變更糟嗎？</p>
+<div class="scale">
+<label><input type="radio" name="q1" value="1">1</label>
+<label><input type="radio" name="q1" value="2">2</label>
+<label><input type="radio" name="q1" value="3">3</label>
+<label><input type="radio" name="q1" value="4">4</label>
+<label><input type="radio" name="q1" value="5">5</label>
+</div>
+</div>
+
+<!-- Q2 reverse -->
+<div class="question">
+<p>2️⃣ 我是否常在對方還沒說完時，就已經知道答案？（反向題）</p>
+<div class="scale">
+<label><input type="radio" name="q2" value="1">1</label>
+<label><input type="radio" name="q2" value="2">2</label>
+<label><input type="radio" name="q2" value="3">3</label>
+<label><input type="radio" name="q2" value="4">4</label>
+<label><input type="radio" name="q2" value="5">5</label>
+</div>
+</div>
+
+<!-- Q3 -->
+<div class="question">
+<p>3️⃣ 我最近一次問「真正的問題是什麼」，是在什麼時候？</p>
+<div class="scale">
+<label><input type="radio" name="q3" value="1">1</label>
+<label><input type="radio" name="q3" value="2">2</label>
+<label><input type="radio" name="q3" value="3">3</label>
+<label><input type="radio" name="q3" value="4">4</label>
+<label><input type="radio" name="q3" value="5">5</label>
+</div>
+</div>
+
+<!-- Q4 reverse -->
+<div class="question">
+<p>4️⃣ 我是否更重視「快點解決」，而不是「是否解對問題」？（反向題）</p>
+<div class="scale">
+<label><input type="radio" name="q4" value="1">1</label>
+<label><input type="radio" name="q4" value="2">2</label>
+<label><input type="radio" name="q4" value="3">3</label>
+<label><input type="radio" name="q4" value="4">4</label>
+<label><input type="radio" name="q4" value="5">5</label>
+</div>
+</div>
+
+<!-- Q5 -->
+<div class="question">
+<p>5️⃣ 如果沒有我，對方是否仍能往前推進？</p>
+<div class="scale">
+<label><input type="radio" name="q5" value="1">1</label>
+<label><input type="radio" name="q5" value="2">2</label>
+<label><input type="radio" name="q5" value="3">3</label>
+<label><input type="radio" name="q5" value="4">4</label>
+<label><input type="radio" name="q5" value="5">5</label>
+</div>
+</div>
+
+<!-- Q6 reverse -->
+<div class="question">
+<p>6️⃣ 我是否因為「被需要」而習慣親自介入？（反向題）</p>
+<div class="scale">
+<label><input type="radio" name="q6" value="1">1</label>
+<label><input type="radio" name="q6" value="2">2</label>
+<label><input type="radio" name="q6" value="3">3</label>
+<label><input type="radio" name="q6" value="4">4</label>
+<label><input type="radio" name="q6" value="5">5</label>
+</div>
+</div>
+
+<!-- Q7 -->
+<div class="question">
+<p>7️⃣ 我是否清楚知道，答應這件事意味著我放棄了什麼？</p>
+<div class="scale">
+<label><input type="radio" name="q7" value="1">1</label>
+<label><input type="radio" name="q7" value="2">2</label>
+<label><input type="radio" name="q7" value="3">3</label>
+<label><input type="radio" name="q7" value="4">4</label>
+<label><input type="radio" name="q7" value="5">5</label>
+</div>
+</div>
+
+<!-- Q8 reverse -->
+<div class="question">
+<p>8️⃣ 我是否用「現在沒時間問問題」來合理化直接給答案？（反向題）</p>
+<div class="scale">
+<label><input type="radio" name="q8" value="1">1</label>
+<label><input type="radio" name="q8" value="2">2</label>
+<label><input type="radio" name="q8" value="3">3</label>
+<label><input type="radio" name="q8" value="4">4</label>
+<label><input type="radio" name="q8" value="5">5</label>
+</div>
+</div>
+
+<!-- Q9 -->
+<div class="question">
+<p>9️⃣ 我是否會在對話結束時，確認對方真正有收穫？</p>
+<div class="scale">
+<label><input type="radio" name="q9" value="1">1</label>
+<label><input type="radio" name="q9" value="2">2</label>
+<label><input type="radio" name="q9" value="3">3</label>
+<label><input type="radio" name="q9" value="4">4</label>
+<label><input type="radio" name="q9" value="5">5</label>
+</div>
+</div>
+
+<!-- Q10 reverse -->
+<div class="question">
+<p>🔟 我是否把「談完了」誤以為「對方懂了」？（反向題）</p>
+<div class="scale">
+<label><input type="radio" name="q10" value="1">1</label>
+<label><input type="radio" name="q10" value="2">2</label>
+<label><input type="radio" name="q10" value="3">3</label>
+<label><input type="radio" name="q10" value="4">4</label>
+<label><input type="radio" name="q10" value="5">5</label>
+</div>
+</div>
+
+<button type="button" onclick="calculate()">計算結果</button>
+</form>
+
+<div class="result" id="result"></div>
+
+</div>
+
+<script>
+function calculate() {
+    const weights = {
+        q1:1.3, q2:1.4, q3:1.2, q4:1.5, q5:1.3,
+        q6:1.4, q7:1.2, q8:1.3, q9:1.1, q10:1.3
+    };
+    const reverse = ["q2","q4","q6","q8","q10"];
+    let total = 0;
+
+    for (let q in weights) {
+        let selected = document.querySelector(`input[name="${q}"]:checked`);
+        if (!selected) {
+            alert("請完成所有題目");
+            return;
+        }
+        let value = parseInt(selected.value);
+        if (reverse.includes(q)) {
+            value = 6 - value;
+        }
+        total += value * weights[q];
+    }
+
+    let interpretation = "";
+    if (total < 65) {
+        interpretation = "🟥 高建議、低教練：容易忙碌、被依賴，建議先練習少給答案。";
+    } else if (total < 80) {
+        interpretation = "🟨 過渡型教練：已有覺察，但在忙碌時容易退回舊習慣。";
+    } else {
+        interpretation = "🟩 教練式工作者：能問出空間，也能培養他人能力。";
+    }
+
+    const resultDiv = document.getElementById("result");
+    resultDiv.style.display = "block";
+    resultDiv.innerHTML = `<h3>你的總分：${total.toFixed(1)}</h3><p>${interpretation}</p>`;
+}
+</script>
+
+</body>
+</html>
