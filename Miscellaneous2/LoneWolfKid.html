@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小一小二社交傾向觀察量表</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; color: #333; max-width: 650px; margin: 20px auto; padding: 20px; background-color: #f4f7f6; }
+        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h2 { color: #2c3e50; text-align: center; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .question { margin-bottom: 25px; padding: 15px; border-bottom: 1px dashed #eee; }
+        .question p { font-weight: bold; margin-bottom: 12px; font-size: 1.05em; }
+        .options-row { display: flex; justify-content: space-between; align-items: center; background: #fafafa; padding: 10px; border-radius: 8px; }
+        .option-item { display: flex; flex-direction: column; align-items: center; flex: 1; cursor: pointer; }
+        .option-item input { cursor: pointer; margin-bottom: 5px; }
+        .label-text { font-size: 0.8em; color: #666; margin-bottom: 5px; }
+        button { display: block; width: 100%; padding: 12px; background: #3498db; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; margin-top: 20px; font-weight: bold; }
+        button:hover { background: #2980b9; }
+        #result { margin-top: 20px; padding: 20px; border-radius: 8px; display: none; line-height: 1.8; }
+        .high { background: #ffebee; border: 1px solid #ffcdd2; color: #c62828; }
+        .mid { background: #fff3e0; border: 1px solid #ffe0b2; color: #ef6c00; }
+        .low { background: #e8f5e9; border: 1px solid #c8e6c9; color: #2e7d32; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>社交傾向觀察量表 (小一/小二)</h2>
+    <p style="text-align: center; font-size: 0.9em; color: #666; margin-bottom: 20px;">請根據孩子近一個月的行為，評分 1 (完全不符合) 至 5 (完全符合)</p>
+    
+    <div id="quiz">
+        </div>
+
+    <button onclick="calculateScore()">查看評量結果</button>
+
+    <div id="result"></div>
+</div>
+
+<script>
+    const questions = [
+        { q: "1. 孩子下課常獨自待著，且神情顯得自在不焦慮。", w: 1.0 },
+        { q: "2. 放學回家後，常出現莫名的情緒暴躁或極度疲累。", w: 1.5 },
+        { q: "3. 喜歡獨自玩耍，但能容忍其他小朋友在附近做自己的事。", w: 1.0 },
+        { q: "4. 面對老師要求『自由分組』時，表現出明顯的緊張或無助。", w: 1.5 },
+        { q: "5. 難以分辨同儕間的玩笑話，容易因誤會而受挫或生氣。", w: 1.0 },
+        { q: "6. 對特定事物（如昆蟲、地圖）過度專注，遠勝過對人的興趣。", w: 1.0 },
+        { q: "7. 說話或與人交談時，傾向避免眼神對視。", w: 1.0 },
+        { q: "8. 與同學發生衝突時，第一反應是直接逃避而非嘗試溝通。", w: 1.5 },
+        { q: "9. 回家分享學校生活時，幾乎不曾提過任何同學的名字。", w: 1.0 },
+        { q: "10. 出現摳指甲、咬嘴唇等焦慮小動作來應對群體環境。", w: 1.5 }
+    ];
+
+    const quizContainer = document.getElementById('quiz');
+    questions.forEach((item, index) => {
+        let optionsHtml = '';
+        for(let i=1; i<=5; i++) {
+            let label = "";
+            if(i === 1) label = "<span class='label-text'>完全不符</span>";
+            if(i === 5) label = "<span class='label-text'>完全符合</span>";
+            
+            optionsHtml += `
+                <label class="option-item">
+                    ${label}
+                    <input type="radio" name="q${index}" value="${i}" ${i === 1 ? 'checked' : ''}>
+                    <span>${i}</span>
+                </label>
+            `;
+        }
+
+        quizContainer.innerHTML += `
+            <div class="question">
+                <p>${item.q}</p>
+                <div class="options-row">
+                    ${optionsHtml}
+                </div>
+            </div>
+        `;
+    });
+
+    function calculateScore() {
+        let totalWeightedScore = 0;
+        let maxPossibleScore = 0;
+
+        questions.forEach((item, index) => {
+            const selected = document.querySelector(`input[name="q${index}"]:checked`);
+            const val = parseInt(selected.value);
+            totalWeightedScore += val * item.w;
+            maxPossibleScore += 5 * item.w;
+        });
+
+        const percentage = (totalWeightedScore / maxPossibleScore) * 100;
+        const resultDiv = document.getElementById('result');
+        resultDiv.style.display = 'block';
+
+        let analysis = "";
+        if (percentage < 40) {
+            resultDiv.className = "low";
+            analysis = "<strong>結果：獨立觀察期。</strong><br>孩子目前的獨狼行為較偏向『天生性格』，他享受個人空間且情緒調節良好。建議給予尊重，不必強迫社交。";
+        } else if (percentage < 70) {
+            resultDiv.className = "mid";
+            analysis = "<strong>結果：社交適應中。</strong><br>孩子在社交上可能感到些許吃力或猶豫。建議家長多與老師溝通，觀察孩子是否想加入群體但缺乏技巧，可適度在家演練社交對話。";
+        } else {
+            resultDiv.className = "high";
+            analysis = "<strong>結果：高社交壓力警訊。</strong><br>孩子的獨立行為可能伴隨著明顯的焦慮。他可能很想融入但挫折感很重，或校園環境對他而言負荷過大。建議尋求老師協助，或考慮專業引導。";
+        }
+
+        resultDiv.innerHTML = `得分比例：${percentage.toFixed(1)}% <br><br> ${analysis}`;
+        
+        // 自動捲動到結果處
+        resultDiv.scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
