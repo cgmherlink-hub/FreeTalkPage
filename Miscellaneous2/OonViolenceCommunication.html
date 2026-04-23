@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我不是大犀牛 - 自我覺察問卷</title>
+    <style>
+        :root { --accent: #f39c12; --bg: #121212; --card: #1e1e1e; --text: #e0e0e0; }
+        body { font-family: "PingFang TC", "Microsoft JhengHei", sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card); padding: 40px; border-radius: 8px; border: 1px solid #333; }
+        h1 { text-align: center; color: var(--accent); font-size: 2.5em; letter-spacing: 2px; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #888; margin-bottom: 30px; font-size: 0.9em; }
+        .intro-box { border: 1px solid #444; padding: 20px; margin-bottom: 35px; font-size: 0.95em; color: #bbb; }
+        .section { margin-bottom: 40px; }
+        .section-title { font-size: 1.2em; color: var(--accent); border-left: 4px solid var(--accent); padding-left: 15px; margin-bottom: 20px; }
+        .question-item { margin-bottom: 20px; border-bottom: 1px solid #2a2a2a; padding-bottom: 15px; }
+        .q-text { display: block; margin-bottom: 12px; }
+        .options-group { display: flex; flex-wrap: wrap; gap: 20px; }
+        .opt { display: flex; align-items: center; font-size: 0.85em; cursor: pointer; color: #999; }
+        .opt:hover { color: #fff; }
+        input[type="radio"] { width: 14px; height: 14px; margin-right: 6px; cursor: pointer; accent-color: var(--accent); }
+        .reflection-note { font-size: 0.85em; color: #666; margin-top: 10px; font-style: italic; }
+        button { display: block; width: 100%; padding: 15px; background: none; color: var(--accent); border: 2px solid var(--accent); border-radius: 4px; font-size: 1.1em; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 40px; }
+        button:hover { background: var(--accent); color: #000; }
+        #resultArea { margin-top: 40px; display: none; padding: 30px; border-top: 2px dashed #444; }
+        .summary-box { background: #252525; padding: 20px; border-radius: 4px; margin-top: 20px; border-left: 4px solid #fff; }
+        .improvement { color: #81c784; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>我不是大犀牛</h1>
+    <p class="subtitle">日常微小行為與內在語言覺察問卷</p>
+
+    <div class="intro-box">
+        請依最近一個月的真實狀況勾選，這是一面鏡子，照見那些我們不曾注意的衝撞痕跡。<br>
+        <strong>1＝幾乎沒有｜2＝偶爾｜3＝常常｜4＝幾乎每天</strong>
+    </div>
+
+    <form id="nvcQuiz">
+        <div class="section">
+            <div class="section-title">A. 語言裡的「隱形刀片」</div>
+            <div class="question-item">
+                <span class="q-text">1. 當別人沒照我期待做，我心裡會冒出：「他就是不用心／沒責任感」</span>
+                <div class="options-group">
+                    <label class="opt"><input type="radio" name="q1" value="1" required>1.幾乎沒有</label>
+                    <label class="opt"><input type="radio" name="q1" value="2">2.偶爾</label>
+                    <label class="opt"><input type="radio" name="q1" value="3">3.常常</label>
+                    <label class="opt"><input type="radio" name="q1" value="4">4.幾乎每天</label>
+                </div>
+            </div>
+            <div class="question-item">
+                <span class="q-text">2. 我常用「你每次都…」「你從來不…」這類說法</span>
+                <div class="options-group">
+                    <label class="opt"><input type="radio" name="q2" value="1">1</label><label class="opt"><input type="radio" name="q2" value="2">2</label><label class="opt"><input type="radio" name="q2" value="3">3</label><label class="opt"><input type="radio" name="q2" value="4">4</label>
+                </div>
+            </div>
+            <div class="question-item">
+                <span class="q-text">3. 聽到不同意見，我第一反應是想證明對方錯</span>
+                <div class="options-group">
+                    <label class="opt"><input type="radio" name="q3" value="1">1</label><label class="opt"><input type="radio" name="q3" value="2">2</label><label class="opt"><input type="radio" name="q3" value="3">3</label><label class="opt"><input type="radio" name="q3" value="4">4</label>
+                </div>
+            </div>
+            <div class="question-item">
+                <span class="q-text">4. 我習慣用比較來鼓勵人（如：別人都可以，你為何不行）</span>
+                <div class="options-group">
+                    <label class="opt"><input type="radio" name="q4" value="1">1</label><label class="opt"><input type="radio" name="q4" value="2">2</label><label class="opt"><input type="radio" name="q4" value="3">3</label><label class="opt"><input type="radio" name="q4" value="4">4</label>
+                </div>
+            </div>
+            <div class="question-item">
+                <span class="q-text">5. 我認為「講話直接一點才有效」</span>
+                <div class="options-group">
+                    <label class="opt"><input type="radio" name="q5" value="1">1</label><label class="opt"><input type="radio" name="q5" value="2">2</label><label class="opt"><input type="radio" name="q5" value="3">3</label><label class="opt"><input type="radio" name="q5" value="4">4</label>
+                </div>
+                <div class="reflection-note">→ 以上其實多半是「評價語言」，而不是觀察。</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">B. 情緒外包的習慣</div>
+            <div class="question-item">
+                <span class="q-text">6. 我常說「你讓我很生氣／很失望」</span>
+                <div class="options-group">
+                    <label class="opt"><input type="radio" name="q6" value="1">1</label><label class="opt"><input type="radio" name="q6" value="2">2</label><label class="opt"><input type="radio" name="q6" value="3">3</label><label class="opt"><input type="radio" name="q6" value="4">4</label>
+                </div>
+            </div>
+            <div class="question-item">
+                <span class="q-text">7. 覺得情緒的責任主要在對方</span>
+                <div class="options-group">
+                    <label class="opt"><input type="radio" name="q7" value="1">1</label><label class="opt"><input type="radio" name="q7" value="2">2</label><label class="opt"><input type="radio" name="q7" value="3">3</label><label class="opt"><input type="radio" name="q7" value="4">4</label>
+                </div>
+            </div>
+            <div class="question-item">
+                <span class="q-text">8. 別人不配合時，我會在心裡懲罰他</span>
+                <div class="options-group">
+                    <label class="opt"><input type="radio" name="q8" value="1">1</label><label class="opt"><input type="radio" name="q8" value="2">2</label><label class="opt"><input type="radio" name="q8" value="3">3</label><label class="opt"><input type="radio" name="q8" value="4">4</label>
+                </div>
+            </div>
+            <div class="question-item">
+                <span class="q-text">9. 我不太會區分「感受」與「指責」</span>
+                <div class="options-group">
+                    <label class="opt"><input type="radio" name="q9" value="1">1</label><label class="opt"><input type="radio" name="q9" value="2">2</label><label class="opt"><input type="radio" name="q9" value="3">3</label><label class="opt"><input type="radio" name="q9" value="4">4</label>
+                </div>
+            </div>
+            <div class="question-item">
+                <span class="q-text">10. 生氣時，我會用冷漠或諷刺回應</span>
+                <div class="options-group">
+                    <label class="opt"><input type="radio" name="q10" value="1">1</label><label class="opt"><input type="radio" name="q10" value="2">2</label><label class="opt"><input type="radio" name="q10" value="3">3</label><label class="opt"><input type="radio" name="q10" value="4">4</label>
+                </div>
+                <div class="reflection-note">→ 真正的感受是「我感到焦慮」，而不是「你很白目」。</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">C. 需要被藏起來</div>
+            <div class="question-item"><span class="q-text">11. 我很少直接說「我需要…」</span><div class="options-group">
+                <label class="opt"><input type="radio" name="q11" value="1">1</label><label class="opt"><input type="radio" name="q11" value="2">2</label><label class="opt"><input type="radio" name="q11" value="3">3</label><label class="opt"><input type="radio" name="q11" value="4">4</label>
+            </div></div>
+            <div class="question-item"><span class="q-text">12. 比起表達需求，我更常抱怨對方</span><div class="options-group">
+                <label class="opt"><input type="radio" name="q12" value="1">1</label><label class="opt"><input type="radio" name="q12" value="2">2</label><label class="opt"><input type="radio" name="q12" value="3">3</label><label class="opt"><input type="radio" name="q12" value="4">4</label>
+            </div></div>
+            <div class="question-item"><span class="q-text">13. 覺得講需求很像在示弱</span><div class="options-group">
+                <label class="opt"><input type="radio" name="q13" value="1">1</label><label class="opt"><input type="radio" name="q13" value="2">2</label><label class="opt"><input type="radio" name="q13" value="3">3</label><label class="opt"><input type="radio" name="q13" value="4">4</label>
+            </div></div>
+            <div class="question-item"><span class="q-text">14. 我其實不知道自己在意什麼</span><div class="options-group">
+                <label class="opt"><input type="radio" name="q14" value="1">1</label><label class="opt"><input type="radio" name="q14" value="2">2</label><label class="opt"><input type="radio" name="q14" value="3">3</label><label class="opt"><input type="radio" name="q14" value="4">4</label>
+            </div></div>
+            <div class="question-item"><span class="q-text">15. 希望別人「自己應該要懂」</span><div class="options-group">
+                <label class="opt"><input type="radio" name="q15" value="1">1</label><label class="opt"><input type="radio" name="q15" value="2">2</label><label class="opt"><input type="radio" name="q15" value="3">3</label><label class="opt"><input type="radio" name="q15" value="4">4</label>
+            </div></div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">D. 偽裝成請求的命令</div>
+            <div class="question-item"><span class="q-text">16. 我說「可以嗎？」其實心裡不能被拒絕</span><div class="options-group">
+                <label class="opt"><input type="radio" name="q16" value="1">1</label><label class="opt"><input type="radio" name="q16" value="2">2</label><label class="opt"><input type="radio" name="q16" value="3">3</label><label class="opt"><input type="radio" name="q16" value="4">4</label>
+            </div></div>
+            <div class="question-item"><span class="q-text">17. 別人拒絕我時，我會記在心裡</span><div class="options-group">
+                <label class="opt"><input type="radio" name="q17" value="1">1</label><label class="opt"><input type="radio" name="q17" value="2">2</label><label class="opt"><input type="radio" name="q17" value="3">3</label><label class="opt"><input type="radio" name="q17" value="4">4</label>
+            </div></div>
+            <div class="question-item"><span class="q-text">18. 我常用「為你好」包裝要求</span><div class="options-group">
+                <label class="opt"><input type="radio" name="q18" value="1">1</label><label class="opt"><input type="radio" name="q18" value="2">2</label><label class="opt"><input type="radio" name="q18" value="3">3</label><label class="opt"><input type="radio" name="q18" value="4">4</label>
+            </div></div>
+            <div class="question-item"><span class="q-text">19. 沒達成時，我會翻舊帳</span><div class="options-group">
+                <label class="opt"><input type="radio" name="q19" value="1">1</label><label class="opt"><input type="radio" name="q19" value="2">2</label><label class="opt"><input type="radio" name="q19" value="3">3</label><label class="opt"><input type="radio" name="q19" value="4">4</label>
+            </div></div>
+            <div class="question-item"><span class="q-text">20. 我比較擅長要求結果，而非討論方法</span><div class="options-group">
+                <label class="opt"><input type="radio" name="q20" value="1">1</label><label class="opt"><input type="radio" name="q20" value="2">2</label><label class="opt"><input type="radio" name="q20" value="3">3</label><label class="opt"><input type="radio" name="q20" value="4">4</label>
+            </div></div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">E. 傾聽模式</div>
+            <div class="question-item"><span class="q-text">21. 別人抱怨時，我立刻想給建議</span><div class="options-group">
+                <label class="opt"><input type="radio" name="q21" value="1">1</label><label class="opt"><input type="radio" name="q21" value="2">2</label><label class="opt"><input type="radio" name="q21" value="3">3</label><label class="opt"><input type="radio" name="q21" value="4">4</label>
+            </div></div>
+            <div class="question-item"><span class="q-text">22. 聽到情緒，我先分析誰對誰錯</span><div class="options-group">
+                <label class="opt"><input type="radio" name="q22" value="1">1</label><label class="opt"><input type="radio" name="q22" value="2">2</label><label class="opt"><input type="radio" name="q22" value="3">3</label><label class="opt"><input type="radio" name="q22" value="4">4</label>
+            </div></div>
+            <div class="question-item"><span class="q-text">23. 我很少幫對方說出感受</span><div class="options-group">
+                <label class="opt"><input type="radio" name="q23" value="1">1</label><label class="opt"><input type="radio" name="q23" value="2">2</label><label class="opt"><input type="radio" name="q23" value="3">3</label><label class="opt"><input type="radio" name="q23" value="4">4</label>
+            </div></div>
+            <div class="question-item"><span class="q-text">24. 覺得同理會寵壞人</span><div class="options-group">
+                <label class="opt"><input type="radio" name="q24" value="1">1</label><label class="opt"><input type="radio" name="q24" value="2">2</label><label class="opt"><input type="radio" name="q24" value="3">3</label><label class="opt"><input type="radio" name="q24" value="4">4</label>
+            </div></div>
+            <div class="question-item"><span class="q-text">25. 我比較在意把事情講清楚，而非連結</span><div class="options-group">
+                <label class="opt"><input type="radio" name="q25" value="1">1</label><label class="opt"><input type="radio" name="q25" value="2">2</label><label class="opt"><input type="radio" name="q25" value="3">3</label><label class="opt"><input type="radio" name="q25" value="4">4</label>
+            </div></div>
+        </div>
+
+        <button type="button" onclick="showResult()">分析我的「犀牛指標」</button>
+    </form>
+
+    <div id="resultArea">
+        <h2>分析報告</h2>
+        <p id="rhinoLevel" style="font-size: 1.5em; font-weight: bold;"></p>
+        <div class="summary-box" id="finalSummary"></div>
+        <div class="improvement" id="directions"></div>
+    </div>
+</div>
+
+<script>
+    function showResult() {
+        const f = document.getElementById('nvcQuiz');
+        const fd = new FormData(f);
+        let s = 0; let c = 0;
+        for (let v of fd.values()) { s += parseInt(v); c++; }
+        if(c < 25) { alert('請先完成所有覺察題'); return; }
+
+        const area = document.getElementById('resultArea');
+        const level = document.getElementById('rhinoLevel');
+        const summ = document.getElementById('finalSummary');
+        const dir = document.getElementById('directions');
+        area.style.display = 'block';
+
+        let percent = s; // 總分就是犀牛程度參考
+        level.innerText = `我有 ${percent}% 像大犀牛`;
+
+        if(s <= 45) {
+            summ.innerHTML = "<strong>總結：溫和的鹿，但偶爾迷路。</strong><br>你的溝通偏向問題導向。雖然不常主動衝撞，但有時會因為太在意『對錯與事情』，而顯得有些冷淡，讓對方覺得你並不在乎他的心情。";
+            dir.innerHTML = "<strong>改善方向：</strong><br>練習在給出建議前，先嘗試說出對方的感受。多用『我感覺...』開頭，增加語言的溫度。";
+        } else if(s <= 70) {
+            summ.innerHTML = "<strong>總結：帶著防禦的犀牛。</strong><br>你常落入隱性暴力語言。當你感到不安全或不被尊重時，會習慣性地低下頭發動評價與指責。這份防禦讓你身邊的人感到壓迫，也讓你越來越孤單。";
+            dir.innerHTML = "<strong>改善方向：</strong><br>練習『翻譯機練習』。當想說『你每次都...』時，強迫自己改說出『具體發生了什麼事實』。把對別人的評價，轉化為對自己內在需求的探索。";
+        } else {
+            summ.innerHTML = "<strong>總結：全速衝刺的大犀牛。</strong><br>你處於高度評價與要求模式。你可能學了很久的『舊語言』，習慣用強大的氣場與命令來確保事情達成。雖然效率高，但破壞力也驚人，這會讓你最親近的人受傷最重。";
+            dir.innerHTML = "<strong>改善方向：</strong><br>最優先的改善是『停止情緒外包』。試著看見自己的怒氣其實源於自己未被滿足的需要（如：需要尊重、需要休息），而不是因為對方很差。練習直接說出『我需要...』而不是抱怨對方。";
+        }
+        area.scrollIntoView({behavior: "smooth"});
+    }
+</script>
+
+</body>
+</html>
