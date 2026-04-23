@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>渴求覺察反直覺問卷</title>
+<style>
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background-color: #f4f6f8;
+    padding: 40px;
+    line-height: 1.8;
+}
+.container {
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+h1 {
+    text-align: center;
+    color: #1e293b;
+}
+.intro {
+    background: #fef3c7;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #f59e0b;
+}
+.question {
+    margin-top: 30px;
+    padding: 20px;
+    background: #fafafa;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    transition: border-color 0.3s;
+}
+.question.answered {
+    border-color: #10b981;
+}
+.question-number {
+    color: #3b82f6;
+    font-weight: bold;
+}
+.option {
+    margin: 10px 0;
+    padding: 10px;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.option:hover {
+    background: #e0f2fe;
+}
+.option input[type="radio"] {
+    margin-right: 10px;
+    cursor: pointer;
+}
+.clear-btn {
+    background-color: #ef4444;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.clear-btn:hover {
+    background-color: #dc2626;
+}
+.button-group {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+#progress {
+    text-align: center;
+    margin-top: 20px;
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 500;
+}
+.result {
+    margin-top: 30px;
+    padding: 25px;
+    border-radius: 8px;
+    animation: fadeIn 0.5s;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.result h3 {
+    margin-top: 0;
+    font-size: 24px;
+}
+.awareness-level {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 15px 0;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+.level-high {
+    background: #d1fae5;
+    color: #065f46;
+}
+.level-medium {
+    background: #fef3c7;
+    color: #92400e;
+}
+.level-low {
+    background: #fee2e2;
+    color: #991b1b;
+}
+.insight {
+    background: #f0f9ff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    border-left: 4px solid #3b82f6;
+}
+.practice-tip {
+    background: #f0fdf4;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    border-left: 4px solid #10b981;
+}
+.warning {
+    background: #fff7ed;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    color: #9a3412;
+    font-size: 14px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>渴求覺察反直覺問卷</h1>
+<div class="intro">
+    <p><strong>📝 填寫說明:</strong>請選擇最貼近你「真實經驗」的答案,而不是理想中的自己。沒有對錯,只有更深的自我理解。</p>
+</div>
+
+<form id="quizForm">
+<div class="question" data-question="1">
+    <p><span class="question-number">1.</span> <strong>當壓力出現時,你最常做的第一個動作是?</strong></p>
+    <label class="option"><input type="radio" name="q1" value="1"> 立刻滑手機轉移注意力</label>
+    <label class="option"><input type="radio" name="q1" value="1"> 吃點東西讓自己舒服一點</label>
+    <label class="option"><input type="radio" name="q1" value="2"> 找人抱怨或聊天</label>
+    <label class="option"><input type="radio" name="q1" value="3"> 忍住不動,但內心翻騰</label>
+    <label class="option"><input type="radio" name="q1" value="5"> 停下來觀察身體感受</label>
+</div>
+
+<div class="question" data-question="2">
+    <p><span class="question-number">2.</span> <strong>當你滑手機時,你真正想得到的是?</strong></p>
+    <label class="option"><input type="radio" name="q2" value="2"> 放鬆</label>
+    <label class="option"><input type="radio" name="q2" value="1"> 不想面對當下的壓力</label>
+    <label class="option"><input type="radio" name="q2" value="2"> 一點刺激感</label>
+    <label class="option"><input type="radio" name="q2" value="3"> 社交連結感</label>
+    <label class="option"><input type="radio" name="q2" value="4"> 其實我也說不上來</label>
+</div>
+
+<div class="question" data-question="3">
+    <p><span class="question-number">3.</span> <strong>行為結束後,你通常的感覺是?</strong></p>
+    <label class="option"><input type="radio" name="q3" value="3"> 有點空虛</label>
+    <label class="option"><input type="radio" name="q3" value="4"> 覺得浪費時間</label>
+    <label class="option"><input type="radio" name="q3" value="1"> 還想再來一次</label>
+    <label class="option"><input type="radio" name="q3" value="2"> 暫時好一點</label>
+    <label class="option"><input type="radio" name="q3" value="5"> 其實沒什麼差別</label>
+</div>
+
+<div class="question" data-question="4">
+    <p><span class="question-number">4.</span> <strong>當你想改變習慣卻失敗時,你會怎麼想?</strong></p>
+    <label class="option"><input type="radio" name="q4" value="1"> 我意志力太差</label>
+    <label class="option"><input type="radio" name="q4" value="1"> 我就是這種人</label>
+    <label class="option"><input type="radio" name="q4" value="2"> 可能時機還沒到</label>
+    <label class="option"><input type="radio" name="q4" value="4"> 這真的很難</label>
+    <label class="option"><input type="radio" name="q4" value="5"> 我需要更了解渴求本身</label>
+</div>
+
+<div class="question" data-question="5">
+    <p><span class="question-number">5.</span> <strong>當焦慮出現時,你最常做的是?</strong></p>
+    <label class="option"><input type="radio" name="q5" value="2"> 反覆想解決方法</label>
+    <label class="option"><input type="radio" name="q5" value="2"> 上網查更多資訊</label>
+    <label class="option"><input type="radio" name="q5" value="1"> 分散注意力</label>
+    <label class="option"><input type="radio" name="q5" value="3"> 假裝沒事</label>
+    <label class="option"><input type="radio" name="q5" value="5"> 觀察焦慮的身體反應</label>
+</div>
+
+<div class="question" data-question="6">
+    <p><span class="question-number">6.</span> <strong>如果你「不做那個習慣行為」,你最擔心的是?</strong></p>
+    <label class="option"><input type="radio" name="q6" value="1"> 情緒會失控</label>
+    <label class="option"><input type="radio" name="q6" value="2"> 壓力會變更大</label>
+    <label class="option"><input type="radio" name="q6" value="2"> 會很無聊</label>
+    <label class="option"><input type="radio" name="q6" value="3"> 會失去掌控感</label>
+    <label class="option"><input type="radio" name="q6" value="5"> 其實什麼都不會發生</label>
+</div>
+
+</form>
+
+<div class="button-group">
+    <button type="button" class="clear-btn" onclick="clearAll()">🔄 清除所有選項</button>
+</div>
+
+<div id="progress">
+    已回答 <span id="progressCount">0</span>/6 題
+</div>
+
+<div id="result" class="result" style="display:none;"></div>
+</div>
+
+<script>
+const totalQuestions = 6;
+
+// 監聽所有選項變化
+document.querySelectorAll('input[type="radio"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        // 標記問題為已回答
+        const question = this.closest('.question');
+        question.classList.add('answered');
+        
+        // 更新進度
+        updateProgress();
+        
+        // 自動捲動到下一題
+        autoScrollToNext(question);
+        
+        // 檢查是否所有問題都已回答,若是則自動顯示結果
+        checkAndShowResult();
+    });
+});
+
+function updateProgress() {
+    let answeredCount = 0;
+    for (let i = 1; i <= totalQuestions; i++) {
+        if (document.querySelector(`input[name="q${i}"]:checked`)) {
+            answeredCount++;
+        }
+    }
+    document.getElementById('progressCount').textContent = answeredCount;
+}
+
+function autoScrollToNext(currentQuestion) {
+    const currentNum = parseInt(currentQuestion.dataset.question);
+    
+    // 如果不是最後一題,捲動到下一題
+    if (currentNum < totalQuestions) {
+        const nextQuestion = document.querySelector(`.question[data-question="${currentNum + 1}"]`);
+        if (nextQuestion) {
+            setTimeout(() => {
+                nextQuestion.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            }, 300);
+        }
+    } else {
+        // 最後一題,捲動到結果區
+        setTimeout(() => {
+            document.getElementById('result').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+        }, 300);
+    }
+}
+
+function checkAndShowResult() {
+    let answeredCount = 0;
+    for (let i = 1; i <= totalQuestions; i++) {
+        if (document.querySelector(`input[name="q${i}"]:checked`)) {
+            answeredCount++;
+        }
+    }
+    
+    // 所有問題都回答後自動顯示結果
+    if (answeredCount === totalQuestions) {
+        setTimeout(() => {
+            showResult();
+        }, 500);
+    }
+}
+
+function showResult() {
+    // 計算總分
+    let totalScore = 0;
+    for (let i = 1; i <= totalQuestions; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected) {
+            totalScore += parseInt(selected.value);
+        }
+    }
+    
+    // 根據分數判斷覺察程度
+    let level, levelClass, levelText, insight, practice;
+    
+    if (totalScore >= 22) {
+        level = "高度覺察";
+        levelClass = "level-high";
+        levelText = "🌟 你已經建立了相當好的自我覺察能力";
+        insight = `
+            <h4>你的狀態:</h4>
+            <p>你能夠辨識出渴求的本質,並且開始把它當作訊息而非命令。你理解到衝動背後的真實需求,也知道自動化反應不一定能帶來真正的滿足。</p>
+            <p><strong>你已經走在改變的路上。</strong>繼續保持這份好奇心,每一次的觀察都在重塑你的大腦迴路。</p>
+        `;
+        practice = `
+            <h4>💡 深化練習:</h4>
+            <ul>
+                <li><strong>精煉觀察:</strong> 下次渴求出現時,試著描述它的「質地」——是緊繃、空虛、還是焦躁?</li>
+                <li><strong>實驗精神:</strong> 偶爾試著「不回應」渴求,觀察它如何消退(通常只需90秒)</li>
+                <li><strong>記錄模式:</strong> 注意什麼情境特別容易觸發渴求,這些是你的成長機會</li>
+            </ul>
+        `;
+    } else if (totalScore >= 15) {
+        level = "覺察中";
+        levelClass = "level-medium";
+        levelText = "🌱 你正在建立覺察能力,已經開始注意到模式";
+        insight = `
+            <h4>你的狀態:</h4>
+            <p>你開始意識到習慣行為並不總是帶來預期的滿足,但在衝動當下仍容易自動反應。這是非常正常的過渡階段——<strong>覺察先於改變</strong>。</p>
+            <p>你可能會經歷「知道但還是做了」的矛盾感,這不是失敗,而是大腦學習的過程。每一次事後的反思,都在為下一次的選擇鋪路。</p>
+        `;
+        practice = `
+            <h4>💡 下一步練習:</h4>
+            <ul>
+                <li><strong>暫停技巧:</strong> 衝動出現時,設定10秒計時器,就只是觀察身體感受</li>
+                <li><strong>好奇提問:</strong> 問自己「這個行為真的會讓我更好嗎?」不必立刻有答案</li>
+                <li><strong>行為後檢視:</strong> 做完習慣行為後,誠實評估「這值得嗎?」</li>
+                <li><strong>小勝利慶祝:</strong> 每次成功觀察(即使最後還是做了),都是進步</li>
+            </ul>
+        `;
+    } else {
+        level = "覺察初期";
+        levelClass = "level-low";
+        levelText = "🌾 你正處於覺察的起點,這是改變的第一步";
+        insight = `
+            <h4>你的狀態:</h4>
+            <p>你目前可能還在自動駕駛模式中——壓力來了就自動反應,習慣運作得很流暢,以至於幾乎注意不到。<strong>這完全正常,大部分人都是這樣開始的。</strong></p>
+            <p>好消息是:你已經願意做這份問卷,代表你開始對自己的模式產生好奇。這份好奇心,就是改變的種子。</p>
+        `;
+        practice = `
+            <h4>💡 溫和起步:</h4>
+            <ul>
+                <li><strong>一次一個:</strong> 選擇一個你最想改變的習慣,先從觀察開始(不是改變)</li>
+                <li><strong>身體掃描:</strong> 每天找一個時刻,停下來感受身體——肩膀緊嗎?呼吸淺嗎?</li>
+                <li><strong>延遲5分鐘:</strong> 衝動來時,告訴自己「可以做,但5分鐘後」,看看會發生什麼</li>
+                <li><strong>不評判記錄:</strong> 用手機簡單記下「什麼時候特別想做這個行為」,不必分析</li>
+            </ul>
+            <div class="warning">
+                ⚠️ 重要提醒:不要一開始就設定「戒除」目標,這會觸發大腦的抗拒機制。先從「理解」開始,改變會自然發生。
+            </div>
+        `;
+    }
+    
+    // 顯示結果
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = `
+        <h3>你的覺察程度分析</h3>
+        <div class="awareness-level ${levelClass}">
+            ${level} (${totalScore}/30分)
+            <div style="font-size: 16px; font-weight: normal; margin-top: 8px;">${levelText}</div>
+        </div>
+        
+        <div class="insight">
+            ${insight}
+        </div>
+        
+        <div class="practice-tip">
+            ${practice}
+        </div>
+        
+        <div class="insight">
+            <h4>🧠 核心理解:</h4>
+            <p><strong>渴求不是敵人,它只是大腦的學習機制。</strong>每次你的大腦說「我需要這個」,它其實是在說「上次這樣做,暫時感覺好一點了」。</p>
+            <p>但「暫時好一點」≠「真正滿足」。當你開始分辨這兩者,習慣的束縛就開始鬆動。</p>
+            <p style="margin-top: 15px; font-style: italic; color: #64748b;">改變不是靠意志力硬撐,而是靠看清真相。當你真正看到某個行為無法帶來它承諾的滿足,你的大腦自然會失去興趣。</p>
+        </div>
+    `;
+    
+    resultDiv.style.display = 'block';
+}
+
+function clearAll() {
+    // 確認對話框
+    if (!confirm('確定要清除所有選項嗎?')) {
+        return;
+    }
+    
+    // 清除所有選項
+    document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.checked = false;
+    });
+    
+    // 移除已回答標記
+    document.querySelectorAll('.question').forEach(question => {
+        question.classList.remove('answered');
+    });
+    
+    // 隱藏結果
+    document.getElementById('result').style.display = 'none';
+    
+    // 重置進度
+    updateProgress();
+    
+    // 捲動回頂部
+    window.scrollTo({ behavior: 'smooth', top: 0 });
+}
+
+// 頁面載入時更新進度
+updateProgress();
+</script>
+</body>
+</html>
