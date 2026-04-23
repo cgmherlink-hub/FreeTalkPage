@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>Recall Bias 自我覺察量表</title>
+<style>
+body {
+    font-family: Arial, "Noto Sans TC", sans-serif;
+    background: #000000;
+    color: #ffffff;
+    line-height: 1.6;
+    padding: 20px;
+}
+.container {
+    max-width: 900px;
+    background: #000000;
+    margin: auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 0 1px #444444;
+}
+h1 {
+    text-align: center;
+    color: #ffffff;
+}
+.question {
+    margin-bottom: 25px;
+}
+.scale label {
+    margin-right: 10px;
+    color: #ffffff;
+}
+button {
+    background: #ffffff;
+    color: #000000;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+button:hover {
+    background: #dddddd;
+}
+.result {
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 8px;
+    display: none;
+    color: #ffffff;
+}
+.low {
+    background: #1b5e20;
+}
+.mid {
+    background: #7a5c00;
+}
+.high {
+    background: #7f0000;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h1>🧠 Recall Bias 自我覺察量表</h1>
+
+<p><strong>填寫指引：</strong><br>
+請先在心中想起一件「你現在仍有情緒或評價的過去事件」，再依直覺作答。</p>
+
+<form id="quiz">
+
+<div class="question">
+<p>1️⃣ 回想那件事時，最先浮現的是「情緒或結論」，而不是畫面或細節。</p>
+<div class="scale">
+<label><input type="radio" name="q1" value="1">1 非常不同意</label>
+<label><input type="radio" name="q1" value="2">2 不同意</label>
+<label><input type="radio" name="q1" value="3">3 普通</label>
+<label><input type="radio" name="q1" value="4">4 同意</label>
+<label><input type="radio" name="q1" value="5">5 非常同意</label>
+</div>
+</div>
+
+<div class="question">
+<p>2️⃣ 我現在對那件事的記憶，比較像「一個故事」，而不是零碎片段。</p>
+<div class="scale">
+<label><input type="radio" name="q2" value="1">1 非常不同意</label>
+<label><input type="radio" name="q2" value="2">2 不同意</label>
+<label><input type="radio" name="q2" value="3">3 普通</label>
+<label><input type="radio" name="q2" value="4">4 同意</label>
+<label><input type="radio" name="q2" value="5">5 非常同意</label>
+</div>
+</div>
+
+<div class="question">
+<p>3️⃣ 要我只描述「當天發生了什麼」，不加評論，會讓我感到困難。</p>
+<div class="scale">
+<label><input type="radio" name="q3" value="1">1 非常不同意</label>
+<label><input type="radio" name="q3" value="2">2 不同意</label>
+<label><input type="radio" name="q3" value="3">3 普通</label>
+<label><input type="radio" name="q3" value="4">4 同意</label>
+<label><input type="radio" name="q3" value="5">5 非常同意</label>
+</div>
+</div>
+
+<div class="question">
+<p>4️⃣ 我對那件事的理解，多半是在「事情結果出來之後」才形成的。</p>
+<div class="scale">
+<label><input type="radio" name="q4" value="1">1 非常不同意</label>
+<label><input type="radio" name="q4" value="2">2 不同意</label>
+<label><input type="radio" name="q4" value="3">3 普通</label>
+<label><input type="radio" name="q4" value="4">4 同意</label>
+<label><input type="radio" name="q4" value="5">5 非常同意</label>
+</div>
+</div>
+
+<div class="question">
+<p>5️⃣ 我曾有過「其實我早就知道會這樣」的感覺。</p>
+<div class="scale">
+<label><input type="radio" name="q5" value="1">1 非常不同意</label>
+<label><input type="radio" name="q5" value="2">2 不同意</label>
+<label><input type="radio" name="q5" value="3">3 普通</label>
+<label><input type="radio" name="q5" value="4">4 同意</label>
+<label><input type="radio" name="q5" value="5">5 非常同意</label>
+</div>
+</div>
+
+<div class="question">
+<p>6️⃣ 如果今天看到當時的完整紀錄，可能會和我記得的不完全一樣。</p>
+<div class="scale">
+<label><input type="radio" name="q6" value="1">1 非常不同意</label>
+<label><input type="radio" name="q6" value="2">2 不同意</label>
+<label><input type="radio" name="q6" value="3">3 普通</label>
+<label><input type="radio" name="q6" value="4">4 同意</label>
+<label><input type="radio" name="q6" value="5">5 非常同意</label>
+</div>
+</div>
+
+<button type="button" onclick="calculate()">查看結果</button>
+</form>
+
+<div id="result" class="result"></div>
+
+</div>
+
+<script>
+function calculate() {
+    let total = 0;
+    for (let i = 1; i <= 6; i++) {
+        let q = document.querySelector('input[name="q'+i+'"]:checked');
+        if (!q) {
+            alert("請完成所有題目");
+            return;
+        }
+        total += parseInt(q.value);
+    }
+
+    let result = document.getElementById("result");
+    result.style.display = "block";
+
+    if (total <= 12) {
+        result.className = "result low";
+        result.innerHTML = "<h2>🟢 Recall Bias 影響低</h2><p>你的回憶仍保有相對多的原始細節，情緒與事後解釋對記憶的干擾較小。</p><p><strong>建議：</strong>持續保留即時紀錄的習慣，這是你最重要的保護因子。</p>";
+    } else if (total <= 20) {
+        result.className = "result mid";
+        result.innerHTML = "<h2>🟡 Recall Bias 中度</h2><p>你的記憶已部分受到情緒與結果影響，屬於大多數人的正常狀態。</p><p><strong>建議：</strong>在做重要判斷前，嘗試區分「我當時看到的」與「我後來怎麼解釋」。</p>";
+    } else {
+        result.className = "result high";
+        result.innerHTML = "<h2>🔴 Recall Bias 高度可能</h2><p>你目前記住的，可能已是被重寫過的版本，而非事件本身。</p><p><strong>建議：</strong>回頭找原始紀錄，或用第三人視角重述一次，避免用記憶直接做決策。</p>";
+    }
+}
+</script>
+
+</body>
+</html>
