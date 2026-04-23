@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>臨場健康服務－過勞評估紀錄</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1c1c28;
+  --ink-soft: #38384f;
+  --ink-muted: #888aa8;
+  --paper: #f5f3ef;
+  --paper-alt: #eceae4;
+  --rule: #d8d4cc;
+  --accent: #c14a2a;
+  --accent-soft: #f2e9e5;
+  --ok: #2a6e4a;
+  --warn: #a05a10;
+  --crit: #9a1a1a;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 300;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Background atmosphere */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 8% 0%, rgba(193,74,42,0.06) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 95% 100%, rgba(28,28,40,0.07) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 60% at 50% 50%, rgba(248,247,244,0) 0%, transparent 100%);
+}
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(28,28,40,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(28,28,40,0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.page-wrap { position: relative; z-index: 1; }
+
+/* Header */
+.header {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 44px 0 36px;
+  position: relative;
+  overflow: hidden;
+}
+.header-decor {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 55% 130% at 105% 50%, rgba(193,74,42,0.2) 0%, transparent 55%),
+    radial-gradient(ellipse 25% 70% at 0% 100%, rgba(255,255,255,0.035) 0%, transparent 50%);
+}
+.header-lines {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg, transparent, transparent 39px,
+    rgba(255,255,255,0.035) 39px, rgba(255,255,255,0.035) 40px
+  );
+}
+.header-inner {
+  max-width: 760px; margin: 0 auto; padding: 0 36px;
+  position: relative; z-index: 1;
+}
+.header-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 14px;
+}
+.header h1 {
+  font-weight: 600; font-size: clamp(20px, 4vw, 30px);
+  line-height: 1.3; margin-bottom: 10px;
+}
+.header-sub { font-size: 13px; color: rgba(248,247,244,0.4); font-style: italic; }
+
+/* Progress bar */
+.progress-bar-strip {
+  background: rgba(28,28,40,0.95);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding: 10px 0;
+}
+.progress-inner {
+  max-width: 760px; margin: 0 auto; padding: 0 36px;
+  display: flex; align-items: center; gap: 14px;
+}
+.progress-label {
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  letter-spacing: 0.15em; color: rgba(248,247,244,0.45); white-space: nowrap;
+}
+.progress-track {
+  flex: 1; height: 3px; background: rgba(255,255,255,0.1);
+  border-radius: 2px; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; background: var(--accent); border-radius: 2px;
+  transition: width 0.5s cubic-bezier(.19,1,.22,1); width: 0%;
+}
+.progress-count {
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  color: rgba(248,247,244,0.45); white-space: nowrap;
+}
+
+/* Meta */
+.meta-strip { background: var(--paper-alt); border-bottom: 1px solid var(--rule); }
+.meta-inner {
+  max-width: 760px; margin: 0 auto; padding: 20px 36px;
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;
+}
+.meta-field label {
+  display: block; font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ink-muted); margin-bottom: 5px;
+}
+.meta-field input {
+  width: 100%; background: transparent; border: none;
+  border-bottom: 1px solid var(--rule); padding: 5px 0;
+  font-family: 'Noto Serif TC', serif; font-size: 14px;
+  color: var(--ink); outline: none; transition: border-color 0.2s;
+}
+.meta-field input:focus { border-bottom-color: var(--accent); }
+
+/* Main */
+.main { max-width: 760px; margin: 0 auto; padding: 44px 36px 70px; }
+
+.section { margin-bottom: 52px; }
+.section-header { display: flex; align-items: baseline; gap: 14px; margin-bottom: 8px; }
+.section-num {
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  color: var(--accent); letter-spacing: 0.12em;
+}
+.section-title { font-size: 19px; font-weight: 600; color: var(--ink); }
+.section-note {
+  font-size: 13px; color: var(--ink-muted); font-style: italic;
+  margin-bottom: 26px; padding-left: 10px; border-left: 2px solid var(--rule); line-height: 1.6;
+}
+.divider { border: none; border-top: 1px solid var(--rule); }
+
+/* Question */
+.question {
+  padding: 22px 20px 20px;
+  border-bottom: 1px solid var(--rule);
+  transition: background 0.25s, box-shadow 0.25s;
+  position: relative;
+}
+.question:last-child { border-bottom: none; }
+.question.is-answered { background: rgba(249,248,245,0.8); }
+.question.is-active {
+  background: white;
+  box-shadow: 0 2px 20px rgba(28,28,40,0.08);
+  z-index: 1; position: relative;
+}
+.q-top { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 18px; }
+.q-num {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  color: var(--ink-muted); padding-top: 4px; flex-shrink: 0; min-width: 22px;
+}
+.q-text { font-size: 18px; line-height: 1.65; color: var(--ink-soft); font-weight: 400; }
+.question.is-active .q-text { color: var(--ink); }
+
+/* Radio pills */
+.radio-group { display: flex; flex-wrap: wrap; gap: 8px; padding-left: 36px; }
+.radio-opt {
+  display: flex; align-items: center; gap: 0;
+  cursor: pointer; padding: 7px 16px; border-radius: 22px;
+  border: 1.5px solid var(--rule); background: transparent;
+  transition: all 0.15s; user-select: none;
+}
+.radio-opt:hover { border-color: var(--accent); background: var(--accent-soft); }
+.radio-opt input[type="radio"] { display: none; }
+.radio-opt.selected { border-color: var(--accent); background: var(--accent); }
+.radio-label {
+  font-family: 'DM Mono', monospace; font-size: 11.5px;
+  color: var(--ink-soft); transition: color 0.15s; letter-spacing: 0.03em; white-space: nowrap;
+}
+.radio-opt:hover .radio-label { color: var(--accent); }
+.radio-opt.selected .radio-label { color: white; }
+
+.q-check {
+  position: absolute; right: 18px; top: 24px;
+  font-size: 15px; color: var(--ok); opacity: 0; transition: opacity 0.3s;
+}
+.question.is-answered .q-check { opacity: 1; }
+
+/* Result */
+.result {
+  display: none; margin-top: 48px;
+  border-top: 2px solid var(--ink); padding-top: 36px;
+  animation: fadeUp 0.45s ease;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.result-title {
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ink-muted); margin-bottom: 20px;
+}
+.result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+.score-card {
+  background: white; border: 1px solid var(--rule);
+  padding: 22px 24px; box-shadow: 0 1px 10px rgba(28,28,40,0.05);
+}
+.score-card-label {
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ink-muted); margin-bottom: 12px;
+}
+.score-value { font-size: 46px; font-weight: 600; line-height: 1; margin-bottom: 8px; }
+.score-level {
+  font-size: 12px; font-family: 'DM Mono', monospace;
+  padding: 3px 12px; display: inline-block; border-radius: 2px;
+}
+.lv-low  { background: #e6f3ec; color: var(--ok); }
+.lv-mid  { background: #fdf3e4; color: var(--warn); }
+.lv-high { background: #fae8e8; color: var(--crit); }
+.bar-wrap { margin-top: 14px; height: 4px; background: var(--rule); border-radius: 2px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 2px; transition: width 1s cubic-bezier(.19,1,.22,1); }
+.lv-low .bar-fill  { background: var(--ok); }
+.lv-mid .bar-fill  { background: var(--warn); }
+.lv-high .bar-fill { background: var(--crit); }
+
+.advisory {
+  background: var(--paper-alt); border-left: 3px solid var(--ink);
+  padding: 18px 22px; margin-bottom: 26px;
+  font-size: 15px; line-height: 1.85; color: var(--ink-soft);
+  border-radius: 0 4px 4px 0;
+}
+.report-label {
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ink-muted); margin-bottom: 8px;
+}
+.report-box {
+  width: 100%; height: 165px; background: white;
+  border: 1px solid var(--rule); padding: 14px 18px;
+  font-family: 'DM Mono', monospace; font-size: 12px;
+  line-height: 2; color: var(--ink-soft); resize: vertical; outline: none;
+  box-shadow: inset 0 1px 4px rgba(28,28,40,0.04);
+}
+.report-box:focus { border-color: var(--ink); }
+
+@media (max-width: 600px) {
+  .meta-inner { grid-template-columns: 1fr; }
+  .result-grid { grid-template-columns: 1fr; }
+  .main { padding: 28px 18px 52px; }
+  .header-inner, .progress-inner, .meta-inner { padding-left: 18px; padding-right: 18px; }
+  .radio-group { gap: 6px; padding-left: 0; }
+  .radio-opt { padding: 6px 12px; }
+  .q-text { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+<div class="header">
+  <div class="header-decor"></div>
+  <div class="header-lines"></div>
+  <div class="header-inner">
+    <div class="header-tag">臨場健康服務 · Occupational Health</div>
+    <h1>過勞風險評估紀錄表<br><span style="font-weight:300;font-size:0.68em;opacity:0.55">Burnout Risk Assessment Record</span></h1>
+    <div class="header-sub">評估結果僅供參考，不代表醫學診斷</div>
+  </div>
+</div>
+
+<div class="progress-bar-strip">
+  <div class="progress-inner">
+    <span class="progress-label">填答進度</span>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+    <span class="progress-count" id="prog-count">0 / 13</span>
+  </div>
+</div>
+
+<div class="meta-strip">
+  <div class="meta-inner">
+    <div class="meta-field"><label>單位 Unit</label><input type="text" id="unit" placeholder="輸入單位名稱"></div>
+    <div class="meta-field"><label>姓名 Name</label><input type="text" id="name" placeholder="輸入姓名"></div>
+    <div class="meta-field"><label>評估日期 Date</label><input type="date" id="date"></div>
+  </div>
+</div>
+
+<div class="main">
+  <form id="f">
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">PART 01</span>
+        <span class="section-title">個人相關狀態評估</span>
+      </div>
+      <div class="section-note">請依據最近的狀況，選擇下列情形出現的頻率。</div>
+      <hr class="divider">
+      <div id="pqs"></div>
+    </div>
+    <div class="section">
+      <div class="section-header">
+        <span class="section-num">PART 02</span>
+        <span class="section-title">工作與生活影響評估</span>
+      </div>
+      <div class="section-note">請比較目前的工作，對你生活造成的影響程度。</div>
+      <hr class="divider">
+      <div id="wqs"></div>
+    </div>
+  </form>
+
+  <div class="result" id="out">
+    <div class="result-title">Assessment Result · 評估結果</div>
+    <div class="result-grid">
+      <div class="score-card" id="card-p">
+        <div class="score-card-label">個人相關過勞分數</div>
+        <div class="score-value" id="sv-p">—</div>
+        <span class="score-level" id="sl-p">—</span>
+        <div class="bar-wrap"><div class="bar-fill" id="bar-p" style="width:0%"></div></div>
+      </div>
+      <div class="score-card" id="card-w">
+        <div class="score-card-label">工作相關過勞分數</div>
+        <div class="score-value" id="sv-w">—</div>
+        <span class="score-level" id="sl-w">—</span>
+        <div class="bar-wrap"><div class="bar-fill" id="bar-w" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div class="advisory" id="adv-text"></div>
+    <div class="report-label">評估紀錄摘要 Assessment Summary</div>
+    <textarea class="report-box" id="report-ta" readonly></textarea>
+  </div>
+</div>
+
+</div>
+
+<script>
+const TOTAL = 13;
+const pOpts = ["總是","常常","有時候","不常","從未或幾乎從未"];
+const pVals = [100,75,50,25,0];
+const pQs = [
+  "即使沒有特別操勞，精神仍不容易恢復",
+  "身體常出現被掏空、體力不濟的感覺",
+  "情緒上較難產生期待或熱情",
+  "曾浮現「如果再這樣下去可能不太妙」的念頭",
+  "即使有休息，仍不容易真正放鬆",
+  "身體近期常出現提醒狀態不佳的小訊號"
+];
+const wQs = [
+  "工作結束後，較常感到被消耗而非被充電",
+  "想到還要工作一整天，身體就先感到疲累",
+  "工作中較常感到卡住或挫折",
+  "多數工作日結束後幾乎沒有多餘能量",
+  "上班前想到工作內容就先感到沒力",
+  "工作時時間常顯得特別漫長",
+  "不工作時仍保有足夠精力陪伴家人或朋友"
+];
+const wOpts = ["非常符合","符合","普通","不太符合","幾乎不符合"];
+const wVals = [100,75,50,25,0];
+
+let answeredCount = 0;
+const allQuestions = [];
+
+function buildQs(qs, opts, vals, prefix, container, hasReversedLast) {
+  qs.forEach((text, i) => {
+    const name = `${prefix}${i+1}`;
+    const d = document.createElement('div');
+    d.className = 'question';
+
+    const qTop = document.createElement('div');
+    qTop.className = 'q-top';
+    const num = document.createElement('span');
+    num.className = 'q-num';
+    num.textContent = String(i+1).padStart(2,'0');
+    const qtext = document.createElement('span');
+    qtext.className = 'q-text';
+    qtext.textContent = text;
+    qTop.appendChild(num); qTop.appendChild(qtext);
+
+    const rg = document.createElement('div');
+    rg.className = 'radio-group';
+    opts.forEach((label, j) => {
+      const lbl = document.createElement('label');
+      lbl.className = 'radio-opt';
+      const inp = document.createElement('input');
+      inp.type = 'radio'; inp.name = name; inp.value = vals[j];
+      const lspan = document.createElement('span');
+      lspan.className = 'radio-label'; lspan.textContent = label;
+      lbl.appendChild(inp); lbl.appendChild(lspan);
+
+      inp.addEventListener('change', () => {
+        rg.querySelectorAll('.radio-opt').forEach(o => o.classList.remove('selected'));
+        lbl.classList.add('selected');
+        if (!d.classList.contains('is-answered')) {
+          d.classList.add('is-answered');
+          answeredCount++;
+          updateProgress();
+        }
+        d.classList.remove('is-active');
+        setTimeout(() => {
+          const nextQ = allQuestions.find(q => !q.el.classList.contains('is-answered'));
+          if (nextQ) {
+            nextQ.el.classList.add('is-active');
+            nextQ.el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          } else {
+            calc();
+          }
+        }, 300);
+      });
+      rg.appendChild(lbl);
+    });
+
+    const check = document.createElement('span');
+    check.className = 'q-check'; check.textContent = '✓';
+
+    d.appendChild(qTop); d.appendChild(rg); d.appendChild(check);
+    container.appendChild(d);
+    allQuestions.push({ el: d, name });
+  });
+}
+
+buildQs(pQs, pOpts, pVals, 'p', document.getElementById('pqs'), false);
+buildQs(wQs, wOpts, wVals, 'w', document.getElementById('wqs'), true);
+allQuestions[0].el.classList.add('is-active');
+
+function updateProgress() {
+  const pct = (answeredCount / TOTAL) * 100;
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-count').textContent = `${answeredCount} / ${TOTAL}`;
+}
+
+function getVal(name) {
+  const el = document.querySelector(`input[name="${name}"]:checked`);
+  return el ? Number(el.value) : null;
+}
+function lvlClass(s, type) {
+  if (type==='p') return s<50?'lv-low':s<70?'lv-mid':'lv-high';
+  return s<45?'lv-low':s<60?'lv-mid':'lv-high';
+}
+function lvlText(s, type) {
+  if (type==='p') return s<50?'輕微 Low':s<70?'中度 Moderate':'嚴重 High';
+  return s<45?'輕微 Low':s<60?'中度 Moderate':'嚴重 High';
+}
+
+function calc() {
+  let pSum = 0;
+  for (let i=1;i<=6;i++) pSum += (getVal(`p${i}`) || 0);
+  const p = pSum / 6;
+
+  let wSum = 0;
+  for (let i=1;i<=7;i++) {
+    let v = getVal(`w${i}`) || 0;
+    if (i===7) v = 100 - v;
+    wSum += v;
+  }
+  const w = wSum / 7;
+
+  const adv = (p>=70||w>=60)
+    ? "⚠ 過勞風險偏高：建議進一步評估工作與生活負荷，並考慮安排專業諮詢或身心科評估，適時調整工作型態。"
+    : (p>=50||w>=45)
+    ? "◎ 過勞風險中等：建議檢視主要壓力來源，增加有效休息與恢復時間，並關注睡眠品質與人際支持。"
+    : "✓ 過勞風險偏低：目前狀態相對穩定，建議持續追蹤，維持良好的工作與生活平衡。";
+
+  function setCard(cardId, svId, slId, barId, score, type) {
+    const lc = lvlClass(score, type);
+    document.getElementById(svId).textContent = score.toFixed(1);
+    const sl = document.getElementById(slId);
+    sl.textContent = lvlText(score, type);
+    sl.className = 'score-level ' + lc;
+    document.getElementById(cardId).className = 'score-card ' + lc;
+    setTimeout(() => { document.getElementById(barId).style.width = score + '%'; }, 120);
+  }
+  setCard('card-p','sv-p','sl-p','bar-p',p,'p');
+  setCard('card-w','sv-w','sl-w','bar-w',w,'w');
+  document.getElementById('adv-text').textContent = adv;
+
+  const unitV = document.getElementById('unit').value || '（未填）';
+  const nameV = document.getElementById('name').value || '（未填）';
+  const dateV = document.getElementById('date').value || new Date().toLocaleDateString('zh-TW');
+
+  document.getElementById('report-ta').value =
+`臨場健康服務評估紀錄
+────────────────────────
+單位：${unitV}　姓名：${nameV}　日期：${dateV}
+────────────────────────
+個人相關過勞分數：${p.toFixed(1)} 分（${lvlText(p,'p')}）
+工作相關過勞分數：${w.toFixed(1)} 分（${lvlText(w,'w')}）
+────────────────────────
+${adv}
+────────────────────────
+本評估結果僅供參考，不代表醫學診斷。`;
+
+  const out = document.getElementById('out');
+  out.style.display = 'block';
+  setTimeout(() => out.scrollIntoView({ behavior: 'smooth', block: 'start' }), 200);
+}
+</script>
+</body>
+</html>
