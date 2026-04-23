@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>Selective Bias 判讀練習（互動教學版）</title>
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  scroll-snap-type: y mandatory;
+  background: #ffffff;
+  color: #000000;
+  font-family: Arial, sans-serif;
+}
+
+body { line-height: 1.8; }
+
+h2, h3 { color: #333; }
+
+.container {
+  width: 90%;
+  max-width: 800px;
+  margin: auto;
+}
+
+.question {
+  min-height: 100vh;
+  padding: 60px 0;
+  scroll-snap-align: start;
+  border-bottom: 1px solid #ddd;
+}
+
+label {
+  display: block;
+  margin: 12px 0;
+  cursor: pointer;
+}
+
+button {
+  margin-top: 16px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background: #f2f2f2;
+  border: 1px solid #999;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.result {
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 6px;
+  background: #555;
+  width: 0%;
+  z-index: 10;
+}
+
+.summary {
+  min-height: 100vh;
+  padding: 80px 0;
+  scroll-snap-align: start;
+  background: #fafafa;
+}
+</style>
+</head>
+
+<body>
+
+<div class="progress" id="progress"></div>
+
+<div class="container">
+<h2>Selective Bias（選擇性偏誤）判讀練習</h2>
+<p>作答後即鎖定該題，請判斷研究中「誰被留下來」。</p>
+
+<script>
+const explanations = {
+1:"排除行動不便與重症病患，使樣本只剩功能較好者。",
+2:"樣本本身就是容易增肌族群，結果難以外推。",
+3:"情緒低落者較易失訪，完成者不具代表性。",
+4:"中途惡化或死亡者被排除，低估系統風險。",
+5:"只留下跑得下去的人，是典型存活者偏誤。",
+6:"退出者常是效果不佳者，分析只剩成功者。",
+7:"排除最高風險族群，使跌倒率被低估。",
+8:"併發症病人被排除，結果過度樂觀。",
+9:"高度自律者本來就會運動。",
+10:"重傷者消失，傷害率自然變低。"
+};
+
+const biasType = {
+1:"納入條件偏誤", 2:"納入條件偏誤", 3:"完成者分析", 4:"完成者分析",
+5:"存活者偏誤", 6:"完成者分析", 7:"納入條件偏誤",
+8:"存活者偏誤", 9:"納入條件偏誤", 10:"存活者偏誤"
+};
+
+let answered = 0;
+let biasCount = {};
+
+function submitAnswer(q, correct) {
+  const options = document.getElementsByName('q'+q);
+  let selected = "";
+  for (let o of options) if (o.checked) selected = o.value;
+
+  if (!selected) {
+    alert("請先選擇一個答案");
+    return;
+  }
+
+  const result = document.getElementById('r'+q);
+  const button = document.getElementById('b'+q);
+  button.disabled = true;
+  for (let o of options) o.disabled = true;
+
+  if (selected === correct) {
+    result.innerHTML = "✅ 正確<br>💡 " + explanations[q];
+  } else {
+    result.innerHTML = "❌ 錯誤<br>👉 正確答案：" + correct + "<br>💡 " + explanations[q];
+  }
+
+  const type = biasType[q];
+  biasCount[type] = (biasCount[type] || 0) + 1;
+
+  answered++;
+  document.getElementById("progress").style.width = (answered / 10 * 100) + "%";
+
+  setTimeout(() => {
+    const questions = document.querySelectorAll(".question");
+    if (questions[q]) {
+      questions[q].scrollIntoView({ behavior: "smooth" });
+    }
+  }, 500);
+
+  if (answered === 10) showSummary();
+}
+
+function showSummary() {
+  let maxType = "", max = 0;
+  for (let t in biasCount) {
+    if (biasCount[t] > max) {
+      max = biasCount[t];
+      maxType = t;
+    }
+  }
+
+  document.getElementById("summaryText").innerHTML =
+    "你最常遇到的 selective bias 類型是：<b>" + maxType + "</b><br><br>" +
+    "🎯 代表你已具備 reviewer 等級的偏誤判讀能力。";
+}
+</script>
+
+<!-- 🔽 題目 1–10 -->
+
+<div class="question">
+<h3>1️⃣ 心臟復健運動成效研究</h3>
+<p>研究只納入能完成 6 分鐘步行測試的病患。</p>
+<label><input type="radio" name="q1" value="A"> A. 使用 6 分鐘步行測試</label>
+<label><input type="radio" name="q1" value="B"> B. 排除行動不便與重症病患</label>
+<label><input type="radio" name="q1" value="C"> C. 研究時間 8 週</label>
+<label><input type="radio" name="q1" value="D"> D. 無對照組</label>
+<button id="b1" onclick="submitAnswer(1,'B')">送出</button>
+<div class="result" id="r1"></div>
+</div>
+
+<div class="question">
+<h3>2️⃣ 高蛋白飲食與肌力研究</h3>
+<p>研究僅招募已有一年以上重量訓練經驗的年輕男性。</p>
+<label><input type="radio" name="q2" value="A"> A. 受試者本身就容易增肌</label>
+<label><input type="radio" name="q2" value="B"> B. 蛋白質攝取量過高</label>
+<label><input type="radio" name="q2" value="C"> C. 使用握力作為結果</label>
+<label><input type="radio" name="q2" value="D"> D. 未盲測</label>
+<button id="b2" onclick="submitAnswer(2,'A')">送出</button>
+<div class="result" id="r2"></div>
+</div>
+
+<div class="question">
+<h3>3️⃣ 運動與憂鬱症研究</h3>
+<p>研究只分析能完成所有心理量表的受試者。</p>
+<label><input type="radio" name="q3" value="A"> A. 量表主觀</label>
+<label><input type="radio" name="q3" value="B"> B. 研究時間過長</label>
+<label><input type="radio" name="q3" value="C"> C. 排除容易失訪者</label>
+<label><input type="radio" name="q3" value="D"> D. 未控制藥物</label>
+<button id="b3" onclick="submitAnswer(3,'C')">送出</button>
+<div class="result" id="r3"></div>
+</div>
+
+<div class="question">
+<h3>4️⃣ 急診胸痛分流系統評估</h3>
+<p>研究只分析完成所有急診流程的病人。</p>
+<label><input type="radio" name="q4" value="A"> A. 工具設計不良</label>
+<label><input type="radio" name="q4" value="B"> B. 排除中途惡化或死亡者</label>
+<label><input type="radio" name="q4" value="C"> C. 人力不足</label>
+<label><input type="radio" name="q4" value="D"> D. 無長期追蹤</label>
+<button id="b4" onclick="submitAnswer(4,'B')">送出</button>
+<div class="result" id="r4"></div>
+</div>
+
+<div class="question">
+<h3>5️⃣ 跑步與膝關節健康研究</h3>
+<p>研究追蹤 10 年後仍持續跑步的人。</p>
+<label><input type="radio" name="q5" value="A"> A. 停跑者未納入</label>
+<label><input type="radio" name="q5" value="B"> B. 追蹤時間過長</label>
+<label><input type="radio" name="q5" value="C"> C. 無 MRI</label>
+<label><input type="radio" name="q5" value="D"> D. 年齡不均</label>
+<button id="b5" onclick="submitAnswer(5,'A')">送出</button>
+<div class="result" id="r5"></div>
+</div>
+
+<div class="question">
+<h3>6️⃣ 健身房團課減重成效</h3>
+<p>研究只分析完成 12 週課程的學員。</p>
+<label><input type="radio" name="q6" value="A"> A. 飲食未控制</label>
+<label><input type="radio" name="q6" value="B"> B. 強度不同</label>
+<label><input type="radio" name="q6" value="C"> C. 中途退出者被排除</label>
+<label><input type="radio" name="q6" value="D"> D. 使用 BMI</label>
+<button id="b6" onclick="submitAnswer(6,'C')">送出</button>
+<div class="result" id="r6"></div>
+</div>
+
+<div class="question">
+<h3>7️⃣ 高齡者跌倒預防計畫</h3>
+<p>只納入可自行簽署同意書、無失智長者。</p>
+<label><input type="radio" name="q7" value="A"> A. 定義不一</label>
+<label><input type="radio" name="q7" value="B"> B. 排除最高風險族群</label>
+<label><input type="radio" name="q7" value="C"> C. 時間過短</label>
+<label><input type="radio" name="q7" value="D"> D. 樣本數不足</label>
+<button id="b7" onclick="submitAnswer(7,'B')">送出</button>
+<div class="result" id="r7"></div>
+</div>
+
+<div class="question">
+<h3>8️⃣ 術後加速康復（ERAS）研究</h3>
+<p>只分析順利出院、無併發症病人。</p>
+<label><input type="radio" name="q8" value="A"> A. 複雜病例被排除</label>
+<label><input type="radio" name="q8" value="B"> B. 定義不清</label>
+<label><input type="radio" name="q8" value="C"> C. 無對照</label>
+<label><input type="radio" name="q8" value="D"> D. 無生活品質</label>
+<button id="b8" onclick="submitAnswer(8,'A')">送出</button>
+<div class="result" id="r8"></div>
+</div>
+
+<div class="question">
+<h3>9️⃣ 穿戴式裝置促進運動研究</h3>
+<p>只招募每天主動同步資料的使用者。</p>
+<label><input type="radio" name="q9" value="A"> A. 準確度不足</label>
+<label><input type="radio" name="q9" value="B"> B. 定義不一</label>
+<label><input type="radio" name="q9" value="C"> C. 樣本高度自律</label>
+<label><input type="radio" name="q9" value="D"> D. 時間過短</label>
+<button id="b9" onclick="submitAnswer(9,'C')">送出</button>
+<div class="result" id="r9"></div>
+</div>
+
+<div class="question">
+<h3>🔟 職業運動員傷害預防研究</h3>
+<p>只分析完整出賽整季的球員。</p>
+<label><input type="radio" name="q10" value="A"> A. 定義不清</label>
+<label><input type="radio" name="q10" value="B"> B. 重傷退賽者未納入</label>
+<label><input type="radio" name="q10" value="C"> C. 無隨機</label>
+<label><input type="radio" name="q10" value="D"> D. 訓練不同</label>
+<button id="b10" onclick="submitAnswer(10,'B')">送出</button>
+<div class="result" id="r10"></div>
+</div>
+
+<div class="summary">
+<h2>📊 作答總結</h2>
+<p id="summaryText">尚未完成所有題目。</p>
+<button onclick="location.reload()">🔄 重新開始</button>
+</div>
+
+</div>
+</body>
+</html>
