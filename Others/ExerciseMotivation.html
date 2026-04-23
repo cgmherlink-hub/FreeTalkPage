@@ -1,1 +1,610 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>你不是懶，是被大腦綁架了</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #090e1a;
+  --surface: #111827;
+  --surface2: #1a2336;
+  --border: rgba(255,255,255,0.07);
+  --text: #dce6f7;
+  --muted: #6b7fa3;
+  --accent: #38bdf8;
+  --accent2: #22d3ee;
+  --gold: #fbbf24;
+  --green: #34d399;
+  --red: #f87171;
+  --glow: rgba(56,189,248,0.15);
+}
 
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans TC', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Grid texture overlay */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(56,189,248,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56,189,248,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Glow orbs */
+.orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+.orb-1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(56,189,248,0.08), transparent 70%);
+  top: -150px; right: -100px;
+}
+.orb-2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(34,211,238,0.06), transparent 70%);
+  bottom: 100px; left: -100px;
+}
+
+.container {
+  max-width: 660px;
+  margin: auto;
+  padding: 40px 20px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Hero ── */
+.hero {
+  padding: 48px 0 40px;
+  animation: fadeUp 0.7s ease both;
+}
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(56,189,248,0.08);
+  border: 1px solid rgba(56,189,248,0.2);
+  padding: 5px 14px;
+  border-radius: 99px;
+  margin-bottom: 22px;
+}
+.hero-tag::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 2s infinite;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 6vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: #fff;
+  margin-bottom: 12px;
+}
+h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.hero-sub {
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 300;
+}
+
+/* ── Section divider ── */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 32px 0 20px;
+  animation: fadeUp 0.5s ease both;
+}
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.divider-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* ── Story card ── */
+.story-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+.story-card::before {
+  content: '婷婷';
+  position: absolute;
+  top: -10px; right: 20px;
+  font-family: 'Playfair Display', serif;
+  font-size: 5rem;
+  color: rgba(255,255,255,0.02);
+  pointer-events: none;
+  font-style: italic;
+}
+.story-name-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.story-body {
+  font-size: 15px;
+  color: var(--text);
+  line-height: 1.9;
+  font-weight: 300;
+}
+.highlight {
+  display: inline-block;
+  color: var(--gold);
+  font-weight: 700;
+  background: rgba(251,191,36,0.08);
+  border-left: 3px solid var(--gold);
+  padding: 8px 14px;
+  border-radius: 0 8px 8px 0;
+  margin: 8px 0 0;
+  font-size: 15px;
+}
+
+/* ── Cards ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 26px 24px;
+  margin-bottom: 16px;
+  animation: fadeUp 0.5s ease both;
+  transition: border-color 0.3s;
+}
+.card:hover { border-color: rgba(56,189,248,0.15); }
+
+.card-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── Option buttons ── */
+.options { display: flex; flex-direction: column; gap: 8px; }
+.opt-btn {
+  width: 100%;
+  padding: 13px 18px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  background: var(--surface2);
+  color: var(--text);
+  font-size: 14px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-weight: 400;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.18s ease;
+  line-height: 1.5;
+}
+.opt-btn:hover:not(:disabled) {
+  border-color: rgba(56,189,248,0.35);
+  background: rgba(56,189,248,0.06);
+  transform: translateX(4px);
+}
+.opt-btn:disabled { cursor: default; transform: none; }
+.opt-btn .opt-icon {
+  font-size: 16px;
+  min-width: 22px;
+  text-align: center;
+}
+.opt-btn.selected {
+  border-color: var(--accent);
+  background: rgba(56,189,248,0.08);
+  color: #fff;
+}
+.opt-btn.cycle-done {
+  border-color: rgba(34,211,238,0.4);
+  background: rgba(34,211,238,0.06);
+}
+.opt-btn.action-selected {
+  border-color: var(--green);
+  background: rgba(52,211,153,0.08);
+}
+
+/* ── Result box ── */
+.result-box {
+  display: none;
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.7;
+  animation: fadeUp 0.35s ease both;
+}
+.result-box.visible { display: block; }
+.result-box.tone-blue {
+  background: rgba(56,189,248,0.07);
+  border-left: 3px solid var(--accent);
+  color: #a8d8f0;
+}
+.result-box.tone-gold {
+  background: rgba(251,191,36,0.07);
+  border-left: 3px solid var(--gold);
+  color: #f5d98a;
+}
+.result-box.tone-green {
+  background: rgba(52,211,153,0.07);
+  border-left: 3px solid var(--green);
+  color: #86efcc;
+}
+.result-box.tone-red {
+  background: rgba(248,113,113,0.07);
+  border-left: 3px solid var(--red);
+  color: #fca5a5;
+}
+
+/* ── Truth panel ── */
+.truth-panel {
+  padding: 16px 18px;
+  background: rgba(56,189,248,0.04);
+  border: 1px dashed rgba(56,189,248,0.18);
+  border-radius: 10px;
+  font-size: 14px;
+  color: var(--muted);
+  font-style: italic;
+  transition: all 0.4s;
+}
+.truth-panel.revealed {
+  color: var(--text);
+  font-style: normal;
+  background: rgba(56,189,248,0.06);
+  border-color: rgba(56,189,248,0.25);
+}
+
+/* ── Progress ── */
+.progress-section {
+  margin-top: 18px;
+}
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+}
+.progress-track {
+  height: 8px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 99px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--green));
+  border-radius: 99px;
+  transition: width 0.6s cubic-bezier(.4,0,.2,1);
+  position: relative;
+}
+.progress-bar::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 0;
+  width: 8px; height: 100%;
+  background: #fff;
+  border-radius: 99px;
+  opacity: 0.6;
+}
+
+/* ── Final message ── */
+.final-card {
+  background: linear-gradient(135deg, rgba(56,189,248,0.06), rgba(34,211,238,0.04));
+  border: 1px solid rgba(56,189,248,0.2);
+  border-radius: 16px;
+  padding: 30px 26px;
+  display: none;
+  text-align: center;
+  animation: fadeUp 0.6s ease both;
+}
+.final-card.visible { display: block; }
+.final-card .final-icon { font-size: 2.4rem; margin-bottom: 12px; }
+.final-card .final-main {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  color: #fff;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+.final-card .final-sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 16px;
+  line-height: 1.8;
+}
+.final-card .final-cta {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
+  background: rgba(56,189,248,0.1);
+  border: 1px solid rgba(56,189,248,0.3);
+  padding: 8px 20px;
+  border-radius: 99px;
+  letter-spacing: 0.05em;
+}
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(20px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-tag">心理科學 × 運動行為</div>
+    <h1>你不是懶，<br>是被<em>大腦</em>綁架了</h1>
+    <p class="hero-sub">三個互動步驟，認識你的疲勞陷阱</p>
+  </div>
+
+  <!-- Story -->
+  <div class="divider delay-1">
+    <div class="divider-line"></div>
+    <div class="divider-label">案例情境</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="story-card delay-2">
+    <div class="story-name-tag">👤 婷婷 · 30 出頭 · 科技業</div>
+    <div class="story-body">
+      最近她發現——<br>
+      體重暴衝、褲子穿不下、健檢一堆紅字。<br><br>
+      她知道該運動。<br>
+      但每天下班後，只剩一句話：
+      <div class="highlight">「我真的累到不想動。」</div>
+    </div>
+  </div>
+
+  <!-- Q1: 選擇 -->
+  <div class="divider delay-2">
+    <div class="divider-line"></div>
+    <div class="divider-label">01 · 你的反應</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="card delay-2">
+    <div class="card-title">🧠 如果你是婷婷，這一刻你會怎麼想？</div>
+    <div class="options" id="opts1">
+      <button class="opt-btn" onclick="showResult(1)">
+        <span class="opt-icon">😮‍💨</span>今天已經夠累了，明天再說
+      </button>
+      <button class="opt-btn" onclick="showResult(2)">
+        <span class="opt-icon">😞</span>我是不是太廢了？
+      </button>
+      <button class="opt-btn" onclick="showResult(3)">
+        <span class="opt-icon">😑</span>運動只會更累吧
+      </button>
+    </div>
+    <div class="result-box tone-blue" id="r1"></div>
+  </div>
+
+  <!-- Q2: 真相 -->
+  <div class="card delay-3">
+    <div class="card-title">🔬 真相解析</div>
+    <div class="truth-panel" id="truth">（請先選擇上方選項）</div>
+  </div>
+
+  <!-- Q3: 循環 -->
+  <div class="divider delay-3">
+    <div class="divider-line"></div>
+    <div class="divider-label">02 · 惡性循環</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="card delay-3">
+    <div class="card-title">🔄 你現在卡在哪一環？</div>
+    <div class="options" id="opts2">
+      <button class="opt-btn" onclick="cycle(1)">
+        <span class="opt-icon">😴</span>很累 → 不想動
+      </button>
+      <button class="opt-btn" onclick="cycle(2)">
+        <span class="opt-icon">📉</span>不動 → 體力變差
+      </button>
+      <button class="opt-btn" onclick="cycle(3)">
+        <span class="opt-icon">🔁</span>體力差 → 更累
+      </button>
+    </div>
+    <div class="result-box tone-gold" id="r2"></div>
+
+    <div class="progress-section">
+      <div class="progress-labels">
+        <span>循環理解進度</span>
+        <span id="pct">0%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-bar" id="bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4: 行動 -->
+  <div class="divider delay-4">
+    <div class="divider-line"></div>
+    <div class="divider-label">03 · 打破循環</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="card delay-4">
+    <div class="card-title">🚪 選一個今天能做的小事</div>
+    <div class="options" id="opts3">
+      <button class="opt-btn" onclick="action(1)">
+        <span class="opt-icon">🚶</span>走路 5 分鐘
+      </button>
+      <button class="opt-btn" onclick="action(2)">
+        <span class="opt-icon">🧘</span>原地伸展 3 分鐘
+      </button>
+      <button class="opt-btn" onclick="action(3)">
+        <span class="opt-icon">👟</span>只穿上運動鞋
+      </button>
+    </div>
+    <div class="result-box tone-green" id="r3"></div>
+  </div>
+
+  <!-- Final message -->
+  <div class="final-card" id="final">
+    <div class="final-icon">✨</div>
+    <div class="final-main">改變，不需要很大，<br>只需要開始。</div>
+    <div class="final-sub">
+      你不是懶。<br>
+      你只是被大腦用「保護你」的理由綁架了。<br>
+      每一個微小的行動，都是重新奪回控制權的開始。
+    </div>
+    <div class="final-cta">繼續前進 →</div>
+  </div>
+
+</div>
+
+<script>
+let progress = 0;
+const cycleTexts = [
+  "✔ 你進入了「疲勞逃避模式」——大腦用疲勞感來避免你消耗更多能量。",
+  "✔ 不動讓體力持續下滑，使你的「疲勞閾值」越來越低。",
+  "✔ 完整的惡性閉環已形成——你被困在裡面了，但你已經看見它！"
+];
+
+function showResult(choice) {
+  const btns = document.querySelectorAll('#opts1 .opt-btn');
+  btns.forEach((b, i) => {
+    b.disabled = true;
+    if (i === choice - 1) b.classList.add('selected');
+  });
+
+  const configs = [
+    {
+      r: "這是大腦的「節能保護模式」——它不想讓你在已經疲憊時再消耗能量。這不是懶，是生存機制。",
+      t: "你的前額葉皮質在疲勞時會降低活躍度，讓杏仁核主導決策，傾向「保留能量」——這是人類演化留下的本能。"
+    },
+    {
+      r: "自我責怪會觸發壓力反應，反而讓大腦更抗拒行動，因為它把「行動」連結到了「危險感」。",
+      t: "壓力荷爾蒙（皮質醇）升高時，大腦更傾向迴避而非靠近。責怪自己，只會強化逃避迴路。"
+    },
+    {
+      r: "這是「預測性疲勞」——你的大腦用預測代替真實體驗，但運動後的感覺往往和預測截然不同。",
+      t: "研究顯示，規律運動者的基礎疲勞感比久坐者低 40%。短期看會累，長期看是「越動越不累」。"
+    }
+  ];
+
+  const c = configs[choice - 1];
+  const r1 = document.getElementById('r1');
+  r1.textContent = c.r;
+  r1.classList.add('visible');
+
+  const truth = document.getElementById('truth');
+  truth.textContent = c.t;
+  truth.classList.add('revealed');
+}
+
+function cycle(step) {
+  const btn = document.querySelectorAll('#opts2 .opt-btn')[step - 1];
+  btn.classList.add('cycle-done');
+  btn.disabled = true;
+
+  progress = Math.min(progress + (step === 3 ? 40 : 30), 100);
+  document.getElementById('bar').style.width = progress + '%';
+  document.getElementById('pct').textContent = progress + '%';
+
+  const r2 = document.getElementById('r2');
+  r2.textContent = cycleTexts[step - 1];
+  r2.classList.add('visible');
+}
+
+function action(a) {
+  const btns = document.querySelectorAll('#opts3 .opt-btn');
+  btns.forEach((b, i) => {
+    b.disabled = true;
+    if (i === a - 1) b.classList.add('action-selected');
+  });
+
+  const msgs = [
+    "太好了！5 分鐘走路，已足夠打破大腦的「靜止慣性」，讓神經系統重新啟動。",
+    "很棒！原地伸展能直接降低皮質醇、提升血清素，讓你的身體知道：現在是安全的。",
+    "完美！光是穿上運動鞋，就降低了行動的「心理門檻」——啟動本身就是勝利。"
+  ];
+
+  const r3 = document.getElementById('r3');
+  r3.textContent = msgs[a - 1];
+  r3.classList.add('visible');
+
+  setTimeout(() => {
+    const f = document.getElementById('final');
+    f.classList.add('visible');
+    f.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 900);
+}
+</script>
+</body>
+</html>
