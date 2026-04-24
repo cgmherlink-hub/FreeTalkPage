@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>代謝環境威脅評估</title>
+    <style>
+        :root {
+            --primary-color: #1a5f7a;
+            --accent-color: #159895;
+            --secondary-accent: #57c5b6;
+            --bg-color: #f0f9f9;
+            --card-bg: #ffffff;
+            --text-dark: #2c3e50;
+        }
+        body {
+            font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
+            background: linear-gradient(135deg, #e0f7f7 0%, #f0f9f9 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        header h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        header p {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+        }
+        .question-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 100px;
+            box-shadow: 0 4px 20px rgba(21, 152, 149, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 4px solid var(--accent-color);
+        }
+        .question-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 25px rgba(21, 152, 149, 0.25);
+        }
+        .question-card small {
+            color: var(--accent-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+        h2 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        button {
+            padding: 15px 20px;
+            border: 2px solid #d0e8e8;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-align: left;
+            transition: all 0.3s;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+        button:hover {
+            border-color: var(--accent-color);
+            background: linear-gradient(135deg, #e8f8f8 0%, #f0fffe 100%);
+            transform: translateX(5px);
+        }
+        button.selected {
+            background: linear-gradient(135deg, var(--accent-color) 0%, var(--secondary-accent) 100%);
+            color: white;
+            border-color: var(--accent-color);
+        }
+        #result-area {
+            display: none;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin-top: 50px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(21, 152, 149, 0.3);
+        }
+        #result-area h3 {
+            margin-top: 20px;
+            font-size: 1.5rem;
+        }
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent-color) 0%, var(--secondary-accent) 100%);
+            width: 0%;
+            transition: width 0.3s;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(21, 152, 149, 0.4);
+        }
+        #result-area button {
+            margin-top: 20px;
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            text-align: center;
+            padding: 12px 30px;
+            font-size: 1rem;
+        }
+        #result-area button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(0) scale(1.05);
+        }
+        .score-display {
+            font-size: 2.5rem;
+            color: var(--secondary-accent);
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<div class="container">
+    <header>
+        <h1>代謝環境威脅評估</h1>
+        <p>這是一面「環境照妖鏡」，揭示生活如何暗算你的健康。</p>
+    </header>
+
+    <div id="quiz">
+    </div>
+
+    <div id="result-area">
+        <h2>分析結果</h2>
+        <div id="result-text"></div>
+        <button onclick="location.reload()">重新測試</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { q: "如果你要買份健康沙拉且不准開車/騎車,走路往返是否超過 20 分鐘?", cat: "城市" },
+        { q: "通勤路上,看見「連鎖速食/手搖飲店」的頻率是否高於「公園綠地」?", cat: "城市" },
+        { q: "若給你 100 萬台幣但下個月不准用電梯或外送,生活機能會崩潰嗎?", cat: "城市" },
+        { q: "你的環境是否讓你感覺「走路很麻煩」,而「開車/騎車是唯一的尊嚴」?", cat: "城市" },
+        { q: "住家附近 500 公尺內,是否有讓你感到安全且願意待超過 30 分鐘的免費運動空間?", cat: "城市", reverse: true },
+        { q: "在辦公室裡,買到「含糖飲料」是否比喝到「純淨過濾水」更容易、更便宜?", cat: "職場" },
+        { q: "老闆或客戶是否擁有在晚上 8 點後透過螢幕干擾你睡眠與代謝的權力?", cat: "職場" },
+        { q: "若獲贈 100 萬台幣但代價是每天必須多坐 2 小時且不能站立,你會覺得划算嗎?", cat: "職場" },
+        { q: "壓力大時,環境提供的唯一慰藉通常是高熱量食物(如集體訂飲料)嗎?", cat: "職場" },
+        { q: "你是否曾因「上班時間起身走動 15 分鐘」而感到愧疚或像在偷懶?", cat: "職場" },
+        { q: "當家庭聚會想要「慶祝」或「紓壓」時,唯一的手段就是「吃大餐」嗎?", cat: "家庭" },
+        { q: "如果你在晚餐桌上拒絕高熱量食物,家人會感到「被冒犯」或「掃興」嗎?", cat: "家庭" },
+        { q: "若給 100 萬台幣要求客廳「禁手機、電視、零食」一年,會引發家庭失和嗎?", cat: "家庭" },
+        { q: "家中家具擺放是否優先考慮「插座與螢幕視角」,而非「活動空間」?", cat: "家庭" },
+        { q: "手機壞了時,你是否會因不知道如何度過空閒而焦慮,進而開始找東西吃?", cat: "家庭" }
+    ];
+
+    let score = 0;
+    const quizContainer = document.getElementById('quiz');
+
+    questions.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'question-card';
+        card.id = `q${index}`;
+        card.innerHTML = `
+            <small>${item.cat}影響評估 ${index + 1}/15</small>
+            <h2>${item.q}</h2>
+            <div class="options">
+                <button onclick="handleAnswer(${index}, true)">是 (YES)</button>
+                <button onclick="handleAnswer(${index}, false)">否 (NO)</button>
+            </div>
+        `;
+        quizContainer.appendChild(card);
+    });
+
+    function handleAnswer(index, isYes) {
+        // 計算分數 (考慮反向題)
+        const isThreat = questions[index].reverse ? !isYes : isYes;
+        if (isThreat) score++;
+
+        // 更新進度條
+        document.getElementById('progress').style.width = `${((index + 1) / questions.length) * 100}%`;
+
+        // 自動捲動到下一題
+        if (index < questions.length - 1) {
+            const nextCard = document.getElementById(`q${index + 1}`);
+            nextCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+            showResult();
+        }
+    }
+
+    function showResult() {
+        quizContainer.style.display = 'none';
+        const resultArea = document.getElementById('result-area');
+        const resultText = document.getElementById('result-text');
+        resultArea.style.display = 'block';
+
+        let analysis = "";
+        if (score >= 12) {
+            analysis = "<h3>環境致胖區 (高風險)</h3><p>你的環境並非在支持你,而是在消耗你。你正處於為慢性病量身打造的完美劇本中,單靠意志力幾乎無法勝出。建議從『物理隔離』手機與零食開始奪回主導權。</p>";
+        } else if (score >= 8) {
+            analysis = "<h3>代謝亞健康區 (中風險)</h3><p>你的意志力每天都在與環境拔河。雖然你還有自覺,但環境的推力正慢慢將你推向代謝失調。你需要有意識地重新設計你的客廳與辦公桌。</p>";
+        } else {
+            analysis = "<h3>代謝防禦區 (低風險)</h3><p>你的環境尚存一線生機,你擁有較好的環境主控權。繼續保持這種對致胖環境的警覺!</p>";
+        }
+
+        resultText.innerHTML = `<p class="score-display">威脅指數: ${score}/15</p>${analysis}`;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
