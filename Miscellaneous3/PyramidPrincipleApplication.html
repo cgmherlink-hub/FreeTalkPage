@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>金字塔原理辨識測驗 - 補習班會議版</title>
+  <style>
+    body {
+      font-family: "Noto Sans TC", Arial, sans-serif;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    .question {
+      background: #fff;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .question p {
+      font-weight: bold;
+    }
+    .options {
+      margin-top: 10px;
+    }
+    .options label {
+      display: block;
+      padding: 5px 0;
+      cursor: pointer;
+    }
+    .submit-btn {
+      display: block;
+      margin: 30px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .submit-btn:hover {
+      background-color: #2980b9;
+    }
+    .result {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 15px;
+      border-radius: 8px;
+      background-color: #ecf0f1;
+      display: none;
+    }
+    .correct {
+      color: green;
+    }
+    .incorrect {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>金字塔原理辨識測驗（補習班會議版）</h1>
+
+  <form id="quizForm">
+    <!-- 題目 1 -->
+    <div class="question" id="q1">
+      <p>1. 關於「課堂秩序變差」的會議報告，哪一個最符合金字塔原理？</p>
+      <div class="options">
+        <label><input type="radio" name="q1" value="A">A. 最近很多老師都有反映，上課真的比以前難帶，尤其是三年級，有的學生會一直講話，有的又坐不住，其實我昨天那一班也是……</label>
+        <label><input type="radio" name="q1" value="B">B. 學生問題其實很多，有些是家庭因素，有些是注意力的問題，也不能全部怪老師，現在小朋友本來就比較難教。</label>
+        <label><input type="radio" name="q1" value="C">C. 結論是：我們需要統一三年級的課堂秩序管理方式。原因有三個：第一，三位老師都反映同樣的干擾行為；第二，班級人數偏高，個別提醒效果有限；第三，新進老師對處理干擾行為缺乏一致做法。</label>
+        <label><input type="radio" name="q1" value="D">D. 我覺得這個問題很複雜，可能要再觀察一陣子，也許下個月再看會不會改善。</label>
+      </div>
+    </div>
+
+    <!-- 題目 2 -->
+    <div class="question" id="q2">
+      <p>2. 關於「家長抱怨孩子上課太累」的回報，哪一個最符合金字塔原理？</p>
+      <div class="options">
+        <label><input type="radio" name="q2" value="A">A. 最近家長傳訊息真的很多，有的說孩子不想來補習，有的說作業寫到很晚，我昨天也回家長回到快十一點。</label>
+        <label><input type="radio" name="q2" value="B">B. 家長的期待本來就不一樣，有些家長比較焦慮，有些就還好，所以其實也很難全部滿足。</label>
+        <label><input type="radio" name="q2" value="C">C. 我覺得可能是教材變難，還有考試比較密集，家長才會覺得小孩很累。</label>
+        <label><input type="radio" name="q2" value="D">D. 結論是：家長抱怨的核心不是作業量，而是不清楚孩子的學習狀況。主要原因包括：第一，家長回饋中多次提到『不知道孩子在班上表現如何』；第二，作業量沒有明顯增加，但焦慮感上升；第三，老師與家長的溝通點不一致。</label>
+      </div>
+    </div>
+
+    <!-- 題目 3 -->
+    <div class="question" id="q3">
+      <p>3. 關於「招生人數下滑」的內部說明，哪一個報告是金字塔原理？</p>
+      <div class="options">
+        <label><input type="radio" name="q3" value="A">A. 今年試聽人數真的比較少，可能跟整個大環境有關，也有可能是少子化的影響。</label>
+        <label><input type="radio" name="q3" value="B">B. 去年其實也有一段時間招生不好，後來有慢慢回來，所以今年應該再看看。</label>
+        <label><input type="radio" name="q3" value="C">C. 我整理了一些數據，像試聽人數、報名人數、轉介紹比例都有變化，大家可以看一下表格。</label>
+        <label><input type="radio" name="q3" value="D">D. 結論是：招生下滑與家長轉介紹比例下降高度相關。依據有三點：第一，試聽轉正式報名比例下滑；第二，轉介紹比例從 35% 降至 22%；第三，家長負向回饋與『教學秩序』與『學習疲勞』有關。</label>
+      </div>
+    </div>
+
+    <!-- 題目 4 -->
+    <div class="question" id="q4">
+      <p>4. 關於「新進老師適應不良」的討論，哪一個符合金字塔原理？</p>
+      <div class="options">
+        <label><input type="radio" name="q4" value="A">A. 新老師真的壓力很大，要適應教材、學生、家長，其實大家以前也都走過這段。</label>
+        <label><input type="radio" name="q4" value="B">B. 有些老師本來就比較不適合補教現場，這也是很現實的問題。</label>
+        <label><input type="radio" name="q4" value="C">C. 最近半年來了四個新老師，其中有三個都有不同程度的適應問題。</label>
+        <label><input type="radio" name="q4" value="D">D. 結論是：新進老師需要明確的班級經營支援機制。原因包含：第一，三位新老師反映課堂秩序壓力大；第二，現有制度缺乏一致的處理指引；第三，適應期內缺乏即時回饋與示範。</label>
+      </div>
+    </div>
+
+    <button type="button" class="submit-btn" onclick="checkAnswers()">提交答案</button>
+  </form>
+
+  <div id="result" class="result"></div>
+
+  <script>
+    // 正確答案
+    const answers = {
+      q1: 'C',
+      q2: 'D',
+      q3: 'D',
+      q4: 'D'
+    };
+
+    // 自動捲動到下一題
+    document.querySelectorAll('input[type=radio]').forEach(radio => {
+      radio.addEventListener('change', function() {
+        const currentQuestion = this.closest('.question');
+        const nextQuestion = currentQuestion.nextElementSibling;
+        if(nextQuestion && nextQuestion.classList.contains('question')) {
+          nextQuestion.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    function checkAnswers() {
+      let score = 0;
+      let resultHTML = '<h2>測驗結果</h2>';
+      for (let i = 1; i <= 4; i++) {
+        const q = 'q' + i;
+        const selected = document.querySelector('input[name="' + q + '"]:checked');
+        if (!selected) {
+          resultHTML += `<p class="incorrect">第 ${i} 題：未作答</p>`;
+        } else if (selected.value === answers[q]) {
+          score++;
+          resultHTML += `<p class="correct">第 ${i} 題：正確</p>`;
+        } else {
+          resultHTML += `<p class="incorrect">第 ${i} 題：錯誤</p>`;
+        }
+      }
+      resultHTML += `<p>總分：${score} / 4</p>`;
+      document.getElementById('result').innerHTML = resultHTML;
+      document.getElementById('result').style.display = 'block';
+      document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  </script>
+</body>
+</html>
