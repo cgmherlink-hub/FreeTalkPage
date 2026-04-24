@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>測測你的關係界線</title>
+<style>
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    line-height: 1.8;
+    margin: 40px;
+    color: #222;
+  }
+  h1 {
+    font-size: 24px;
+  }
+  .description {
+    white-space: pre-line;
+    margin-bottom: 30px;
+  }
+  .question {
+    margin-bottom: 45px;
+  }
+  .scenario {
+    color: #555;
+    font-size: 0.95em;
+    margin: 6px 0 10px 0;
+  }
+  .options label {
+    display: block;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  #result {
+    display: none;
+    margin-top: 50px;
+    padding: 25px;
+    background: #f6f6f6;
+    border-radius: 8px;
+  }
+</style>
+</head>
+
+<body>
+
+<h1>測測你的關係界線</h1>
+
+<div class="description">
+說明：以下問題並非測試對錯，
+目的是幫助你覺察——在「看似合理、出於好意」的情況下，是否可能無意中跨越了伴侶的界線。
+請依照你實際的想法與行為直覺作答。
+</div>
+
+<form id="quiz">
+
+<!-- 1 -->
+<div class="question">
+<strong>1.</strong> 如果我的媽媽可以隨時進出我和先生的臥室，代表我們之間其實沒有特別需要保護的隱私。
+<div class="scenario">（情境：媽媽說「我幫你們整理一下房間」，我回「沒關係啦」，而先生其實感到不自在。）</div>
+<div class="options">
+<label><input type="checkbox"> 非常同意</label>
+<label><input type="checkbox"> 有點同意</label>
+<label><input type="checkbox"> 不太同意</label>
+<label><input type="checkbox"> 非常不同意</label>
+</div>
+</div>
+
+<!-- 2 -->
+<div class="question">
+<strong>2.</strong> 在買房子的決策上，只跟父母或手足討論，事後再告知伴侶，就算尊重了他的意見。
+<div class="scenario">（情境：已經和父母談好地點與預算後，才跟先生說「我爸媽覺得這間比較好」。）</div>
+<div class="options">
+<label><input type="checkbox"> 非常同意</label>
+<label><input type="checkbox"> 有點同意</label>
+<label><input type="checkbox"> 不太同意</label>
+<label><input type="checkbox"> 非常不同意</label>
+</div>
+</div>
+
+<!-- 3 -->
+<div class="question">
+<strong>3.</strong> 當伴侶說「不舒服」時，多半只是他的情緒反應，不一定真的發生界線問題。
+<div class="scenario">（情境：先生說「我不太舒服你媽媽這樣進來」，我回「你是不是想太多了？」）</div>
+<div class="options">
+<label><input type="checkbox"> 非常同意</label>
+<label><input type="checkbox"> 有點同意</label>
+<label><input type="checkbox"> 不太同意</label>
+<label><input type="checkbox"> 非常不同意</label>
+</div>
+</div>
+
+<!-- 4 -->
+<div class="question">
+<strong>4.</strong> 面對我媽媽或家人做出讓伴侶不舒服的行為時，只要我保持沉默，就不會真正傷害到伴侶。
+<div class="scenario">（情境：家人私下批評先生，我沒有接話，也沒有替他說明。）</div>
+<div class="options">
+<label><input type="checkbox"> 非常同意</label>
+<label><input type="checkbox"> 有點同意</label>
+<label><input type="checkbox"> 不太同意</label>
+<label><input type="checkbox"> 非常不同意</label>
+</div>
+</div>
+
+<!-- 5 -->
+<div class="question">
+<strong>5.</strong> 在親密關係中，能忍就是成熟，不需要把每一個不舒服都說出來。
+<div class="scenario">（情境：我覺得很多夫妻都是忍過來的，所以勸他不要太在意。）</div>
+<div class="options">
+<label><input type="checkbox"> 非常同意</label>
+<label><input type="checkbox"> 有點同意</label>
+<label><input type="checkbox"> 不太同意</label>
+<label><input type="checkbox"> 非常不同意</label>
+</div>
+</div>
+
+<!-- 6 -->
+<div class="question">
+<strong>6.</strong> 當伴侶提出界線時，多半是在指責我做得不夠好。
+<div class="scenario">（情境：他說「我希望臥室是我們兩個的空間」，我心裡立刻覺得被否定。）</div>
+<div class="options">
+<label><input type="checkbox"> 非常同意</label>
+<label><input type="checkbox"> 有點同意</label>
+<label><input type="checkbox"> 不太同意</label>
+<label><input type="checkbox"> 非常不同意</label>
+</div>
+</div>
+
+<!-- 7 -->
+<div class="question">
+<strong>7.</strong> 只要是為了照顧自己的父母或家人，犧牲伴侶的隱私是可以被理解的。
+<div class="scenario">（情境：我說「我爸媽年紀大了，你讓一下很正常吧」。）</div>
+<div class="options">
+<label><input type="checkbox"> 非常同意</label>
+<label><input type="checkbox"> 有點同意</label>
+<label><input type="checkbox"> 不太同意</label>
+<label><input type="checkbox"> 非常不同意</label>
+</div>
+</div>
+
+<!-- 8 -->
+<div class="question">
+<strong>8.</strong> 衝突只要當下說開或吵完，過去累積的不舒服自然會消失。
+<div class="scenario">（情境：我覺得事情都已經吵過了，不明白他為什麼還放在心裡。）</div>
+<div class="options">
+<label><input type="checkbox"> 非常同意</label>
+<label><input type="checkbox"> 有點同意</label>
+<label><input type="checkbox"> 不太同意</label>
+<label><input type="checkbox"> 非常不同意</label>
+</div>
+</div>
+
+<!-- 9 -->
+<div class="question">
+<strong>9.</strong> 只要我沒有惡意，就算做了讓伴侶不舒服的事，也不算真正傷害他。
+<div class="scenario">（情境：我說「我真的不是故意的」，卻沒有再多問他的感受。）</div>
+<div class="options">
+<label><input type="checkbox"> 非常同意</label>
+<label><input type="checkbox"> 有點同意</label>
+<label><input type="checkbox"> 不太同意</label>
+<label><input type="checkbox"> 非常不同意</label>
+</div>
+</div>
+
+<!-- 10 -->
+<div class="question">
+<strong>10.</strong> 在家庭中，只要父母、家人都被照顧到，伴侶的感受不一定需要優先考慮。
+<div class="scenario">（情境：我心裡覺得「大家都顧到不是比較好嗎？」）</div>
+<div class="options">
+<label><input type="checkbox"> 非常同意</label>
+<label><input type="checkbox"> 有點同意</label>
+<label><input type="checkbox"> 不太同意</label>
+<label><input type="checkbox"> 非常不同意</label>
+</div>
+</div>
+
+<button type="submit">送出答案</button>
+
+</form>
+
+<div id="result">
+<p>
+謝謝你完成這份問卷。<br><br>
+如果你在作答時有停頓、有猶豫，<br>
+那並不是因為你做錯了什麼。<br><br>
+它只是輕輕提醒你：<br>
+也許你一直很努力顧好所有人，<br>
+卻很少有人問過——你和伴侶是否也被好好顧著。<br><br>
+界線不是疏遠，<br>
+而是讓親密能夠長久。
+</p>
+</div>
+
+<script>
+const questions = document.querySelectorAll(".question");
+
+questions.forEach((q, index) => {
+  q.querySelectorAll("input").forEach(input => {
+    input.addEventListener("change", () => {
+      if (questions[index + 1]) {
+        questions[index + 1].scrollIntoView({ behavior: "smooth" });
+      }
+    });
+  });
+});
+
+document.getElementById("quiz").addEventListener("submit", function(e) {
+  e.preventDefault();
+  document.getElementById("result").style.display = "block";
+  document.getElementById("result").scrollIntoView({ behavior: "smooth" });
+});
+</script>
+
+</body>
+</html>
