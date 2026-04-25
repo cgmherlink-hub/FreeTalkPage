@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RBBB 衛教互動版</title>
+  <style>
+    :root {
+      --bg: #f6f8fc;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #d946ef;
+      --primary-soft: #f5d0fe;
+      --accent: #2563eb;
+      --ok: #059669;
+      --warn: #dc2626;
+      --shadow: 0 10px 30px rgba(31, 41, 55, 0.08);
+      --radius: 20px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      background: linear-gradient(180deg, #fff 0%, var(--bg) 100%);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 24px 16px 56px; }
+    .hero {
+      background: linear-gradient(135deg, #fff 0%, #fdf4ff 55%, #eef4ff 100%);
+      border-radius: 28px; padding: 28px;
+      box-shadow: var(--shadow); position: relative; overflow: hidden;
+    }
+    .badge {
+      display: inline-block; padding: 6px 12px; border-radius: 999px;
+      background: var(--primary-soft); color: #86198f;
+      font-size: 14px; font-weight: 700; margin-bottom: 10px;
+    }
+    h1 { margin: 0 0 12px; font-size: clamp(28px, 4vw, 42px); line-height: 1.2; }
+    .lead { font-size: 18px; color: var(--muted); margin: 0; max-width: 700px; }
+    .grid { display: grid; gap: 18px; margin-top: 22px; }
+    .grid.two { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px; }
+    h2 { margin: 0 0 12px; font-size: 24px; }
+    h3 { margin: 0 0 8px; font-size: 18px; }
+    p { margin: 0 0 12px; }
+    .story-stage {
+      min-height: 170px;
+      background: linear-gradient(135deg, #faf5ff, #eff6ff);
+      border-radius: 18px; padding: 18px; margin-bottom: 16px; border: 1px solid #e9d5ff;
+    }
+    .story-title { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .story-dots { display: flex; gap: 6px; margin-bottom: 12px; }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #e9d5ff; transition: background .2s;
+    }
+    .dot.active { background: var(--primary); }
+    .controls { display: flex; flex-wrap: wrap; gap: 10px; }
+    button {
+      border: 0; border-radius: 12px; padding: 12px 16px;
+      font-size: 15px; font-weight: 700; cursor: pointer;
+      transition: transform .15s ease, opacity .15s ease;
+    }
+    button:hover { transform: translateY(-1px); }
+    button.primary { background: var(--primary); color: white; }
+    button.secondary { background: #e5edff; color: #1d4ed8; }
+    button.ghost { background: #f3f4f6; color: #374151; }
+    .road-wrap { display: grid; gap: 16px; margin-top: 8px; }
+    .road { background: #f9fafb; border-radius: 18px; padding: 16px; border: 1px solid #e5e7eb; }
+    .road-label { display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 10px; }
+    .track { width: 100%; height: 14px; background: #e5e7eb; border-radius: 999px; position: relative; overflow: hidden; }
+    .pulse {
+      width: 18px; height: 18px; border-radius: 50%;
+      position: absolute; top: 50%; transform: translateY(-50%);
+      left: 0; background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(37,99,235,0.12);
+    }
+    .pulse.right { background: var(--primary); box-shadow: 0 0 0 6px rgba(217,70,239,0.12); }
+    .ekg-box { background: #0f172a; color: #e2e8f0; border-radius: 18px; padding: 18px; }
+    .wave { display: flex; align-items: flex-end; gap: 6px; height: 90px; margin: 14px 0 12px; }
+    .bar { width: 14px; border-radius: 10px 10px 0 0; background: #60a5fa; transition: all .25s ease; }
+    .bar.rbbb { background: #f472b6; }
+    .pill {
+      display: inline-block; padding: 6px 10px; border-radius: 999px;
+      font-size: 13px; font-weight: 700; margin-right: 6px; margin-bottom: 6px;
+    }
+    .pill.ok { background: #d1fae5; color: #065f46; }
+    .pill.warn { background: #fee2e2; color: #991b1b; }
+    .pill.info { background: #dbeafe; color: #1e40af; }
+    .symptom-list { display: grid; gap: 10px; margin-top: 12px; }
+    .symptom {
+      border: 1px solid #e5e7eb; border-radius: 14px; padding: 12px 14px;
+      display: flex; justify-content: space-between; align-items: center; background: #fff;
+    }
+    .toggle {
+      width: 54px; height: 30px; border-radius: 999px; background: #d1d5db;
+      position: relative; cursor: pointer; transition: background .2s ease; flex-shrink: 0;
+    }
+    .toggle::after {
+      content: ""; width: 24px; height: 24px; border-radius: 50%; background: white;
+      position: absolute; top: 3px; left: 3px;
+      transition: transform .2s ease; box-shadow: 0 1px 4px rgba(0,0,0,.15);
+    }
+    .toggle.active { background: var(--warn); }
+    .toggle.active::after { transform: translateX(24px); }
+    .result {
+      margin-top: 14px; padding: 16px; border-radius: 16px;
+      background: #f8fafc; border: 1px solid #e2e8f0; font-weight: 700;
+      transition: background .3s, border-color .3s;
+    }
+    .footer-note { margin-top: 20px; color: var(--muted); font-size: 14px; }
+    @media (max-width: 640px) {
+      .hero, .card { padding: 18px; }
+      .wave { gap: 4px; }
+      .bar { width: 11px; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <div class="badge">粉專衛教｜互動 HTML 版</div>
+    <h1>心電圖看到 RBBB？<br>用故事互動看懂右束支傳導阻滯</h1>
+    <p class="lead">把心臟想成一座電力小鎮：左邊道路順、右邊道路慢半拍。點一點、看一看，就能用簡單方式理解 RBBB 是什麼，以及什麼情況要特別注意。</p>
+  </section>
+
+  <div class="grid two">
+    <section class="card">
+      <h2>🫀 故事模式</h2>
+      <div class="story-dots" id="storyDots"></div>
+      <div class="story-stage">
+        <div class="story-title" id="storyTitle"></div>
+        <div id="storyText"></div>
+      </div>
+      <div class="controls">
+        <button class="secondary" id="prevStory">上一幕</button>
+        <button class="primary" id="nextStory">下一幕</button>
+        <button class="ghost" id="resetStory">重播故事</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>⚡ 電流跑道模擬</h2>
+      <p>按下播放，看看左邊正常到達，右邊在 RBBB 時如何慢半拍。</p>
+      <div class="road-wrap">
+        <div class="road">
+          <div class="road-label"><span>左束支</span><span>正常到達</span></div>
+          <div class="track"><div class="pulse" id="leftPulse"></div></div>
+        </div>
+        <div class="road">
+          <div class="road-label"><span>右束支</span><span id="rightStatus">RBBB：繞路、較慢</span></div>
+          <div class="track"><div class="pulse right" id="rightPulse"></div></div>
+        </div>
+      </div>
+      <div class="controls" style="margin-top:14px;">
+        <button class="primary" id="runSim">播放模擬</button>
+        <button class="ghost" id="toggleMode">切換成正常模式</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="grid two">
+    <section class="card">
+      <h2>📈 EKG 圖形感受一下</h2>
+      <p>這不是正式醫療判讀圖，但能幫你抓到重點：RBBB 常被形容像 V1 的「兔耳朵」。</p>
+      <div class="ekg-box">
+        <div><strong id="ekgLabel">目前顯示：RBBB 模式</strong></div>
+        <div class="wave" id="wave"></div>
+        <div id="ekgText">右心室啟動較晚，因此波形尾端像多了一個晚到的小高峰。</div>
+      </div>
+      <div class="controls" style="margin-top:14px;">
+        <button class="secondary" id="showNormal">看正常節奏</button>
+        <button class="primary" id="showRbbb">看 RBBB 節奏</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>🚨 什麼情況要特別注意？</h2>
+      <p>很多 RBBB 是健檢偶然發現、沒有症狀；但若是新出現，且合併不舒服，就要盡快就醫。</p>
+      <div class="symptom-list">
+        <div class="symptom"><span>胸痛</span><div class="toggle" data-symptom="胸痛"></div></div>
+        <div class="symptom"><span>呼吸困難</span><div class="toggle" data-symptom="呼吸困難"></div></div>
+        <div class="symptom"><span>頭暈或昏倒</span><div class="toggle" data-symptom="頭暈或昏倒"></div></div>
+      </div>
+      <div class="result" id="triageResult">目前判讀：若沒有症狀，且是既往已知的 RBBB，通常可依醫師安排追蹤。</div>
+    </section>
+  </div>
+
+  <section class="card" style="margin-top:18px;">
+    <h2>🧠 一頁記住</h2>
+    <p>
+      <span class="pill info">RBBB = 右邊電流慢半拍</span>
+      <span class="pill ok">很多人沒有症狀</span>
+      <span class="pill warn">胸痛、喘、昏倒要注意</span>
+    </p>
+    <p>一句話記住：<strong>「RBBB 是右邊電流繞路，不一定是壞事，但要看有沒有症狀與臨床背景。」</strong></p>
+    <div class="footer-note">本頁為衛教用途，不能取代醫師診斷。若心電圖是新出現變化，或伴隨胸痛、呼吸困難、昏厥，請盡快就醫。</div>
+  </section>
+</div>
+
+<script>
+  const story = [
+    { title: '第一幕：心臟電力小鎮開工', text: '每天，心臟裡的「發電站」會準時送出電流，讓心臟規律跳動。電流會分成左右兩條高速公路，準備前往左右心室。' },
+    { title: '第二幕：左邊道路一路順暢', text: '左邊這條路很順，所以左心室很快就收到訊號，照表操課，穩穩收縮。' },
+    { title: '第三幕：右邊道路突然塞車', text: '右束支像遇到塞車或繞道，電流沒辦法像平常一樣快速通過，只能晚一點抵達。' },
+    { title: '第四幕：心電圖看到兔耳朵', text: '因為右心室比較晚收到電，EKG 上就會留下「晚到一下」的痕跡，常被形容像兔耳朵。' },
+    { title: '第五幕：不是每次塞車都很危險', text: '很多人完全沒有症狀，只是在健檢時偶然發現。不過，如果是新出現而且伴隨胸痛、喘、暈倒，就需要趕快評估。' }
+  ];
+  let storyIndex = 0;
+
+  function renderDots() {
+    const container = document.getElementById('storyDots');
+    container.innerHTML = '';
+    story.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === storyIndex ? ' active' : '');
+      container.appendChild(d);
+    });
+  }
+
+  function renderStory() {
+    document.getElementById('storyTitle').textContent = story[storyIndex].title;
+    document.getElementById('storyText').textContent = story[storyIndex].text;
+    renderDots();
+  }
+
+  document.getElementById('nextStory').addEventListener('click', () => { storyIndex = (storyIndex + 1) % story.length; renderStory(); });
+  document.getElementById('prevStory').addEventListener('click', () => { storyIndex = (storyIndex - 1 + story.length) % story.length; renderStory(); });
+  document.getElementById('resetStory').addEventListener('click', () => { storyIndex = 0; renderStory(); });
+
+  const leftPulse = document.getElementById('leftPulse');
+  const rightPulse = document.getElementById('rightPulse');
+  const rightStatus = document.getElementById('rightStatus');
+  let rbbbMode = true;
+  let simRunning = false;
+
+  function animatePulse(el, duration) {
+    el.style.transition = 'none';
+    el.style.left = '0px';
+    void el.offsetWidth;
+    el.style.transition = `left ${duration}ms linear`;
+    el.style.left = 'calc(100% - 18px)';
+  }
+
+  document.getElementById('runSim').addEventListener('click', () => {
+    if (simRunning) return;
+    simRunning = true;
+    const btn = document.getElementById('runSim');
+    btn.textContent = '播放中…';
+    btn.disabled = true;
+    animatePulse(leftPulse, 1200);
+    animatePulse(rightPulse, rbbbMode ? 2400 : 1200);
+    const longer = rbbbMode ? 2400 : 1200;
+    setTimeout(() => {
+      simRunning = false;
+      btn.textContent = '播放模擬';
+      btn.disabled = false;
+    }, longer + 300);
+  });
+
+  document.getElementById('toggleMode').addEventListener('click', (e) => {
+    rbbbMode = !rbbbMode;
+    rightStatus.textContent = rbbbMode ? 'RBBB：繞路、較慢' : '正常：同步到達';
+    e.target.textContent = rbbbMode ? '切換成正常模式' : '切換成 RBBB 模式';
+    leftPulse.style.transition = 'none'; leftPulse.style.left = '0';
+    rightPulse.style.transition = 'none'; rightPulse.style.left = '0';
+  });
+
+  const wave = document.getElementById('wave');
+  const ekgLabel = document.getElementById('ekgLabel');
+  const ekgText = document.getElementById('ekgText');
+
+  function renderWave(mode) {
+    wave.innerHTML = '';
+    const normalH = [8, 20, 68, 18, 10, 14];
+    const rbbbH   = [8, 18, 60, 22, 52, 14];
+    const arr = mode === 'rbbb' ? rbbbH : normalH;
+    arr.forEach((h, i) => {
+      const bar = document.createElement('div');
+      bar.className = 'bar' + (mode === 'rbbb' && i >= 3 ? ' rbbb' : '');
+      bar.style.height = h + 'px';
+      wave.appendChild(bar);
+    });
+    if (mode === 'rbbb') {
+      ekgLabel.textContent = '目前顯示：RBBB 模式';
+      ekgText.textContent = '右心室啟動較晚，因此波形尾端像多了一個晚到的小高峰。';
+    } else {
+      ekgLabel.textContent = '目前顯示：正常模式';
+      ekgText.textContent = '左右傳導較同步，波形看起來比較俐落，不會出現明顯晚到的尾端高峰。';
+    }
+  }
+
+  document.getElementById('showNormal').addEventListener('click', () => renderWave('normal'));
+  document.getElementById('showRbbb').addEventListener('click', () => renderWave('rbbb'));
+
+  const toggles = document.querySelectorAll('.toggle');
+  const triageResult = document.getElementById('triageResult');
+
+  function updateTriage() {
+    const active = [...toggles].filter(t => t.classList.contains('active')).map(t => t.dataset.symptom);
+    if (active.length === 0) {
+      triageResult.textContent = '目前判讀：若沒有症狀，且是既往已知的 RBBB，通常可依醫師安排追蹤。';
+      triageResult.style.background = '#f8fafc';
+      triageResult.style.borderColor = '#e2e8f0';
+    } else {
+      triageResult.textContent = `目前判讀：已勾選 ${active.join('、')}。若合併新出現的 RBBB 或身體不適，建議盡快就醫評估。`;
+      triageResult.style.background = '#fef2f2';
+      triageResult.style.borderColor = '#fecaca';
+    }
+  }
+
+  toggles.forEach(t => t.addEventListener('click', () => { t.classList.toggle('active'); updateTriage(); }));
+
+  renderStory();
+  renderWave('rbbb');
+</script>
+</body>
+</html>
