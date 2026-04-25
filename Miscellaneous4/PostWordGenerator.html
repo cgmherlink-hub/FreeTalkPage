@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>美語安親補習班 - 家長細節讚賞生成器</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #4a90e2;
+            --primary-dark: #357abd;
+            --secondary: #f5a623;
+            --success: #5cb85c;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --bg: #f0f2f5;
+            --card-bg: #ffffff;
+            --text: #333;
+            --text-light: #666;
+            --border: #e1e4e8;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-hover: 0 8px 30px rgba(0,0,0,0.12);
+        }
+        
+        body {
+            font-family: "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: var(--bg-gradient);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .header p {
+            font-size: 0.95rem;
+            opacity: 0.95;
+        }
+        
+        .progress-bar {
+            background: white;
+            height: 8px;
+            margin: 20px auto 0;
+            max-width: 600px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f5a623, #ffd700);
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 10px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: -20px auto 0;
+            padding: 0 20px 40px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .stats-bar {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-around;
+            gap: 15px;
+            box-shadow: var(--shadow);
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+            flex: 1;
+            min-width: 100px;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+        
+        .dimension {
+            background: var(--card-bg);
+            margin-bottom: 20px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+        
+        .dimension:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+        }
+        
+        .dimension-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 18px 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .dimension-badge {
+            background: rgba(255,255,255,0.25);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+        
+        .dimension-body {
+            padding: 25px;
+        }
+        
+        .aspect {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .aspect:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .aspect-label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            color: var(--text);
+        }
+        
+        .aspect-desc {
+            font-size: 0.88rem;
+            color: var(--text-light);
+            margin-bottom: 12px;
+            display: block;
+        }
+        
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            background: white;
+            transition: all 0.3s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 40px;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+        
+        select.selected {
+            border-color: var(--success);
+            background-color: #f0fff4;
+        }
+        
+        .summary-box {
+            background: linear-gradient(135deg, #fff9f0 0%, #fffbf7 100%);
+            border: 2px solid var(--secondary);
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 30px;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 20px;
+        }
+        
+        .summary-title {
+            font-weight: bold;
+            color: var(--secondary);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .summary-title::before {
+            content: "✨";
+            font-size: 1.3rem;
+        }
+        
+        #summaryText {
+            white-space: pre-line;
+            color: #444;
+            line-height: 1.8;
+            font-size: 0.95rem;
+            min-height: 120px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+        }
+        
+        .footer-action {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 14px 28px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            flex: 1;
+            min-width: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-copy {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-copy:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        
+        .btn-copy:hover:not(:disabled) {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+        
+        .btn-share {
+            background: #06c755;
+            color: white;
+        }
+        
+        .btn-share:hover:not(:disabled) {
+            background: #05b34c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(6, 199, 85, 0.3);
+        }
+        
+        .btn-share:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        
+        .btn-reset {
+            background: #f5f5f5;
+            color: #666;
+            flex: 0 0 auto;
+            min-width: 100px;
+        }
+        
+        .btn-reset:hover {
+            background: #e0e0e0;
+        }
+        
+        .error-msg {
+            color: #d9534f;
+            font-size: 0.9rem;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .error-msg::before {
+            content: "ℹ️";
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: bottom 0.3s ease;
+            z-index: 1000;
+            max-width: 90%;
+        }
+        
+        .toast.show {
+            bottom: 30px;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* 手機版優化 */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.4rem; }
+            .header p { font-size: 0.85rem; }
+            .stats-bar { padding: 15px; }
+            .stat-value { font-size: 1.4rem; }
+            .stat-label { font-size: 0.8rem; }
+            .dimension-header { padding: 15px 20px; font-size: 1rem; }
+            .dimension-body { padding: 20px; }
+            .summary-box { position: static; margin-top: 25px; }
+            .footer-action { flex-direction: column; }
+            button { min-width: 100%; }
+        }
+        
+        @media (max-width: 480px) {
+            .container { padding: 0 15px 30px; }
+            .stats-bar { gap: 10px; }
+            .stat-item { min-width: 80px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>✨ 家長細節讚賞生成器</h1>
+        <p>用心觀察，溫暖表達 —— 讓每一份感謝都更有溫度</p>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="stats-bar fade-in">
+            <div class="stat-item">
+                <span class="stat-value" id="completedCount">0</span>
+                <span class="stat-label">已完成</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value" id="totalCount">12</span>
+                <span class="stat-label">總題數</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value" id="progressPercent">0%</span>
+                <span class="stat-label">完成度</span>
+            </div>
+        </div>
+
+        <div id="form-content"></div>
+
+        <div class="summary-box fade-in">
+            <div class="summary-title">您的專屬讚美摘要預覽</div>
+            <div id="summaryText">請完成上方細節選擇，系統將自動為您生成溫暖的文字...</div>
+            <div class="footer-action">
+                <button id="copyBtn" class="btn-copy" disabled>
+                    <span>📋</span>
+                    <span>複製完整摘要</span>
+                </button>
+                <button id="shareBtn" class="btn-share" disabled>
+                    <span>📤</span>
+                    <span>分享到 LINE</span>
+                </button>
+                <button id="resetBtn" class="btn-reset">
+                    <span>🔄</span>
+                    <span>重新開始</span>
+                </button>
+            </div>
+            <span id="errorHint" class="error-msg">還有幾個細節想聽聽您的看法...</span>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const data = [
+            {
+                title: "一、教學品質與學習成效",
+                aspects: [
+                    { id: "1a", name: "口說進化感", desc: "孩子是否展現自然的美語輸出？" },
+                    { id: "1b", name: "學習主動性", desc: "孩子是否開始主動接觸美語資源？" },
+                    { id: "1c", name: "測驗外的收穫", desc: "邏輯思考或跨文化理解有無提升？" },
+                    { id: "1d", name: "教師引導力", desc: "老師如何讓教學變得有趣？" }
+                ]
+            },
+            {
+                title: "二、生活照顧與情感連結",
+                aspects: [
+                    { id: "2a", name: "情緒雷達", desc: "老師是否發現了孩子微小的情緒？" },
+                    { id: "2b", name: "習慣塑造", desc: "孩子是否養成了令人驚訝的好習慣？" },
+                    { id: "2c", name: "溝通質量", desc: "親師溝通是否精準且有溫度？" },
+                    { id: "2d", name: "歸屬感建立", desc: "孩子是否將中心視為第二個家？" }
+                ]
+            },
+            {
+                title: "三、環境與氛圍",
+                aspects: [
+                    { id: "3a", name: "安全細節", desc: "哪些硬體安排讓您徹底放心？" },
+                    { id: "3b", name: "沉浸式氛圍", desc: "佈置是否營造了異國學習感？" },
+                    { id: "3c", name: "同儕推動力", desc: "班級風氣如何引導正向激勵？" },
+                    { id: "3d", name: "資源運用", desc: "教材如何有效連結家庭教育？" }
+                ]
+            }
+        ];
+
+        const options = [
+            { val: "", text: "-- 請選擇您的觀察 --" },
+            { val: "surprise", text: "超出預期：原本不抱期待，但孩子竟然主動展現了..." },
+            { val: "touched", text: "細微感動：若非老師主動提及，我沒想到連這種小事都被照顧到了..." },
+            { val: "structure", text: "結構改變：這不只是補習，而是改變了孩子的學習習慣..." },
+            { val: "trust", text: "穩定信賴：每次交給中心，我都感覺獲得了寶貴的喘息空間..." },
+            { val: "value", text: "價值契合：中心的教育理念與我們家庭的價值觀產生了強烈共鳴..." }
+        ];
+
+        const formContent = document.getElementById('form-content');
+        let totalSelects = 0;
+
+        // 初始化表單
+        data.forEach((dim, dimIndex) => {
+            const dimDiv = document.createElement('div');
+            dimDiv.className = 'dimension fade-in';
+            dimDiv.style.animationDelay = `${dimIndex * 0.1}s`;
+            
+            const completed = `<span class="dimension-badge" id="badge-${dimIndex}">0/4</span>`;
+            dimDiv.innerHTML = `
+                <div class="dimension-header">
+                    <span>${dim.title}</span>
+                    ${completed}
+                </div>
+                <div class="dimension-body" id="body-${dimIndex}"></div>
+            `;
+            
+            const bodyDiv = dimDiv.querySelector(`#body-${dimIndex}`);
+            
+            dim.aspects.forEach(asp => {
+                const aspDiv = document.createElement('div');
+                aspDiv.className = 'aspect';
+                aspDiv.innerHTML = `
+                    <label class="aspect-label">${asp.name}</label>
+                    <span class="aspect-desc">${asp.desc}</span>
+                `;
+                
+                const select = document.createElement('select');
+                select.id = asp.id;
+                select.dataset.name = asp.name;
+                select.dataset.dim = dim.title.substring(2);
+                select.dataset.dimIndex = dimIndex;
+                
+                options.forEach(opt => {
+                    const o = document.createElement('option');
+                    o.value = opt.val;
+                    o.innerText = opt.text;
+                    select.appendChild(o);
+                });
+                
+                select.addEventListener('change', function() {
+                    if (this.value) {
+                        this.classList.add('selected');
+                    } else {
+                        this.classList.remove('selected');
+                    }
+                    updateSummary();
+                    updateStats();
+                });
+                
+                aspDiv.appendChild(select);
+                bodyDiv.appendChild(aspDiv);
+                totalSelects++;
+            });
+            
+            formContent.appendChild(dimDiv);
+        });
+
+        document.getElementById('totalCount').textContent = totalSelects;
+
+        function updateStats() {
+            const selects = document.querySelectorAll('select');
+            const completed = Array.from(selects).filter(s => s.value !== "").length;
+            const percent = Math.round((completed / totalSelects) * 100);
+            
+            document.getElementById('completedCount').textContent = completed;
+            document.getElementById('progressPercent').textContent = percent + '%';
+            document.getElementById('progressFill').style.width = percent + '%';
+            
+            // 更新各維度徽章
+            data.forEach((dim, idx) => {
+                const dimSelects = document.querySelectorAll(`select[data-dim-index="${idx}"]`);
+                const dimCompleted = Array.from(dimSelects).filter(s => s.value !== "").length;
+                const badge = document.getElementById(`badge-${idx}`);
+                if (badge) {
+                    badge.textContent = `${dimCompleted}/${dimSelects.length}`;
+                }
+            });
+        }
+
+        function updateSummary() {
+            const selects = document.querySelectorAll('select');
+            const selections = Array.from(selects).filter(s => s.value !== "");
+            
+            if (selections.length === 0) {
+                document.getElementById('summaryText').innerHTML = '請完成上方細節選擇，系統將自動為您生成溫暖的文字...';
+                document.getElementById('copyBtn').disabled = true;
+                document.getElementById('shareBtn').disabled = true;
+                document.getElementById('errorHint').style.display = 'flex';
+                return;
+            }
+            
+            // 更豐富的文字生成邏輯
+            let text = generatePersonalizedSummary(selections);
+            document.getElementById('summaryText').innerHTML = text;
+            
+            // 檢查是否全選
+            if (selections.length === selects.length) {
+                document.getElementById('copyBtn').disabled = false;
+                document.getElementById('shareBtn').disabled = false;
+                document.getElementById('errorHint').style.display = 'none';
+            } else {
+                document.getElementById('copyBtn').disabled = true;
+                document.getElementById('shareBtn').disabled = true;
+                document.getElementById('errorHint').style.display = 'flex';
+            }
+        }
+
+        function generatePersonalizedSummary(selections) {
+            if (selections.length === 0) return '';
+            
+            const categories = {
+                'surprise': [],
+                'touched': [],
+                'structure': [],
+                'trust': [],
+                'value': []
+            };
+            
+            selections.forEach(sel => {
+                if (categories[sel.value]) {
+                    categories[sel.value].push({
+                        name: sel.dataset.name,
+                        dim: sel.dataset.dim
+                    });
+                }
+            });
+            
+            let parts = [];
+            
+            // 開場白（根據主要選擇類型）
+            const mainType = Object.keys(categories).reduce((a, b) => 
+                categories[a].length > categories[b].length ? a : b
+            );
+            
+            const openings = {
+                'surprise': '這段時間陪伴孩子在中心學習，最讓我驚喜的是那些原本沒有預期的成長',
+                'touched': '身為家長，最感動的往往不是那些顯而易見的進步，而是那些被細心照顧到的小細節',
+                'structure': '選擇這裡不只是為了美語學習，更重要的是看見了孩子整體生活習慣的正向改變',
+                'trust': '每次把孩子交到中心，我都能感受到一份安心，這份信任是日積月累建立起來的',
+                'value': '最讓我們全家認同的，是中心的教育理念與我們的家庭價值觀如此契合'
+            };
+            
+            parts.push(openings[mainType] + '。\n');
+            
+            // 具體亮點（最多提3個維度）
+            const dims = [...new Set(selections.map(s => s.dataset.dim))];
+            const highlights = [];
+            
+            dims.slice(0, 3).forEach(dim => {
+                const items = selections.filter(s => s.dataset.dim === dim);
+                if (items.length > 0) {
+                    const names = items.map(i => `「${i.dataset.name}」`).join('、');
+                    highlights.push(`在${dim}方面，特別是${names}的表現`);
+                }
+            });
+            
+            if (highlights.length > 0) {
+                parts.push('\n' + highlights.join('；') + '，都讓我深刻感受到教學團隊的用心。\n');
+            }
+            
+            // 情感收尾
+            const closings = [
+                '感謝老師們的專業與溫暖，讓孩子在這裡不只是學習，更是快樂地成長。',
+                '這些看似微小的改變，累積起來就是孩子成長路上最珍貴的養分。',
+                '很慶幸當初選擇了這裡，讓我們全家都能安心且放心。',
+                '教育不只是知識的傳遞，更是生命影響生命，謝謝你們做到了。'
+            ];
+            
+            parts.push('\n' + closings[Math.floor(Math.random() * closings.length)]);
+            
+            return parts.join('');
+        }
+
+        // 複製功能
+        document.getElementById('copyBtn').addEventListener('click', async () => {
+            const text = document.getElementById('summaryText').innerText;
+            try {
+                await navigator.clipboard.writeText(text);
+                showToast('✅ 摘要已成功複製！您可以貼給老師分享喜悅囉！');
+            } catch (err) {
+                showToast('❌ 複製失敗，請手動選取文字複製');
+            }
+        });
+
+        // LINE 分享功能
+        document.getElementById('shareBtn').addEventListener('click', () => {
+            const text = document.getElementById('summaryText').innerText;
+            const encodedText = encodeURIComponent(text);
+            const lineUrl = `https://line.me/R/msg/text/?${encodedText}`;
+            window.open(lineUrl, '_blank');
+        });
+
+        // 重置功能
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            if (confirm('確定要重新開始嗎？所有選擇將會清空。')) {
+                document.querySelectorAll('select').forEach(sel => {
+                    sel.value = '';
+                    sel.classList.remove('selected');
+                });
+                updateSummary();
+                updateStats();
+                showToast('🔄 已重置，可以重新開始囉！');
+            }
+        });
+
+        // Toast 提示
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // 初始化統計
+        updateStats();
+    </script>
+</body>
+</html>

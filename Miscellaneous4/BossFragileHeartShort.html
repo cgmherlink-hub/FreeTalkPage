@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>讀懂你的心</title>
+<style>
+body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+}
+.container {
+    max-width: 900px;
+    margin: auto;
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 32px;
+    font-weight: 700;
+}
+.subtitle {
+    text-align: center;
+    color: #7f8c8d;
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+.intro {
+    background: #f0f7ff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    border-left: 4px solid #5dade2;
+}
+h2 {
+    margin-top: 40px;
+    color: #34495e;
+    border-left: 6px solid #5dade2;
+    padding-left: 15px;
+    font-size: 20px;
+}
+.layer-description {
+    color: #7f8c8d;
+    font-size: 14px;
+    margin-top: -15px;
+    margin-bottom: 20px;
+    padding-left: 21px;
+}
+.question {
+    margin-top: 25px;
+    padding: 20px;
+    background: #f8fbff;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    transition: all 0.3s;
+    scroll-margin-top: 20px;
+}
+.question.answered {
+    border-color: #5dade2;
+    background: #eef7ff;
+}
+.question.active {
+    border-color: #3498db;
+    background: #e8f4f8;
+    box-shadow: 0 0 20px rgba(52, 152, 219, 0.3);
+}
+.question-number {
+    font-weight: bold;
+    color: #5dade2;
+    margin-bottom: 8px;
+}
+.options label {
+    display: block;
+    margin: 10px 0;
+    padding: 12px;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 2px solid #ecf0f1;
+}
+.options label:hover {
+    background: #f8fbff;
+    border-color: #5dade2;
+    transform: translateX(5px);
+}
+.options input[type="radio"] {
+    margin-right: 10px;
+    cursor: pointer;
+}
+.options label:has(input:checked) {
+    background: #e8f4f8;
+    border-color: #5dade2;
+    font-weight: 500;
+}
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #ecf0f1;
+    border-radius: 10px;
+    margin: 30px 0;
+    overflow: hidden;
+}
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #5dade2, #3498db);
+    width: 0%;
+    transition: width 0.3s;
+}
+.progress-text {
+    text-align: center;
+    color: #7f8c8d;
+    font-size: 14px;
+    margin-top: 10px;
+}
+.result {
+    margin-top: 40px;
+    padding: 30px;
+    background: linear-gradient(135deg, #f8fbff, #eef7ff);
+    border-radius: 12px;
+    border: 2px solid #5dade2;
+    animation: fadeIn 0.5s;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.result h3 {
+    color: #2c3e50;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.pattern-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #5dade2;
+    color: white;
+    border-radius: 20px;
+    font-size: 14px;
+    margin: 5px;
+    font-weight: bold;
+}
+.section {
+    margin: 25px 0;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    border-left: 4px solid #5dade2;
+}
+.section h4 {
+    color: #34495e;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+.insight {
+    margin: 15px 0;
+    padding: 15px;
+    background: #f8fbff;
+    border-radius: 6px;
+    line-height: 1.8;
+}
+.strength {
+    border-left: 4px solid #27ae60;
+}
+.challenge {
+    border-left: 4px solid #e67e22;
+}
+.recommendation {
+    border-left: 4px solid #9b59b6;
+}
+.pattern-distribution {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+.pattern-bar {
+    flex: 1;
+    min-width: 150px;
+}
+.pattern-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #34495e;
+}
+.bar-container {
+    width: 100%;
+    height: 30px;
+    background: #ecf0f1;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+}
+.bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #5dade2, #3498db);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    transition: width 0.5s;
+}
+.print-btn {
+    margin-top: 20px;
+    padding: 12px 24px;
+    background: white;
+    color: #5dade2;
+    border: 2px solid #5dade2;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: all 0.3s;
+}
+.print-btn:hover {
+    background: #5dade2;
+    color: white;
+}
+.generating-message {
+    text-align: center;
+    padding: 40px;
+    font-size: 18px;
+    color: #5dade2;
+}
+.spinner {
+    border: 4px solid #ecf0f1;
+    border-top: 4px solid #5dade2;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+@media print {
+    body {
+        background: white;
+    }
+    .container {
+        box-shadow: none;
+    }
+    .print-btn {
+        display: none;
+    }
+    #questionnaire {
+        display: none;
+    }
+    .progress-bar {
+        display: none;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h1>讀懂你的心</h1>
+<p class="subtitle">深度自我探索工具</p>
+
+<div class="intro">
+    <strong>歡迎使用本問卷</strong><br>
+    本問卷採用「冰山理論」架構，協助您探索工作背後的深層動機與情感需求。請依直覺選擇最接近您真實感受的答案，沒有對錯之分。選擇後將自動進入下一題，完成後自動生成個人化分析報告。
+</div>
+
+<div class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+</div>
+<div class="progress-text" id="progressText">已完成 0/6 題</div>
+
+<form id="questionnaire">
+
+<h2>第一層：行為層</h2>
+<p class="layer-description">探索您的外在行為模式與擔憂</p>
+
+<div class="question" data-question="1">
+    <div class="question-number">問題 1</div>
+    <p><strong>如果三個月完全不工作，你最擔心的是？</strong></p>
+    <div class="options">
+        <label><input type="radio" name="q1" value="A"> A. 公司會出問題</label>
+        <label><input type="radio" name="q1" value="B"> B. 客戶會失望</label>
+        <label><input type="radio" name="q1" value="C"> C. 別人會覺得我老了</label>
+        <label><input type="radio" name="q1" value="D"> D. 我不知道每天要做什麼</label>
+    </div>
+</div>
+
+<div class="question" data-question="2">
+    <div class="question-number">問題 2</div>
+    <p><strong>當公司運作順暢、不太需要你時，你的感受是？</strong></p>
+    <div class="options">
+        <label><input type="radio" name="q2" value="A"> A. 放心</label>
+        <label><input type="radio" name="q2" value="B"> B. 有點空</label>
+        <label><input type="radio" name="q2" value="C"> C. 被邊緣化</label>
+        <label><input type="radio" name="q2" value="D"> D. 終於可以休息</label>
+    </div>
+</div>
+
+<h2>第二層：應對姿態</h2>
+<p class="layer-description">了解您面對壓力與挑戰的慣性反應</p>
+
+<div class="question" data-question="3">
+    <div class="question-number">問題 3</div>
+    <p><strong>公司遇到困難時，你最常的反應是？</strong></p>
+    <div class="options">
+        <label><input type="radio" name="q3" value="A"> A. 我來處理</label>
+        <label><input type="radio" name="q3" value="B"> B. 我再想更好的方法</label>
+        <label><input type="radio" name="q3" value="C"> C. 我不能讓人失望</label>
+        <label><input type="radio" name="q3" value="D"> D. 我先撐住</label>
+    </div>
+</div>
+
+<div class="question" data-question="4">
+    <div class="question-number">問題 4</div>
+    <p><strong>當你覺得累卻還在工作，是因為？</strong></p>
+    <div class="options">
+        <label><input type="radio" name="q4" value="A"> A. 我還做得到</label>
+        <label><input type="radio" name="q4" value="B"> B. 公司需要我</label>
+        <label><input type="radio" name="q4" value="C"> C. 不能讓人看到我退步</label>
+        <label><input type="radio" name="q4" value="D"> D. 停下來會更焦慮</label>
+    </div>
+</div>
+
+<h2>第三層：情緒層</h2>
+<p class="layer-description">深入探索您內心真實的情感與渴望</p>
+
+<div class="question" data-question="5">
+    <div class="question-number">問題 5</div>
+    <p><strong>想到交棒，你內心最接近的感覺是？</strong></p>
+    <div class="options">
+        <label><input type="radio" name="q5" value="A"> A. 放不下</label>
+        <label><input type="radio" name="q5" value="B"> B. 不甘心</label>
+        <label><input type="radio" name="q5" value="C"> C. 不安心</label>
+        <label><input type="radio" name="q5" value="D"> D. 有點鬆一口氣</label>
+    </div>
+</div>
+
+<div class="question" data-question="6">
+    <div class="question-number">問題 6</div>
+    <p><strong>當喉嚨不舒服時，你比較像是？</strong></p>
+    <div class="options">
+        <label><input type="radio" name="q6" value="A"> A. 太累</label>
+        <label><input type="radio" name="q6" value="B"> B. 太多話沒說</label>
+        <label><input type="radio" name="q6" value="C"> C. 太多責任壓著</label>
+        <label><input type="radio" name="q6" value="D"> D. 太多擔心在心裡</label>
+    </div>
+</div>
+
+</form>
+
+<div id="result" class="result" style="display:none;"></div>
+
+</div>
+
+<script>
+// Configuration
+const totalQuestions = 6;
+let answeredQuestions = new Set();
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    setupEventListeners();
+    updateProgress();
+    highlightCurrentQuestion();
+});
+
+function setupEventListeners() {
+    const radioButtons = document.querySelectorAll('input[type="radio"]');
+    
+    radioButtons.forEach(radio => {
+        radio.addEventListener('change', function() {
+            handleAnswer(this);
+        });
+    });
+}
+
+function handleAnswer(radio) {
+    const questionName = radio.name;
+    const questionNum = parseInt(questionName.replace('q', ''));
+    const currentQuestion = radio.closest('.question');
+    
+    // Mark as answered
+    answeredQuestions.add(questionName);
+    currentQuestion.classList.add('answered');
+    currentQuestion.classList.remove('active');
+    
+    // Update progress
+    updateProgress();
+    
+    // Auto-scroll to next question or generate report
+    setTimeout(() => {
+        if (answeredQuestions.size < totalQuestions) {
+            scrollToNextQuestion(questionNum);
+        } else {
+            // All questions answered - auto-generate report
+            generateReport();
+        }
+    }, 300);
+}
+
+function scrollToNextQuestion(currentNum) {
+    const nextNum = currentNum + 1;
+    if (nextNum <= totalQuestions) {
+        const nextQuestion = document.querySelector(`.question[data-question="${nextNum}"]`);
+        if (nextQuestion) {
+            // Remove active class from all questions
+            document.querySelectorAll('.question').forEach(q => q.classList.remove('active'));
+            
+            // Add active class to next question
+            nextQuestion.classList.add('active');
+            
+            // Smooth scroll to next question
+            nextQuestion.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center'
+            });
+        }
+    }
+}
+
+function highlightCurrentQuestion() {
+    // Highlight first unanswered question
+    for (let i = 1; i <= totalQuestions; i++) {
+        if (!answeredQuestions.has(`q${i}`)) {
+            const question = document.querySelector(`.question[data-question="${i}"]`);
+            if (question) {
+                question.classList.add('active');
+            }
+            break;
+        }
+    }
+}
+
+function updateProgress() {
+    const progress = (answeredQuestions.size / totalQuestions) * 100;
+    document.getElementById('progressFill').style.width = progress + '%';
+    document.getElementById('progressText').textContent = `已完成 ${answeredQuestions.size}/${totalQuestions} 題`;
+}
+
+function generateReport() {
+    // Show generating message
+    const resultDiv = document.getElementById('result');
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = `
+        <div class="generating-message">
+            <div class="spinner"></div>
+            <p>正在生成您的個人化評估報告...</p>
+        </div>
+    `;
+    
+    // Scroll to result area
+    resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    
+    // Simulate report generation delay for better UX
+    setTimeout(() => {
+        calculateResult();
+    }, 1500);
+}
+
+function calculateResult() {
+    const answers = document.querySelectorAll("input[type=radio]:checked");
+    let count = {A: 0, B: 0, C: 0, D: 0};
+    let layerPatterns = {
+        behavior: [],
+        coping: [],
+        emotion: []
+    };
+
+    answers.forEach(answer => {
+        count[answer.value]++;
+        
+        // Track patterns by layer
+        const questionNum = parseInt(answer.name.replace('q', ''));
+        if (questionNum <= 2) {
+            layerPatterns.behavior.push(answer.value);
+        } else if (questionNum <= 4) {
+            layerPatterns.coping.push(answer.value);
+        } else {
+            layerPatterns.emotion.push(answer.value);
+        }
+    });
+
+    // Calculate percentages
+    const percentages = {};
+    Object.keys(count).forEach(key => {
+        percentages[key] = Math.round((count[key] / totalQuestions) * 100);
+    });
+
+    // Determine primary and secondary patterns
+    const sorted = Object.entries(count).sort((a, b) => b[1] - a[1]);
+    const primary = sorted[0][0];
+    const secondary = sorted[1][1] > 0 ? sorted[1][0] : null;
+    
+    // Check for mixed patterns
+    const isMixed = sorted[0][1] <= 3 && sorted[1][1] >= 2;
+
+    displayDetailedReport(primary, secondary, count, percentages, layerPatterns, isMixed);
+}
+
+function displayDetailedReport(primary, secondary, count, percentages, layerPatterns, isMixed) {
+    const patterns = {
+        A: {
+            title: "掌舵者模式",
+            core: "我仍然重要",
+            description: "您重視影響力與控制感，認為自己的存在對公司至關重要。",
+            strengths: [
+                "強大的責任感與使命感",
+                "豐富的經驗與決策智慧",
+                "對公司有深厚的感情連結"
+            ],
+            challenges: [
+                "可能過度介入日常運作",
+                "難以信任他人的能力",
+                "個人價值過度依賴工作角色"
+            ],
+            recommendations: [
+                "逐步將決策權授予團隊，從「做決定」轉為「教導如何決定」",
+                "建立導師角色，將影響力轉化為智慧傳承",
+                "培養工作以外的興趣，擴展自我價值的來源"
+            ]
+        },
+        B: {
+            title: "守護者模式",
+            core: "不要被取代",
+            description: "您對失落與角色轉換較為敏感，擔心自己的位置被他人取代。",
+            strengths: [
+                "對客戶與員工有深刻的同理心",
+                "追求卓越與持續改進",
+                "珍視長期建立的關係網絡"
+            ],
+            challenges: [
+                "對接班人選可能過度挑剔",
+                "害怕失去專業認同感",
+                "可能陷入「沒人能做得更好」的思維"
+            ],
+            recommendations: [
+                "重新定義「被需要」的方式：從執行者變為顧問",
+                "記錄您的知識與經驗，創造永久的價值傳承",
+                "探索新的專業貢獻途徑，如顧問、教學或寫作"
+            ]
+        },
+        C: {
+            title: "尊嚴守衛模式",
+            core: "不要被看輕",
+            description: "您非常在乎尊嚴與身份價值，擔心退休會被視為能力衰退。",
+            strengths: [
+                "強烈的自尊心驅動持續成長",
+                "重視專業形象與社會地位",
+                "不輕易妥協的堅持精神"
+            ],
+            challenges: [
+                "可能過度在意他人評價",
+                "難以接受自然的老化過程",
+                "將「退休」等同於「失敗」"
+            ],
+            recommendations: [
+                "重新框架「退休」的意義：這是人生新篇章，而非結束",
+                "主動塑造「智慧長者」的新身份認同",
+                "分享您的成功故事，建立正面的典範形象"
+            ]
+        },
+        D: {
+            title: "轉型準備模式",
+            core: "安心退場",
+            description: "您可能已經準備好轉型與重新定義人生，尋找新的生活意義。",
+            strengths: [
+                "對生命階段有成熟的理解",
+                "願意放下並擁抱改變",
+                "有能力重新定義自我價值"
+            ],
+            challenges: [
+                "可能需要協助找到具體的退休計畫",
+                "需要新的生活結構填補時間",
+                "可能面臨身份認同的暫時性迷茫"
+            ],
+            recommendations: [
+                "制定明確的交棒時間表與里程碑",
+                "提前規劃退休後的生活藍圖（旅行、嗜好、志工等）",
+                "考慮漸進式退休，保持與公司的適度連結"
+            ]
+        }
+    };
+
+    let html = `
+        <h3>📊 您的個人化評估報告</h3>
+        
+        <div class="section">
+            <h4>核心模式</h4>
+            <div>
+                <span class="pattern-badge">主要模式：${patterns[primary].title}</span>
+                ${secondary && !isMixed ? `<span class="pattern-badge" style="background:#95a5a6;">次要模式：${patterns[secondary].title}</span>` : ''}
+                ${isMixed ? '<span class="pattern-badge" style="background:#e67e22;">混合模式</span>' : ''}
+            </div>
+        </div>
+
+        <div class="section">
+            <h4>模式分布</h4>
+            <div class="pattern-distribution">
+    `;
+
+    Object.keys(patterns).forEach(key => {
+        html += `
+            <div class="pattern-bar">
+                <div class="pattern-label">${patterns[key].title}</div>
+                <div class="bar-container">
+                    <div class="bar-fill" style="width: ${percentages[key]}%">
+                        ${percentages[key] > 15 ? percentages[key] + '%' : ''}
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+
+    html += `
+            </div>
+        </div>
+
+        <div class="section">
+            <h4>💡 核心渴望</h4>
+            <div class="insight">
+                <strong>「${patterns[primary].core}」</strong><br>
+                ${patterns[primary].description}
+            </div>
+    `;
+
+    if (isMixed && secondary) {
+        html += `
+            <div class="insight" style="margin-top: 15px;">
+                <strong>混合特質：</strong>您同時展現「${patterns[secondary].core}」的傾向。<br>
+                這種複雜性顯示您的內心正在多個需求之間尋找平衡，這是很正常且深刻的自我探索過程。
+            </div>
+        `;
+    }
+
+    html += `</div>`;
+
+    // Layer-specific insights
+    html += `
+        <div class="section">
+            <h4>🔍 分層洞察</h4>
+            <div class="insight">
+                <strong>行為層：</strong>${getLayerInsight(layerPatterns.behavior, 'behavior')}<br><br>
+                <strong>應對層：</strong>${getLayerInsight(layerPatterns.coping, 'coping')}<br><br>
+                <strong>情緒層：</strong>${getLayerInsight(layerPatterns.emotion, 'emotion')}
+            </div>
+        </div>
+    `;
+
+    html += `
+        <div class="section">
+            <h4>✨ 您的優勢</h4>
+    `;
+    patterns[primary].strengths.forEach(strength => {
+        html += `<div class="insight strength">• ${strength}</div>`;
+    });
+
+    html += `
+        </div>
+        <div class="section">
+            <h4>⚠️ 需要關注的挑戰</h4>
+    `;
+    patterns[primary].challenges.forEach(challenge => {
+        html += `<div class="insight challenge">• ${challenge}</div>`;
+    });
+
+    html += `
+        </div>
+        <div class="section">
+            <h4>🎯 個人化建議</h4>
+    `;
+    patterns[primary].recommendations.forEach(rec => {
+        html += `<div class="insight recommendation">• ${rec}</div>`;
+    });
+
+    html += `
+        </div>
+
+        <div class="section">
+            <h4>📝 下一步行動</h4>
+            <div class="insight">
+                <strong>建議您：</strong><br>
+                1. 與信任的家人或顧問分享這份報告，進行深度對話<br>
+                2. 選擇一項「個人化建議」，在未來一個月內嘗試實踐<br>
+                3. 定期（每季）重新檢視自己的狀態與需求<br>
+                4. 考慮尋求專業的職涯轉型教練或心理諮商支持
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px; color: #7f8c8d; font-size: 14px;">
+            <p>報告生成時間：${new Date().toLocaleString('zh-TW')}</p>
+            <button class="print-btn" onclick="window.print()">📄 列印報告</button>
+        </div>
+    `;
+
+    document.getElementById('result').innerHTML = html;
+}
+
+function getLayerInsight(patterns, layer) {
+    const insights = {
+        behavior: {
+            A: "您在行為上傾向保持對公司的控制與影響力",
+            B: "您擔心失去與客戶和團隊的連結",
+            C: "您在意外界對您能力與地位的看法",
+            D: "您展現出對生活轉變的開放態度"
+        },
+        coping: {
+            A: "面對困難時，您習慣親自掌控局面",
+            B: "您傾向透過追求完美來應對壓力",
+            C: "您的應對方式受到「不讓人失望」的驅力影響",
+            D: "您可能用忙碌來迴避內心的不安"
+        },
+        emotion: {
+            A: "情感上，您還未準備好放手",
+            B: "內心深處有未完成的遺憾或不甘",
+            C: "您對未來感到不確定與焦慮",
+            D: "您的內心已經準備好迎接新階段"
+        }
+    };
+
+    // Find dominant pattern in this layer
+    const layerCount = {};
+    patterns.forEach(p => {
+        layerCount[p] = (layerCount[p] || 0) + 1;
+    });
+    const dominant = Object.keys(layerCount).reduce((a, b) => 
+        layerCount[a] > layerCount[b] ? a : b
+    );
+
+    return insights[layer][dominant];
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>美語安親補習班 - 家長細節讚賞生成器</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #4a90e2;
+            --primary-dark: #357abd;
+            --secondary: #f5a623;
+            --success: #5cb85c;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --bg: #f0f2f5;
+            --card-bg: #ffffff;
+            --text: #333;
+            --text-light: #666;
+            --border: #e1e4e8;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-hover: 0 8px 30px rgba(0,0,0,0.12);
+        }
+        
+        body {
+            font-family: "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: var(--bg-gradient);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .header p {
+            font-size: 0.95rem;
+            opacity: 0.95;
+        }
+        
+        .progress-bar {
+            background: white;
+            height: 8px;
+            margin: 20px auto 0;
+            max-width: 600px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f5a623, #ffd700);
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 10px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: -20px auto 0;
+            padding: 0 20px 40px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .stats-bar {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-around;
+            gap: 15px;
+            box-shadow: var(--shadow);
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+            flex: 1;
+            min-width: 100px;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+        
+        .dimension {
+            background: var(--card-bg);
+            margin-bottom: 20px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+        
+        .dimension:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+        }
+        
+        .dimension-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 18px 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .dimension-badge {
+            background: rgba(255,255,255,0.25);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+        
+        .dimension-body {
+            padding: 25px;
+        }
+        
+        .aspect {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .aspect:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .aspect-label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            color: var(--text);
+        }
+        
+        .aspect-desc {
+            font-size: 0.88rem;
+            color: var(--text-light);
+            margin-bottom: 12px;
+            display: block;
+        }
+        
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            background: white;
+            transition: all 0.3s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 40px;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+        
+        select.selected {
+            border-color: var(--success);
+            background-color: #f0fff4;
+        }
+        
+        .summary-box {
+            background: linear-gradient(135deg, #fff9f0 0%, #fffbf7 100%);
+            border: 2px solid var(--secondary);
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 30px;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 20px;
+        }
+        
+        .summary-title {
+            font-weight: bold;
+            color: var(--secondary);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .summary-title::before {
+            content: "✨";
+            font-size: 1.3rem;
+        }
+        
+        #summaryText {
+            white-space: pre-line;
+            color: #444;
+            line-height: 1.8;
+            font-size: 0.95rem;
+            min-height: 120px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+        }
+        
+        .footer-action {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 14px 28px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            flex: 1;
+            min-width: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-copy {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-copy:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        
+        .btn-copy:hover:not(:disabled) {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+        
+        .btn-share {
+            background: #06c755;
+            color: white;
+        }
+        
+        .btn-share:hover:not(:disabled) {
+            background: #05b34c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(6, 199, 85, 0.3);
+        }
+        
+        .btn-share:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        
+        .btn-reset {
+            background: #f5f5f5;
+            color: #666;
+            flex: 0 0 auto;
+            min-width: 100px;
+        }
+        
+        .btn-reset:hover {
+            background: #e0e0e0;
+        }
+        
+        .error-msg {
+            color: #d9534f;
+            font-size: 0.9rem;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .error-msg::before {
+            content: "ℹ️";
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: bottom 0.3s ease;
+            z-index: 1000;
+            max-width: 90%;
+        }
+        
+        .toast.show {
+            bottom: 30px;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* 手機版優化 */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.4rem; }
+            .header p { font-size: 0.85rem; }
+            .stats-bar { padding: 15px; }
+            .stat-value { font-size: 1.4rem; }
+            .stat-label { font-size: 0.8rem; }
+            .dimension-header { padding: 15px 20px; font-size: 1rem; }
+            .dimension-body { padding: 20px; }
+            .summary-box { position: static; margin-top: 25px; }
+            .footer-action { flex-direction: column; }
+            button { min-width: 100%; }
+        }
+        
+        @media (max-width: 480px) {
+            .container { padding: 0 15px 30px; }
+            .stats-bar { gap: 10px; }
+            .stat-item { min-width: 80px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>✨ 家長細節讚賞生成器</h1>
+        <p>用心觀察，溫暖表達 —— 讓每一份感謝都更有溫度</p>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="stats-bar fade-in">
+            <div class="stat-item">
+                <span class="stat-value" id="completedCount">0</span>
+                <span class="stat-label">已完成</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value" id="totalCount">12</span>
+                <span class="stat-label">總題數</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value" id="progressPercent">0%</span>
+                <span class="stat-label">完成度</span>
+            </div>
+        </div>
+
+        <div id="form-content"></div>
+
+        <div class="summary-box fade-in">
+            <div class="summary-title">您的專屬讚美摘要預覽</div>
+            <div id="summaryText">請完成上方細節選擇，系統將自動為您生成溫暖的文字...</div>
+            <div class="footer-action">
+                <button id="copyBtn" class="btn-copy" disabled>
+                    <span>📋</span>
+                    <span>複製完整摘要</span>
+                </button>
+                <button id="shareBtn" class="btn-share" disabled>
+                    <span>📤</span>
+                    <span>分享到 LINE</span>
+                </button>
+                <button id="resetBtn" class="btn-reset">
+                    <span>🔄</span>
+                    <span>重新開始</span>
+                </button>
+            </div>
+            <span id="errorHint" class="error-msg">還有幾個細節想聽聽您的看法...</span>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const data = [
+            {
+                title: "一、教學品質與學習成效",
+                aspects: [
+                    { 
+                        id: "1a", 
+                        name: "口說進化感", 
+                        desc: "孩子是否展現自然的美語輸出？",
+                        options: [
+                            { val: "", text: "-- 請選擇您的觀察 --" },
+                            { val: "natural_output", text: "😊 現在會自然地冒出英文單字，不再害羞扭捏了", tone: "溫暖" },
+                            { val: "accent_change", text: "🎭 發音越來越道地,我都懷疑他是不是偷偷去國外留學了", tone: "搞笑" },
+                            { val: "confident_speak", text: "💪 從不敢開口到主動用英文對話,這轉變讓我眼眶泛淚", tone: "感動" },
+                            { val: "debate_ability", text: "📊 已能運用英語進行邏輯辯論,展現批判性思維", tone: "正經" },
+                            { val: "dream_english", text: "🌙 昨晚說夢話都在講英文!我該擔心還是該高興?", tone: "誇張搞笑" }
+                        ]
+                    },
+                    { 
+                        id: "1b", 
+                        name: "學習主動性", 
+                        desc: "孩子是否開始主動接觸美語資源？",
+                        options: [
+                            { val: "", text: "-- 請選擇您的觀察 --" },
+                            { val: "youtube_english", text: "📱 主動要求看英文YouTube,不再只黏著卡通頻道", tone: "溫暖" },
+                            { val: "reading_habit", text: "📚 開始主動借英文繪本回家,書架上的中文書都哭了", tone: "搞笑" },
+                            { val: "self_learning", text: "🌟 會自己查單字、做筆記,這種自律讓我既驚訝又感動", tone: "感動" },
+                            { val: "resource_explore", text: "🔍 能自主運用線上學習平台,展現優秀的資訊素養", tone: "正經" },
+                            { val: "app_addiction", text: "📲 現在每天都要用英語學習APP打卡,比追劇還認真!", tone: "誇張" }
+                        ]
+                    },
+                    { 
+                        id: "1c", 
+                        name: "測驗外的收穫", 
+                        desc: "邏輯思考或跨文化理解有無提升？",
+                        options: [
+                            { val: "", text: "-- 請選擇您的觀察 --" },
+                            { val: "logic_boost", text: "🧠 開始會用英文思考和解決問題,不再只是死背單字", tone: "溫暖" },
+                            { val: "culture_expert", text: "🌍 現在是家裡的文化小百科,連我都要向他請教萬聖節由來", tone: "搞笑" },
+                            { val: "world_view", text: "👁️ 透過語言學習打開了世界觀,這是最珍貴的收穫", tone: "感動" },
+                            { val: "critical_thinking", text: "💡 展現跨文化比較分析能力,思辨層次明顯提升", tone: "正經" },
+                            { val: "english_everything", text: "🎪 堅持用英文思考數學題、寫日記,連購物清單都要雙語!", tone: "誇張" }
+                        ]
+                    },
+                    { 
+                        id: "1d", 
+                        name: "教師引導力", 
+                        desc: "老師如何讓教學變得有趣？",
+                        options: [
+                            { val: "", text: "-- 請選擇您的觀察 --" },
+                            { val: "fun_class", text: "🎉 每次下課都興高采烈地分享課堂趣事,學習充滿歡樂", tone: "溫暖" },
+                            { val: "teacher_fan", text: "⭐ 現在是老師的頭號粉絲,連睡前故事都要我模仿老師的聲音", tone: "搞笑" },
+                            { val: "ignite_passion", text: "🔥 老師真的點燃了他對英語的熱情,這份感激難以言喻", tone: "感動" },
+                            { val: "pedagogy_excellence", text: "🎓 教學法結合多元智能理論,啟發式引導值得肯定", tone: "正經" },
+                            { val: "idol_teacher", text: "🌟 老師已取代明星成為他的偶像,房間海報都換成老師了(誤)", tone: "誇張搞笑" }
+                        ]
+                    }
+                ]
+            },
+            {
+                title: "二、生活照顧與情感連結",
+                aspects: [
+                    { 
+                        id: "2a", 
+                        name: "情緒雷達", 
+                        desc: "老師是否發現了孩子微小的情緒？",
+                        options: [
+                            { val: "", text: "-- 請選擇您的觀察 --" },
+                            { val: "emotion_care", text: "💝 老師總能第一時間發現孩子的小情緒,比我還敏銳", tone: "溫暖" },
+                            { val: "mind_reader", text: "🔮 我懷疑老師會讀心術,連我都沒察覺的心事都被看穿了", tone: "搞笑" },
+                            { val: "emotional_support", text: "🤗 那次孩子難過,老師的安慰讓他破涕為笑,我真的很感謝", tone: "感動" },
+                            { val: "eq_professional", text: "📋 具備專業情緒教育素養,展現高度EQ管理能力", tone: "正經" },
+                            { val: "emotion_detector", text: "🎯 老師的情緒偵測器準確率100%,NASA應該聘請她!", tone: "誇張搞笑" }
+                        ]
+                    },
+                    { 
+                        id: "2b", 
+                        name: "習慣塑造", 
+                        desc: "孩子是否養成了令人驚訝的好習慣？",
+                        options: [
+                            { val: "", text: "-- 請選擇您的觀察 --" },
+                            { val: "tidy_habit", text: "✨ 現在會主動整理書包,不用我三催四請了", tone: "溫暖" },
+                            { val: "alien_swap", text: "👽 我懷疑外星人掉包了我的孩子,怎麼突然變這麼自律?!", tone: "搞笑" },
+                            { val: "growth_tears", text: "😭 看著他從散漫到自律,每個進步都讓我濕了眼眶", tone: "感動" },
+                            { val: "habit_formation", text: "📈 建立系統性時間管理與自我規劃能力,成效顯著", tone: "正經" },
+                            { val: "perfect_child", text: "🏆 現在準時、整潔、有禮貌,根本是教養書的範本!", tone: "誇張" }
+                        ]
+                    },
+                    { 
+                        id: "2c", 
+                        name: "溝通質量", 
+                        desc: "親師溝通是否精準且有溫度？",
+                        options: [
+                            { val: "", text: "-- 請選擇您的觀察 --" },
+                            { val: "warm_communication", text: "💌 每次對話都感受到溫度,不是冰冷的制式回應", tone: "溫暖" },
+                            { val: "detail_master", text: "🔬 老師記得的細節比我還多,我都想請她當我的生活秘書", tone: "搞笑" },
+                            { val: "trust_built", text: "🌈 這種互信關係的建立,讓我真正感到安心和被理解", tone: "感動" },
+                            { val: "professional_report", text: "📊 提供具體觀察數據與專業建議,溝通效率極高", tone: "正經" },
+                            { val: "telepathy", text: "📡 我們根本有心電感應,我還沒開口她就知道我要問什麼!", tone: "誇張搞笑" }
+                        ]
+                    },
+                    { 
+                        id: "2d", 
+                        name: "歸屬感建立", 
+                        desc: "孩子是否將中心視為第二個家？",
+                        options: [
+                            { val: "", text: "-- 請選擇您的觀察 --" },
+                            { val: "love_center", text: "🏡 每天都期待去中心,那份歸屬感讓我很欣慰", tone: "溫暖" },
+                            { val: "weekend_complaint", text: "😤 週末居然抱怨不能去中心,我該開心還是該吃醋?", tone: "搞笑" },
+                            { val: "second_home", text: "💖 看他在那裡如此自在快樂,真的像找到第二個家", tone: "感動" },
+                            { val: "belonging_psychology", text: "🏫 展現高度組織認同與心理歸屬,環境適應良好", tone: "正經" },
+                            { val: "live_there", text: "🛏️ 恨不得在中心搭帳篷過夜,我考慮要不要幫他辦移民!", tone: "誇張搞笑" }
+                        ]
+                    }
+                ]
+            },
+            {
+                title: "三、環境與氛圍",
+                aspects: [
+                    { 
+                        id: "3a", 
+                        name: "安全細節", 
+                        desc: "哪些硬體安排讓您徹底放心？",
+                        options: [
+                            { val: "", text: "-- 請選擇您的觀察 --" },
+                            { val: "safety_first", text: "🛡️ 從門禁到桌角防撞,每個細節都讓我安心", tone: "溫暖" },
+                            { val: "fortress", text: "🏰 安全措施嚴密到我都懷疑是不是在守護總統!", tone: "搞笑" },
+                            { val: "parent_relief", text: "😌 看到這些用心的安全設計,我真的可以放心工作了", tone: "感動" },
+                            { val: "safety_standard", text: "✅ 符合國際兒童安全標準,硬體設施專業到位", tone: "正經" },
+                            { val: "military_grade", text: "🎖️ 這裡的安全等級根本是軍事堡壘,連蚊子都進不來!", tone: "誇張搞笑" }
+                        ]
+                    },
+                    { 
+                        id: "3b", 
+                        name: "沉浸式氛圍", 
+                        desc: "佈置是否營造了異國學習感？",
+                        options: [
+                            { val: "", text: "-- 請選擇您的觀察 --" },
+                            { val: "immersive_design", text: "🌎 環境佈置很用心,真的有置身國外的感覺", tone: "溫暖" },
+                            { val: "mini_america", text: "🗽 根本是迷你美國,我每次接孩子都要先檢查護照(誤)", tone: "搞笑" },
+                            { val: "cultural_bridge", text: "🌉 這種文化氛圍的營造,讓學習不再只是紙上談兵", tone: "感動" },
+                            { val: "environment_pedagogy", text: "🎨 空間設計融入情境教學法,環境即教材", tone: "正經" },
+                            { val: "hollywood_level", text: "🎬 佈景比好萊塢片場還專業,我都想拍電影了!", tone: "誇張搞笑" }
+                        ]
+                    },
+                    { 
+                        id: "3c", 
+                        name: "同儕推動力", 
+                        desc: "班級風氣如何引導正向激勵？",
+                        options: [
+                            { val: "", text: "-- 請選擇您的觀察 --" },
+                            { val: "positive_peers", text: "👫 同學們互相鼓勵,形成很棒的學習氛圍", tone: "溫暖" },
+                            { val: "motivation_squad", text: "🚀 班上根本是勵志天團,每個都是對方的啦啦隊長", tone: "搞笑" },
+                            { val: "grow_together", text: "🌱 看著孩子們一起成長、互相扶持,真的很感動", tone: "感動" },
+                            { val: "peer_learning", text: "📚 建立合作學習機制,發揮同儕鷹架效應", tone: "正經" },
+                            { val: "super_team", text: "⚡ 這群孩子的正能量爆表,都可以去拯救世界了!", tone: "誇張" }
+                        ]
+                    },
+                    { 
+                        id: "3d", 
+                        name: "資源運用", 
+                        desc: "教材如何有效連結家庭教育？",
+                        options: [
+                            { val: "", text: "-- 請選擇您的觀察 --" },
+                            { val: "home_connection", text: "🔗 教材設計讓我也能在家陪伴孩子複習,很貼心", tone: "溫暖" },
+                            { val: "parent_homework", text: "📖 現在連我都在學英文了,孩子反而變成我的小老師", tone: "搞笑" },
+                            { val: "family_growth", text: "👨‍👩‍👧 親子共學的機會讓我們關係更親密了,謝謝", tone: "感動" },
+                            { val: "integrated_curriculum", text: "🎯 教材設計結合家庭教育,形成完整學習生態系", tone: "正經" },
+                            { val: "family_school", text: "🏠 我家客廳已經變成分校了,連狗狗都會幾句英文!", tone: "誇張搞笑" }
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        const formContent = document.getElementById('form-content');
+        let totalSelects = 0;
+
+        // 初始化表單
+        data.forEach((dim, dimIndex) => {
+            const dimDiv = document.createElement('div');
+            dimDiv.className = 'dimension fade-in';
+            dimDiv.style.animationDelay = `${dimIndex * 0.1}s`;
+            
+            const completed = `<span class="dimension-badge" id="badge-${dimIndex}">0/${dim.aspects.length}</span>`;
+            dimDiv.innerHTML = `
+                <div class="dimension-header">
+                    <span>${dim.title}</span>
+                    ${completed}
+                </div>
+                <div class="dimension-body" id="body-${dimIndex}"></div>
+            `;
+            
+            const bodyDiv = dimDiv.querySelector(`#body-${dimIndex}`);
+            
+            dim.aspects.forEach(asp => {
+                const aspDiv = document.createElement('div');
+                aspDiv.className = 'aspect';
+                aspDiv.innerHTML = `
+                    <label class="aspect-label">${asp.name}</label>
+                    <span class="aspect-desc">${asp.desc}</span>
+                `;
+                
+                const select = document.createElement('select');
+                select.id = asp.id;
+                select.dataset.name = asp.name;
+                select.dataset.dim = dim.title.substring(2);
+                select.dataset.dimIndex = dimIndex;
+                
+                asp.options.forEach(opt => {
+                    const o = document.createElement('option');
+                    o.value = opt.val;
+                    o.innerText = opt.text;
+                    if (opt.tone) {
+                        o.dataset.tone = opt.tone;
+                    }
+                    select.appendChild(o);
+                });
+                
+                select.addEventListener('change', function() {
+                    if (this.value) {
+                        this.classList.add('selected');
+                    } else {
+                        this.classList.remove('selected');
+                    }
+                    updateSummary();
+                    updateStats();
+                });
+                
+                aspDiv.appendChild(select);
+                bodyDiv.appendChild(aspDiv);
+                totalSelects++;
+            });
+            
+            formContent.appendChild(dimDiv);
+        });
+
+        document.getElementById('totalCount').textContent = totalSelects;
+
+        function updateStats() {
+            const selects = document.querySelectorAll('select');
+            const completed = Array.from(selects).filter(s => s.value !== "").length;
+            const percent = Math.round((completed / totalSelects) * 100);
+            
+            document.getElementById('completedCount').textContent = completed;
+            document.getElementById('progressPercent').textContent = percent + '%';
+            document.getElementById('progressFill').style.width = percent + '%';
+            
+            // 更新各維度徽章
+            data.forEach((dim, idx) => {
+                const dimSelects = document.querySelectorAll(`select[data-dim-index="${idx}"]`);
+                const dimCompleted = Array.from(dimSelects).filter(s => s.value !== "").length;
+                const badge = document.getElementById(`badge-${idx}`);
+                if (badge) {
+                    badge.textContent = `${dimCompleted}/${dimSelects.length}`;
+                }
+            });
+        }
+
+        function updateSummary() {
+            const selects = document.querySelectorAll('select');
+            const selections = Array.from(selects).filter(s => s.value !== "");
+            
+            if (selections.length === 0) {
+                document.getElementById('summaryText').innerHTML = '請完成上方細節選擇，系統將自動為您生成溫暖的文字...';
+                document.getElementById('copyBtn').disabled = true;
+                document.getElementById('shareBtn').disabled = true;
+                document.getElementById('errorHint').style.display = 'flex';
+                return;
+            }
+            
+            // 生成個人化摘要
+            let text = generatePersonalizedSummary(selections);
+            document.getElementById('summaryText').innerHTML = text;
+            
+            // 檢查是否全選
+            if (selections.length === selects.length) {
+                document.getElementById('copyBtn').disabled = false;
+                document.getElementById('shareBtn').disabled = false;
+                document.getElementById('errorHint').style.display = 'none';
+            } else {
+                document.getElementById('copyBtn').disabled = true;
+                document.getElementById('shareBtn').disabled = true;
+                document.getElementById('errorHint').style.display = 'flex';
+            }
+        }
+
+        function generatePersonalizedSummary(selections) {
+            if (selections.length === 0) return '';
+            
+            // 分析選擇的語氣分佈
+            const tones = {
+                '溫暖': 0,
+                '搞笑': 0,
+                '感動': 0,
+                '正經': 0,
+                '誇張': 0
+            };
+            
+            selections.forEach(sel => {
+                const selectedOption = sel.options[sel.selectedIndex];
+                const tone = selectedOption.dataset.tone || '溫暖';
+                if (tones[tone] !== undefined) {
+                    tones[tone]++;
+                }
+            });
+            
+            // 找出主要語氣
+            const dominantTone = Object.keys(tones).reduce((a, b) => 
+                tones[a] > tones[b] ? a : b
+            );
+            
+            let parts = [];
+            
+            // 根據主要語氣選擇開場白
+            const openings = {
+                '溫暖': '這段時間陪伴孩子在中心學習，心中充滿了溫暖與感激',
+                '搞笑': '自從孩子來到這裡，我家發生了許多有趣的變化',
+                '感動': '身為家長，看著孩子的成長，內心總是百感交集',
+                '正經': '經過一段時間的觀察，我想分享一些具體的學習成效',
+                '誇張': '我必須說，自從來到這裡，孩子的變化簡直超乎想像'
+            };
+            
+            parts.push(openings[dominantTone] + '。\n');
+            
+            // 整理各維度的亮點
+            const dims = [...new Set(selections.map(s => s.dataset.dim))];
+            const highlights = [];
+            
+            dims.slice(0, 3).forEach(dim => {
+                const items = selections.filter(s => s.dataset.dim === dim);
+                if (items.length > 0) {
+                    const names = items.map(i => `「${i.dataset.name}」`).join('、');
+                    highlights.push(`在${dim}方面，${names}的表現`);
+                }
+            });
+            
+            if (highlights.length > 0) {
+                parts.push('\n' + highlights.join('；') + '，都讓我印象深刻。\n');
+            }
+            
+            // 根據語氣選擇結尾
+            const closings = {
+                '溫暖': '感謝老師們的用心陪伴，讓孩子在溫暖的環境中快樂成長。',
+                '搞笑': '雖然我的描述有點誇張，但這些改變都是真實的，感謝團隊的努力！',
+                '感動': '這些點點滴滴的改變，都是最珍貴的成長軌跡，由衷感謝。',
+                '正經': '綜合以上觀察，教學品質與專業度值得肯定，期待持續合作。',
+                '誇張': '這樣的教學成效，我已經開始推薦給所有認識的家長了！'
+            };
+            
+            parts.push('\n' + closings[dominantTone]);
+            
+            return parts.join('');
+        }
+
+        // 複製功能
+        document.getElementById('copyBtn').addEventListener('click', async () => {
+            const text = document.getElementById('summaryText').innerText;
+            try {
+                await navigator.clipboard.writeText(text);
+                showToast('✅ 摘要已成功複製！您可以貼給老師分享喜悅囉！');
+            } catch (err) {
+                showToast('❌ 複製失敗，請手動選取文字複製');
+            }
+        });
+
+        // LINE 分享功能
+        document.getElementById('shareBtn').addEventListener('click', () => {
+            const text = document.getElementById('summaryText').innerText;
+            const encodedText = encodeURIComponent(text);
+            const lineUrl = `https://line.me/R/msg/text/?${encodedText}`;
+            window.open(lineUrl, '_blank');
+        });
+
+        // 重置功能
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            if (confirm('確定要重新開始嗎？所有選擇將會清空。')) {
+                document.querySelectorAll('select').forEach(sel => {
+                    sel.value = '';
+                    sel.classList.remove('selected');
+                });
+                updateSummary();
+                updateStats();
+                showToast('🔄 已重置，可以重新開始囉！');
+            }
+        });
+
+        // Toast 提示
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // 初始化統計
+        updateStats();
+    </script>
+</body>
+</html>

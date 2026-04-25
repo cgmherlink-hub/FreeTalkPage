@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>職業倦怠加權自我評測表</title>
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #333;
+        }
+        body {
+            font-family: "Microsoft JhengHei", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 { text-align: center; color: var(--primary-color); }
+        p.desc { text-align: center; color: #666; margin-bottom: 30px; }
+        .question-block {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .question-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+        .weight-tag {
+            font-size: 0.8em;
+            background: #e1f5fe;
+            color: #0288d1;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+        .options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        input[type="radio"] { margin-right: 5px; }
+        
+        .result-section {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            display: none;
+            text-align: center;
+        }
+        #btn-calc {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        #btn-calc:hover { background-color: #357abd; }
+        
+        .score-display { font-size: 2em; font-weight: bold; margin: 10px 0; }
+        .interpretation { font-size: 1.2em; font-weight: bold; }
+        .advice { margin-top: 10px; color: #555; text-align: left; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>職業倦怠加權自我評測表</h1>
+    <p class="desc">請根據過去一個月的真實感受填寫，系統將自動計算加權分數。</p>
+
+    <form id="burnoutForm">
+        <div id="questions-container"></div>
+        
+        <button type="button" id="btn-calc" onclick="calculateScore()">送出評測並查看結果</button>
+    </form>
+
+    <div id="result" class="result-section">
+        <div>您的加權總分為：</div>
+        <div id="totalScore" class="score-display">0</div>
+        <div id="interpretation" class="interpretation"></div>
+        <div id="advice" class="advice"></div>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { id: 1, text: "晨間排斥感：早起想到要上班就感到沈重或恐慌", w: 1.2 },
+        { id: 2, text: "持續性疲勞：即使睡飽後，依然感到精疲力竭", w: 1.5 },
+        { id: 3, text: "注意力渙散：工作時難以集中，效率明顯下降", w: 0.8 },
+        { id: 4, text: "情感冷漠：對工作內容或客戶感到麻木、不在乎", w: 1.0 },
+        { id: 5, text: "易怒與煩躁：常因小事對同事或家人發火", w: 1.0 },
+        { id: 6, text: "生理警訊：不明原因頭痛、胃痛、胸悶或失眠", w: 1.5 },
+        { id: 7, text: "拖延行為：刻意迴避工作，甚至害怕開郵件", w: 0.8 },
+        { id: 8, text: "自我懷疑：覺得工作毫無價值，否定過去成就", w: 1.5 },
+        { id: 9, text: "社交退縮：拒絕下班後的社交，只想一個人待著", w: 0.7 },
+        { id: 10, text: "習得性無助：覺得環境無法改變，失去期待", w: 2.0 }
+    ];
+
+    const options = [
+        { label: "從未 (0分)", val: 0 },
+        { label: "偶爾 (1分)", val: 1 },
+        { label: "經常 (2分)", val: 2 },
+        { label: "每天 (3分)", val: 3 }
+    ];
+
+    // 生成題目 HTML
+    const container = document.getElementById('questions-container');
+    questions.forEach(q => {
+        let qHtml = `
+            <div class="question-block">
+                <div class="question-title">${q.id}. ${q.text} <span class="weight-tag">權重 ×${q.w}</span></div>
+                <div class="options">
+        `;
+        options.forEach(opt => {
+            qHtml += `
+                <label>
+                    <input type="radio" name="q${q.id}" value="${opt.val}" required> ${opt.label}
+                </label>
+            `;
+        });
+        qHtml += `</div></div>`;
+        container.innerHTML += qHtml;
+    });
+
+    function calculateScore() {
+        let total = 0;
+        let allAnswered = true;
+
+        questions.forEach(q => {
+            const selected = document.querySelector(`input[name="q${q.id}"]:checked`);
+            if (selected) {
+                total += parseFloat(selected.value) * q.w;
+            } else {
+                allAnswered = false;
+            }
+        });
+
+        if (!allAnswered) {
+            alert("請完成所有題目後再送出。");
+            return;
+        }
+
+        displayResult(total.toFixed(1));
+    }
+
+    function displayResult(score) {
+        const resDiv = document.getElementById('result');
+        const scoreSpan = document.getElementById('totalScore');
+        const interpDiv = document.getElementById('interpretation');
+        const adviceDiv = document.getElementById('advice');
+
+        resDiv.style.display = 'block';
+        scoreSpan.innerText = score;
+
+        if (score <= 10) {
+            resDiv.style.backgroundColor = "#e8f5e9";
+            interpDiv.innerText = "【狀態良好】正常壓力範圍";
+            interpDiv.style.color = "#2e7d32";
+            adviceDiv.innerHTML = "目前壓力處於可控範圍。建議保持規律運動與愛好，適時切換大腦頻率。";
+        } else if (score <= 22) {
+            resDiv.style.backgroundColor = "#fff3e0";
+            interpDiv.innerText = "【警訊出現】進入倦怠預警期";
+            interpDiv.style.color = "#ef6c00";
+            adviceDiv.innerHTML = "你已經開始感到疲憊。建議：<br>1. 練習『心理下班』，回家後不處理公務。<br>2. 重新檢視優先順序，學會拒絕非必要任務。<br>3. 安排一場短途小旅行或深層按摩。";
+        } else {
+            resDiv.style.backgroundColor = "#ffebee";
+            interpDiv.innerText = "【嚴重危險】核心職業倦怠";
+            interpDiv.style.color = "#c62828";
+            adviceDiv.innerHTML = "<strong>警告：</strong>你的身心能量幾近耗盡。建議：<br>1. 尋求心理諮商師或醫療專業協助。<br>2. 考慮安排長假（3天以上）徹底斷網。<br>3. 與主管溝通工作內容調整，或嚴肅評估職涯變動。";
+        }
+        
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>

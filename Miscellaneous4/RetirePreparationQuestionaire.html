@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>反直覺退休準備度測驗</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body { 
+            font-family: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #2d3748;
+            line-height: 1.8;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        
+        .container { 
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 { 
+            text-align: center;
+            color: #1a202c;
+            font-size: 2.2em;
+            margin-bottom: 15px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        p.intro { 
+            color: #718096;
+            font-size: 1em;
+            margin-bottom: 40px;
+            text-align: center;
+            padding: 0 20px;
+            line-height: 1.7;
+        }
+        
+        .question { 
+            margin-bottom: 35px;
+            padding: 25px;
+            background: #f7fafc;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+        
+        .question:hover {
+            background: #edf2f7;
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+        }
+        
+        .question label { 
+            display: block;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2d3748;
+            font-size: 1.05em;
+            line-height: 1.6;
+        }
+        
+        .question-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            text-align: center;
+            border-radius: 50%;
+            font-size: 0.85em;
+            margin-right: 10px;
+            font-weight: 700;
+        }
+        
+        .options { 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .options span { 
+            font-size: 0.85em;
+            color: #a0aec0;
+            font-weight: 500;
+            min-width: 60px;
+        }
+        
+        .options input[type="radio"] {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+        
+        .options label {
+            font-size: 0.9em;
+            color: #4a5568;
+            margin: 0;
+            cursor: pointer;
+        }
+        
+        .btn-container { 
+            text-align: center;
+            margin-top: 45px;
+        }
+        
+        button { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 16px 50px;
+            font-size: 1.15em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            font-family: "Microsoft JhengHei", sans-serif;
+        }
+        
+        button:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        #result { 
+            margin-top: 40px;
+            padding: 35px;
+            border-radius: 16px;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .score-box { 
+            font-size: 2em;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            background: white;
+        }
+        
+        #adviceDisplay {
+            line-height: 1.8;
+            font-size: 1.05em;
+        }
+        
+        #adviceDisplay strong {
+            display: block;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .level-high { 
+            background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
+            border: 2px solid #48bb78;
+        }
+        
+        .level-high .score-box {
+            color: #22543d;
+        }
+        
+        .level-mid { 
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border: 2px solid #ed8936;
+        }
+        
+        .level-mid .score-box {
+            color: #7c2d12;
+        }
+        
+        .level-low { 
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            border: 2px solid #dd6b20;
+        }
+        
+        .level-low .score-box {
+            color: #742a2a;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.8s ease;
+            border-radius: 10px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 1.6em;
+            }
+            
+            .options {
+                font-size: 0.9em;
+            }
+            
+            .question {
+                padding: 20px 15px;
+            }
+            
+            button {
+                padding: 14px 40px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>退休準備度：反直覺測驗</h1>
+    <p class="intro">這份問卷不問存款，只問你的心理韌性。請誠實依照直覺勾選（1分：非常焦慮/做不到，5分：非常自在/沒問題）。</p>
+    
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <form id="quizForm">
+        <div class="question">
+            <label><span class="question-number">1</span>週一上午 10 點，若沒有任何會議或通知，你能感到由衷放鬆嗎？</label>
+            <div class="options">
+                <span>焦慮</span>
+                <input type="radio" name="q1" value="1" onchange="updateProgress()"> 1
+                <input type="radio" name="q1" value="2" onchange="updateProgress()"> 2
+                <input type="radio" name="q1" value="3" checked onchange="updateProgress()"> 3
+                <input type="radio" name="q1" value="4" onchange="updateProgress()"> 4
+                <input type="radio" name="q1" value="5" onchange="updateProgress()"> 5
+                <span>自在</span>
+            </div>
+        </div>
+
+        <div class="question">
+            <label><span class="question-number">2</span>不使用任何公司職稱，你能在 30 秒內介紹出讓你自豪的「自我」嗎？</label>
+            <div class="options">
+                <span>困難</span>
+                <input type="radio" name="q2" value="1" onchange="updateProgress()"> 1
+                <input type="radio" name="q2" value="2" onchange="updateProgress()"> 2
+                <input type="radio" name="q2" value="3" checked onchange="updateProgress()"> 3
+                <input type="radio" name="q2" value="4" onchange="updateProgress()"> 4
+                <input type="radio" name="q2" value="5" onchange="updateProgress()"> 5
+                <span>容易</span>
+            </div>
+        </div>
+
+        <div class="question">
+            <label><span class="question-number">3</span>你能忍受連續一整週「沒有必須完成」的任務，而不感到空虛嗎？</label>
+            <div class="options">
+                <span>空虛</span>
+                <input type="radio" name="q3" value="1" onchange="updateProgress()"> 1
+                <input type="radio" name="q3" value="2" onchange="updateProgress()"> 2
+                <input type="radio" name="q3" value="3" checked onchange="updateProgress()"> 3
+                <input type="radio" name="q3" value="4" onchange="updateProgress()"> 4
+                <input type="radio" name="q3" value="5" onchange="updateProgress()"> 5
+                <span>享受</span>
+            </div>
+        </div>
+
+        <div class="question">
+            <label><span class="question-number">4</span>若不再有業務往來，你通訊錄裡的朋友還有人會主動約你嗎？</label>
+            <div class="options">
+                <span>沒人約</span>
+                <input type="radio" name="q4" value="1" onchange="updateProgress()"> 1
+                <input type="radio" name="q4" value="2" onchange="updateProgress()"> 2
+                <input type="radio" name="q4" value="3" checked onchange="updateProgress()"> 3
+                <input type="radio" name="q4" value="4" onchange="updateProgress()"> 4
+                <input type="radio" name="q4" value="5" onchange="updateProgress()"> 5
+                <span>有很多</span>
+            </div>
+        </div>
+
+        <div class="question">
+            <label><span class="question-number">5</span>看著帳戶數字「只減不增」地支付生活費，你會感到恐慌嗎？</label>
+            <div class="options">
+                <span>恐慌</span>
+                <input type="radio" name="q5" value="1" onchange="updateProgress()"> 1
+                <input type="radio" name="q5" value="2" onchange="updateProgress()"> 2
+                <input type="radio" name="q5" value="3" checked onchange="updateProgress()"> 3
+                <input type="radio" name="q5" value="4" onchange="updateProgress()"> 4
+                <input type="radio" name="q5" value="5" onchange="updateProgress()"> 5
+                <span>淡定</span>
+            </div>
+        </div>
+
+        <div class="question">
+            <label><span class="question-number">6</span>若金融海嘯讓資產縮水 20%，你還能照樣睡得著而不急著找工作嗗？</label>
+            <div class="options">
+                <span>焦慮</span>
+                <input type="radio" name="q6" value="1" onchange="updateProgress()"> 1
+                <input type="radio" name="q6" value="2" onchange="updateProgress()"> 2
+                <input type="radio" name="q6" value="3" checked onchange="updateProgress()"> 3
+                <input type="radio" name="q6" value="4" onchange="updateProgress()"> 4
+                <input type="radio" name="q6" value="5" onchange="updateProgress()"> 5
+                <span>沒問題</span>
+            </div>
+        </div>
+
+        <div class="question">
+            <label><span class="question-number">7</span>你準備好每天與另一半相處 24 小時並包容彼此被放大的缺點嗎？</label>
+            <div class="options">
+                <span>想逃</span>
+                <input type="radio" name="q7" value="1" onchange="updateProgress()"> 1
+                <input type="radio" name="q7" value="2" onchange="updateProgress()"> 2
+                <input type="radio" name="q7" value="3" checked onchange="updateProgress()"> 3
+                <input type="radio" name="q7" value="4" onchange="updateProgress()"> 4
+                <input type="radio" name="q7" value="5" onchange="updateProgress()"> 5
+                <span>很期待</span>
+            </div>
+        </div>
+
+        <div class="question">
+            <label><span class="question-number">8</span>你能從整理家務或買菜等日常瑣事中獲得成就感嗎？</label>
+            <div class="options">
+                <span>無感</span>
+                <input type="radio" name="q8" value="1" onchange="updateProgress()"> 1
+                <input type="radio" name="q8" value="2" onchange="updateProgress()"> 2
+                <input type="radio" name="q8" value="3" checked onchange="updateProgress()"> 3
+                <input type="radio" name="q8" value="4" onchange="updateProgress()"> 4
+                <input type="radio" name="q8" value="5" onchange="updateProgress()"> 5
+                <span>可以</span>
+            </div>
+        </div>
+
+        <div class="btn-container">
+            <button type="button" onclick="calculateScore()">送出評估</button>
+        </div>
+    </form>
+
+    <div id="result">
+        <div id="scoreDisplay" class="score-box"></div>
+        <div id="adviceDisplay"></div>
+    </div>
+</div>
+
+<script>
+    function updateProgress() {
+        const form = document.getElementById('quizForm');
+        const totalQuestions = 8;
+        let answered = 0;
+        
+        for(let i=1; i<=totalQuestions; i++) {
+            if(document.querySelector(`input[name="q${i}"]:checked`)) {
+                answered++;
+            }
+        }
+        
+        const percentage = (answered / totalQuestions) * 100;
+        document.getElementById('progressFill').style.width = percentage + '%';
+    }
+    
+    function calculateScore() {
+        const form = document.getElementById('quizForm');
+        let score = 0;
+        const totalQuestions = 8;
+        
+        for(let i=1; i<=totalQuestions; i++) {
+            const val = document.querySelector(`input[name="q${i}"]:checked`).value;
+            score += parseInt(val);
+        }
+
+        const resultDiv = document.getElementById('result');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const adviceDisplay = document.getElementById('adviceDisplay');
+
+        resultDiv.style.display = 'block';
+        scoreDisplay.innerHTML = `總分：${score} / 40`;
+
+        if (score >= 32) {
+            resultDiv.className = 'level-high';
+            adviceDisplay.innerHTML = "<strong>【黃金登出者】</strong><br>你可以明天就提辭呈！你已完成身分脫鉤，具備高度心理自律。建議：開始規劃那些「不賺錢也想做」的志業。";
+        } else if (score >= 24) {
+            resultDiv.className = 'level-mid';
+            adviceDisplay.innerHTML = "<strong>【過渡期徘徊者】</strong><br>你需要的是長假而非退休。你對失去控制仍有不安。建議：執行「退休壓力測試」，請休兩週長假但不安排觀光行程，模擬真實退休生活。";
+        } else {
+            resultDiv.className = 'level-low';
+            adviceDisplay.innerHTML = "<strong>【職場依賴者】</strong><br>現在退休可能是場災難。你的價值與工作深度綑綁。建議：練習「身分微分離」，去參加與專業無關的社團，建立非職場的社交圈。";
+        }
+        
+        setTimeout(() => {
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+    }
+    
+    // Initialize progress bar on page load
+    updateProgress();
+</script>
+
+</body>
+</html>

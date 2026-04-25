@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>陳進明醫師的看診狀態</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, 'LiHei Pro', '微軟正黑體', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        /* 狀態大字體設定 */
+        #status-display {
+            font-size: 8rem; /* 大大的字 */
+            font-weight: bold;
+            margin: 30px 0;
+            padding: 20px 40px;
+            border-radius: 20px;
+            background-color: #fff;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: color 0.3s ease;
+        }
+
+        /* 狀態顏色 */
+        .status-consulting { color: #d32f2f; } /* 看診中 - 紅色 */
+        .status-waiting { color: #388e3c; }    /* 待診中 - 綠色 */
+        .status-resting { color: #f57c00; }    /* 休息中 - 橘色 */
+
+        /* 按鈕區域 */
+        .control-buttons {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .control-buttons button {
+            font-size: 1.5rem;
+            padding: 15px 40px;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            color: white;
+            transition: opacity 0.2s;
+        }
+        
+        .control-buttons button:hover { opacity: 0.8; }
+        .btn-consulting { background-color: #d32f2f; }
+        .btn-waiting { background-color: #388e3c; }
+        .btn-resting { background-color: #f57c00; }
+
+        /* 計時器選項區域 */
+        .timer-settings {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            max-width: 800px;
+        }
+
+        .timer-settings h3 {
+            margin-top: 0;
+            color: #555;
+        }
+
+        .options-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .radio-label {
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 8px 15px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+
+        .radio-label:hover { background-color: #dee2e6; }
+        .radio-label input { margin-right: 8px; transform: scale(1.2); }
+
+        /* 倒數計時提示 */
+        #countdown-text {
+            font-size: 1.5rem;
+            color: #666;
+            margin-top: 20px;
+            min-height: 35px; /* 保持空間避免版面跳動 */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>陳進明醫師看診狀態</h1>
+
+    <div id="status-display" class="status-waiting">待診中</div>
+
+    <div id="countdown-text"></div>
+
+    <div class="control-buttons">
+        <button class="btn-consulting" onclick="setStatus('看診中')">看診中</button>
+        <button class="btn-waiting" onclick="setStatus('待診中')">待診中</button>
+        <button class="btn-resting" onclick="setStatus('休息中')">休息中</button>
+    </div>
+
+    <div class="timer-settings">
+        <h3>自動轉為「待診中」時間設定 (適用於點擊看診中時)</h3>
+        <div class="options-grid">
+            <label class="radio-label"><input type="radio" name="duration" value="60" onchange="updateTimer(this.value)"> 1 MIN</label>
+            <label class="radio-label"><input type="radio" name="duration" value="90" onchange="updateTimer(this.value)"> 1.5 MIN</label>
+            <label class="radio-label"><input type="radio" name="duration" value="120" onchange="updateTimer(this.value)"> 2 MIN</label>
+            <label class="radio-label"><input type="radio" name="duration" value="150" onchange="updateTimer(this.value)"> 2.5 MIN</label>
+            <label class="radio-label"><input type="radio" name="duration" value="180" onchange="updateTimer(this.value)" checked> 3 MIN</label>
+            <label class="radio-label"><input type="radio" name="duration" value="240" onchange="updateTimer(this.value)"> 4 MIN</label>
+            <label class="radio-label"><input type="radio" name="duration" value="300" onchange="updateTimer(this.value)"> 5 MIN</label>
+            <label class="radio-label"><input type="radio" name="duration" value="-1" onchange="updateTimer(this.value)"> PROLONGED</label>
+        </div>
+    </div>
+
+    <script>
+        // 變數設定
+        let currentDurationSeconds = 180; // 預設 3 分鐘 (180秒)
+        let statusTimeout = null;
+        let countdownInterval = null;
+
+        // 更新計時器設定值
+        function updateTimer(seconds) {
+            currentDurationSeconds = parseInt(seconds);
+        }
+
+        // 格式化時間 (分:秒)
+        function formatTime(totalSeconds) {
+            const m = Math.floor(totalSeconds / 60);
+            const s = totalSeconds % 60;
+            return `${m}分${s < 10 ? '0' : ''}${s}秒`;
+        }
+
+        // 變更狀態主邏輯
+        function setStatus(status) {
+            const displayEl = document.getElementById('status-display');
+            const countdownEl = document.getElementById('countdown-text');
+
+            // 1. 更新文字與顏色
+            displayEl.innerText = status;
+            displayEl.className = ''; // 清除舊 class
+            
+            if (status === '看診中') {
+                displayEl.classList.add('status-consulting');
+            } else if (status === '待診中') {
+                displayEl.classList.add('status-waiting');
+            } else if (status === '休息中') {
+                displayEl.classList.add('status-resting');
+            }
+
+            // 2. 清除所有正在運行的計時器
+            if (statusTimeout) clearTimeout(statusTimeout);
+            if (countdownInterval) clearInterval(countdownInterval);
+            countdownEl.innerText = '';
+
+            // 3. 如果切換到「看診中」且不是選擇 PROLONGED (-1)，則啟動倒數
+            if (status === '看診中' && currentDurationSeconds > 0) {
+                let secondsLeft = currentDurationSeconds;
+                countdownEl.innerText = `將於 ${formatTime(secondsLeft)} 後自動轉為「待診中」...`;
+
+                // 更新倒數文字
+                countdownInterval = setInterval(() => {
+                    secondsLeft--;
+                    if (secondsLeft > 0) {
+                        countdownEl.innerText = `將於 ${formatTime(secondsLeft)} 後自動轉為「待診中」...`;
+                    } else {
+                        clearInterval(countdownInterval);
+                    }
+                }, 1000);
+
+                // 設定時間到後自動切換狀態
+                statusTimeout = setTimeout(() => {
+                    setStatus('待診中');
+                }, currentDurationSeconds * 1000);
+            }
+        }
+
+        // 網頁載入時，確保預設狀態為「待診中」
+        window.onload = () => {
+            setStatus('待診中');
+        };
+    </script>
+</body>
+</html>

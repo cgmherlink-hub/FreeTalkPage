@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>讀懂你的心(深度版)</title>
+<style>
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: white;
+    padding: 50px;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 32px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #7f8c8d;
+    margin-bottom: 30px;
+    font-size: 16px;
+}
+
+.progress-container {
+    margin-bottom: 30px;
+    background: #ecf0f1;
+    border-radius: 10px;
+    height: 8px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    text-align: center;
+    margin-top: 10px;
+    color: #7f8c8d;
+    font-size: 14px;
+}
+
+.section-title {
+    margin-top: 50px;
+    margin-bottom: 25px;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.section-title:first-of-type {
+    margin-top: 30px;
+}
+
+.layer-description {
+    margin-bottom: 20px;
+    padding: 12px 20px;
+    background: #f8f9fa;
+    border-left: 4px solid #667eea;
+    color: #5a6c7d;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+.question {
+    margin-bottom: 30px;
+    padding: 25px;
+    background-color: #f9fbfd;
+    border-radius: 12px;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.question:hover {
+    border-color: #667eea;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+}
+
+.question.answered {
+    background-color: #f0f7ff;
+    border-color: #667eea;
+}
+
+.question-text {
+    font-size: 16px;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.options {
+    margin-top: 15px;
+}
+
+label {
+    display: block;
+    padding: 12px 15px;
+    margin: 8px 0;
+    cursor: pointer;
+    border-radius: 8px;
+    background: white;
+    border: 2px solid #e9ecef;
+    transition: all 0.2s ease;
+    font-size: 15px;
+}
+
+label:hover {
+    background: #f8f9fa;
+    border-color: #667eea;
+    transform: translateX(5px);
+}
+
+input[type="radio"] {
+    margin-right: 10px;
+    cursor: pointer;
+    accent-color: #667eea;
+}
+
+label:has(input[type="radio"]:checked) {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: #667eea;
+    font-weight: 500;
+}
+
+.button-container {
+    text-align: center;
+    margin-top: 40px;
+}
+
+button {
+    padding: 15px 50px;
+    font-size: 18px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+button:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+/* Results Section */
+.results-container {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.results-header {
+    text-align: center;
+    padding: 30px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 12px;
+    margin-bottom: 30px;
+}
+
+.results-header h2 {
+    margin: 0 0 10px 0;
+    font-size: 28px;
+}
+
+.profile-card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    border-left: 6px solid #667eea;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.profile-card h3 {
+    color: #667eea;
+    margin-top: 0;
+    font-size: 22px;
+}
+
+.profile-type {
+    display: inline-block;
+    padding: 8px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.layer-analysis {
+    margin-bottom: 25px;
+}
+
+.layer-header {
+    background: #f8f9fa;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.layer-name {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 16px;
+}
+
+.layer-pattern {
+    color: #667eea;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.layer-insight {
+    padding: 15px 20px;
+    background: #f9fbfd;
+    border-left: 4px solid #667eea;
+    border-radius: 4px;
+    color: #5a6c7d;
+    line-height: 1.6;
+}
+
+.recommendations {
+    background: #fff9e6;
+    padding: 25px;
+    border-radius: 12px;
+    border-left: 6px solid #f39c12;
+    margin-top: 30px;
+}
+
+.recommendations h3 {
+    color: #f39c12;
+    margin-top: 0;
+    font-size: 20px;
+}
+
+.recommendations ul {
+    margin: 15px 0;
+    padding-left: 20px;
+}
+
+.recommendations li {
+    margin-bottom: 10px;
+    line-height: 1.6;
+    color: #5a6c7d;
+}
+
+.action-buttons {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.action-buttons button {
+    margin: 0 10px;
+}
+
+.btn-secondary {
+    background: white;
+    color: #667eea;
+    border: 2px solid #667eea;
+}
+
+.btn-secondary:hover {
+    background: #f8f9fa;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 30px 20px;
+    }
+    
+    h1 {
+        font-size: 24px;
+    }
+    
+    button {
+        padding: 12px 30px;
+        font-size: 16px;
+    }
+}
+
+.warning {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    color: #856404;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <!-- Questionnaire Section -->
+    <div id="questionnaire">
+        <h1>讀懂你的心(深度版)</h1>
+        <p class="subtitle">深入探索內在動機與價值觀 | 請依直覺選擇最接近您感受的選項</p>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="progress-text" id="progressText">已完成 0/12 題</div>
+
+        <!-- Layer 1 -->
+        <div class="section-title">第一層：行為層 - 外顯的行動模式</div>
+        <div class="layer-description">探索您在工作中的具體行為與反應</div>
+
+        <div class="question" data-question="1">
+            <div class="question-text">1. 如果三個月完全不工作,你最擔心的是？</div>
+            <div class="options">
+                <label><input type="radio" name="q1" value="control"> A. 公司會出問題</label>
+                <label><input type="radio" name="q1" value="responsibility"> B. 客戶會失望</label>
+                <label><input type="radio" name="q1" value="identity"> C. 別人會覺得我老了</label>
+                <label><input type="radio" name="q1" value="meaning"> D. 我不知道自己每天要做什麼</label>
+            </div>
+        </div>
+
+        <div class="question" data-question="2">
+            <div class="question-text">2. 當公司運作順暢、不太需要你時,你的感受是？</div>
+            <div class="options">
+                <label><input type="radio" name="q2" value="control"> A. 放心</label>
+                <label><input type="radio" name="q2" value="meaning"> B. 有點空</label>
+                <label><input type="radio" name="q2" value="identity"> C. 被邊緣化</label>
+                <label><input type="radio" name="q2" value="responsibility"> D. 終於可以休息</label>
+            </div>
+        </div>
+
+        <!-- Layer 2 -->
+        <div class="section-title">第二層：應對姿態 - 面對壓力的習慣</div>
+        <div class="layer-description">了解您如何回應挑戰與困境</div>
+
+        <div class="question" data-question="3">
+            <div class="question-text">3. 公司遇到困難時,你最常的反應是？</div>
+            <div class="options">
+                <label><input type="radio" name="q3" value="control"> A. 我來處理</label>
+                <label><input type="radio" name="q3" value="responsibility"> B. 我再想更好的方法</label>
+                <label><input type="radio" name="q3" value="identity"> C. 我不能讓人失望</label>
+                <label><input type="radio" name="q3" value="meaning"> D. 我先撐住</label>
+            </div>
+        </div>
+
+        <div class="question" data-question="4">
+            <div class="question-text">4. 當你覺得累卻還在工作,是因為？</div>
+            <div class="options">
+                <label><input type="radio" name="q4" value="control"> A. 我還做得到</label>
+                <label><input type="radio" name="q4" value="responsibility"> B. 公司需要我</label>
+                <label><input type="radio" name="q4" value="identity"> C. 不能讓人看到我退步</label>
+                <label><input type="radio" name="q4" value="meaning"> D. 停下來會更焦慮</label>
+            </div>
+        </div>
+
+        <!-- Layer 3 -->
+        <div class="section-title">第三層：情緒層 - 內在的真實感受</div>
+        <div class="layer-description">觸碰您對轉變的深層情緒反應</div>
+
+        <div class="question" data-question="5">
+            <div class="question-text">5. 想到交棒,你內心最接近的感覺是？</div>
+            <div class="options">
+                <label><input type="radio" name="q5" value="control"> A. 放不下</label>
+                <label><input type="radio" name="q5" value="identity"> B. 不甘心</label>
+                <label><input type="radio" name="q5" value="responsibility"> C. 不安心</label>
+                <label><input type="radio" name="q5" value="meaning"> D. 有點鬆一口氣</label>
+            </div>
+        </div>
+
+        <div class="question" data-question="6">
+            <div class="question-text">6. 當喉嚨不舒服時,你比較像是？</div>
+            <div class="options">
+                <label><input type="radio" name="q6" value="meaning"> A. 太累</label>
+                <label><input type="radio" name="q6" value="identity"> B. 太多話沒說</label>
+                <label><input type="radio" name="q6" value="responsibility"> C. 太多責任壓著</label>
+                <label><input type="radio" name="q6" value="control"> D. 太多擔心在心裡</label>
+            </div>
+        </div>
+
+        <!-- Layer 4 -->
+        <div class="section-title">第四層：信念層 - 核心價值觀</div>
+        <div class="layer-description">探索您對成功與價值的深層信念</div>
+
+        <div class="question" data-question="7">
+            <div class="question-text">7. 你認為一個成功的人應該？</div>
+            <div class="options">
+                <label><input type="radio" name="q7" value="control"> A. 到最後都保持影響力</label>
+                <label><input type="radio" name="q7" value="responsibility"> B. 把事情做到最好</label>
+                <label><input type="radio" name="q7" value="identity"> C. 被尊敬</label>
+                <label><input type="radio" name="q7" value="meaning"> D. 被需要</label>
+            </div>
+        </div>
+
+        <div class="question" data-question="8">
+            <div class="question-text">8. 如果一個人不再被需要,那代表？</div>
+            <div class="options">
+                <label><input type="radio" name="q8" value="meaning"> A. 任務完成</label>
+                <label><input type="radio" name="q8" value="identity"> B. 被取代</label>
+                <label><input type="radio" name="q8" value="control"> C. 失去位置</label>
+                <label><input type="radio" name="q8" value="responsibility"> D. 該轉型</label>
+            </div>
+        </div>
+
+        <!-- Layer 5 -->
+        <div class="section-title">第五層：渴望層 - 內心深處的需求</div>
+        <div class="layer-description">揭示您最根本的心理需求與期待</div>
+
+        <div class="question" data-question="9">
+            <div class="question-text">9. 你最希望別人怎麼記得你？</div>
+            <div class="options">
+                <label><input type="radio" name="q9" value="control"> A. 有能力</label>
+                <label><input type="radio" name="q9" value="responsibility"> B. 有擔當</label>
+                <label><input type="radio" name="q9" value="identity"> C. 有智慧</label>
+                <label><input type="radio" name="q9" value="meaning"> D. 有影響力</label>
+            </div>
+        </div>
+
+        <div class="question" data-question="10">
+            <div class="question-text">10. 如果你80歲時回頭看現在,你希望自己是？</div>
+            <div class="options">
+                <label><input type="radio" name="q10" value="control"> A. 還在第一線</label>
+                <label><input type="radio" name="q10" value="responsibility"> B. 成功交棒</label>
+                <label><input type="radio" name="q10" value="meaning"> C. 身體健康</label>
+                <label><input type="radio" name="q10" value="identity"> D. 被家人圍繞</label>
+            </div>
+        </div>
+
+        <!-- Layer 6 -->
+        <div class="section-title">第六層：自我價值層 - 存在的意義</div>
+        <div class="layer-description">探索您的自我認同與核心價值感</div>
+
+        <div class="question" data-question="11">
+            <div class="question-text">11. 當你不再工作時,你覺得自己是？</div>
+            <div class="options">
+                <label><input type="radio" name="q11" value="control"> A. 休息中的領導者</label>
+                <label><input type="radio" name="q11" value="meaning"> B. 有點失落的人</label>
+                <label><input type="radio" name="q11" value="responsibility"> C. 還在等待機會的人</label>
+                <label><input type="radio" name="q11" value="identity"> D. 仍然值得尊敬的人</label>
+            </div>
+        </div>
+
+        <div class="question" data-question="12">
+            <div class="question-text">12. 如果公司完全不需要你,你會？</div>
+            <div class="options">
+                <label><input type="radio" name="q12" value="control"> A. 再找新目標</label>
+                <label><input type="radio" name="q12" value="meaning"> B. 有點空虛</label>
+                <label><input type="radio" name="q12" value="identity"> C. 重新定義自己</label>
+                <label><input type="radio" name="q12" value="responsibility"> D. 享受人生</label>
+            </div>
+        </div>
+
+        <div class="button-container">
+            <button id="submitBtn" onclick="calculateResults()" disabled>手動查看結果（完成後自動生成）</button>
+        </div>
+        <div class="warning" id="warning" style="display: none;">
+            ⚠️ 請完成所有題目後再提交
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    <div id="results" class="results-container">
+        <div class="results-header">
+            <h2>您的冰山探索報告</h2>
+            <p>深入理解您的內在動機與轉型契機</p>
+        </div>
+
+        <div class="profile-card">
+            <span class="profile-type" id="profileType"></span>
+            <h3 id="profileTitle"></h3>
+            <p id="profileDescription"></p>
+        </div>
+
+        <div id="layerAnalysisContainer"></div>
+
+        <div class="recommendations">
+            <h3>💡 個人化建議</h3>
+            <div id="recommendationContent"></div>
+        </div>
+
+        <div class="action-buttons">
+            <button onclick="window.print()">📄 列印報告</button>
+            <button class="btn-secondary" onclick="restartQuestionnaire()">🔄 重新填寫</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// Progress tracking
+let answeredQuestions = new Set();
+
+document.querySelectorAll('input[type="radio"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        const questionNum = this.name;
+        answeredQuestions.add(questionNum);
+        
+        // Mark question as answered
+        const questionDiv = this.closest('.question');
+        questionDiv.classList.add('answered');
+        
+        updateProgress();
+        checkCompletion();
+        
+        // Auto-scroll to next question
+        setTimeout(() => {
+            const currentQuestionNumber = parseInt(questionNum.replace('q', ''));
+            const nextQuestionNumber = currentQuestionNumber + 1;
+            
+            if (nextQuestionNumber <= 12) {
+                const nextQuestion = document.querySelector(`[data-question="${nextQuestionNumber}"]`);
+                if (nextQuestion) {
+                    nextQuestion.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            } else {
+                // All questions answered - auto-generate report
+                setTimeout(() => {
+                    calculateResults();
+                }, 800);
+            }
+        }, 300);
+    });
+});
+
+function updateProgress() {
+    const total = 12;
+    const completed = answeredQuestions.size;
+    const percentage = (completed / total) * 100;
+    
+    document.getElementById('progressBar').style.width = percentage + '%';
+    document.getElementById('progressText').textContent = `已完成 ${completed}/${total} 題`;
+}
+
+function checkCompletion() {
+    const submitBtn = document.getElementById('submitBtn');
+    const warning = document.getElementById('warning');
+    
+    if (answeredQuestions.size === 12) {
+        submitBtn.disabled = false;
+        warning.style.display = 'none';
+    } else {
+        submitBtn.disabled = true;
+    }
+}
+
+function calculateResults() {
+    // Collect all answers
+    const scores = {
+        control: 0,
+        responsibility: 0,
+        identity: 0,
+        meaning: 0
+    };
+    
+    for (let i = 1; i <= 12; i++) {
+        const answer = document.querySelector(`input[name="q${i}"]:checked`);
+        if (answer) {
+            scores[answer.value]++;
+        }
+    }
+    
+    // Determine dominant pattern
+    const dominant = Object.keys(scores).reduce((a, b) => 
+        scores[a] > scores[b] ? a : b
+    );
+    
+    // Display results
+    displayResults(dominant, scores);
+    
+    // Scroll to results
+    document.getElementById('questionnaire').style.display = 'none';
+    document.getElementById('results').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function displayResults(dominant, scores) {
+    const profiles = {
+        control: {
+            type: '掌控型領導者',
+            title: '「掌握全局」的守護者',
+            description: '您的核心驅動力來自於對事物的掌控感與影響力。您習慣親力親為,確保一切按照您的標準運作。這份責任感成就了今日的事業,但也可能成為交棒的最大障礙。您最深層的擔憂不是失去工作,而是失去那份「一切盡在掌握」的安全感。',
+            insights: [
+                '行為層：傾向親自處理問題,難以完全放手',
+                '應對層：遇到困難時習慣自己扛起來',
+                '情緒層：對於失去控制權感到不安',
+                '信念層：相信成功源於持續的影響力',
+                '渴望層：希望被記得為有能力的人',
+                '價值層：自我價值與掌控力緊密連結'
+            ],
+            recommendations: [
+                '練習「策略性放手」：從小處開始,將特定決策權交給團隊,觀察並接受不同的做事方式',
+                '重新定義影響力：從「直接控制」轉向「授權賦能」,您的智慧可以透過培養他人來延續',
+                '建立新的成就感來源：發展工作以外的興趣,讓自我價值不只建立在公司掌控上',
+                '定期與信任的顧問對話：分享您的擔憂,並制定漸進式的交棒計畫'
+            ]
+        },
+        responsibility: {
+            type: '責任型領導者',
+            title: '「使命必達」的實踐者',
+            description: '您的人生由責任與承諾定義。對您而言,工作不只是事業,更是對客戶、員工、家人的承諾。您擔心的不是失去舞台,而是辜負了那些信任您的人。這份責任感讓您贏得尊敬,但也可能讓您背負過多重擔,難以卸下。',
+            insights: [
+                '行為層：即使疲累仍堅持,因為「公司需要我」',
+                '應對層：總想找更好的方法,對品質要求極高',
+                '情緒層：對交棒感到不安,擔心接班者做不好',
+                '信念層：認為成功者應該把事情做到最好',
+                '渴望層：希望被記得為有擔當的人',
+                '價值層：即使不工作,仍覺得應該等待機會貢獻'
+            ],
+            recommendations: [
+                '區分「責任」與「控制」：您已經盡了責任培養團隊,現在該給他們承擔的機會',
+                '重新框架「完美」：接受「夠好」的標準,允許新一代用他們的方式成長',
+                '建立交棒里程碑：設定明確的過渡期指標,當達成時就是放手的時刻',
+                '培養「信任的藝術」：練習相信團隊的能力,您的退居是對他們最大的肯定',
+                '為自己的生活負責：將照顧自己的健康與幸福視為新的使命'
+            ]
+        },
+        identity: {
+            type: '身份型領導者',
+            title: '「我是誰」的探尋者',
+            description: '您的自我認同與「創辦人」這個角色深深綁定。「75歲創辦人」不只是職稱,更是您存在的意義。您最大的恐懼不是公司倒閉,而是失去這個身份後,不知道自己還是誰。這份身份認同曾經激勵您前行,但現在可能成為轉型的枷鎖。',
+            insights: [
+                '行為層：擔心別人覺得「我老了」,在意外界眼光',
+                '應對層：不能讓人看到退步,維持形象很重要',
+                '情緒層：想到交棒會感到不甘心,有被取代的感覺',
+                '信念層：認為成功的人應該被尊敬',
+                '渴望層：希望被記得為有智慧的人',
+                '價值層：不工作時,仍需要「值得尊敬」來定義自己'
+            ],
+            recommendations: [
+                '拓展自我定義：您不只是「創辦人」,也是導師、智者、家人。探索這些面向',
+                '創造新的身份標籤：「資深顧問」「產業導師」「慈善家」——找到讓您驕傲的新角色',
+                '記錄您的故事：撰寫回憶錄或分享創業歷程,讓智慧以新形式傳承',
+                '重新定義「被需要」：您的價值不在職位,而在經驗與洞見',
+                '建立工作外的社交圈：發展新的人際網絡,讓關係不只建立在商業身份上'
+            ]
+        },
+        meaning: {
+            type: '意義型領導者',
+            title: '「為何而活」的思考者',
+            description: '您的困境不在於捨不得權力或面子,而在於「失去工作,我還能做什麼」的存在焦慮。工作填滿了您的時間與生命意義,一旦停下來,空虛感就會湧現。您不是不想休息,而是不知道如何在工作之外找到生命的方向與價值。',
+            insights: [
+                '行為層：不工作會不知道每天做什麼,感到迷失',
+                '應對層：即使累了仍工作,因為停下來會更焦慮',
+                '情緒層：想到交棒有點鬆一口氣,但也伴隨空虛感',
+                '信念層：認為不被需要代表任務完成,但也隱含失落',
+                '渴望層：希望有影響力,希望80歲時身體健康',
+                '價值層：不工作時會感到失落與空虛'
+            ],
+            recommendations: [
+                '在交棒前建立新生活：培養興趣、旅行、志工,讓退休後有所期待',
+                '重新定義「充實」：生命意義不只來自工作成就,也來自關係、成長、貢獻',
+                '漸進式減少工作：不要突然停止,而是慢慢轉移重心,適應新節奏',
+                '尋找新的貢獻方式：擔任業界導師、公益顧問,延續影響力但不被綁住',
+                '正視內在焦慮：考慮與專業教練或諮商師對話,探索深層的不安全感',
+                '創造「legacy項目」：用一個長期計畫(如著作、基金會)延續您的使命'
+            ]
+        }
+    };
+    
+    const profile = profiles[dominant];
+    
+    document.getElementById('profileType').textContent = profile.type;
+    document.getElementById('profileTitle').textContent = profile.title;
+    document.getElementById('profileDescription').textContent = profile.description;
+    
+    // Layer analysis
+    const layerContainer = document.getElementById('layerAnalysisContainer');
+    layerContainer.innerHTML = '<h3 style="color: #2c3e50; margin-bottom: 20px;">六層冰山分析</h3>';
+    
+    profile.insights.forEach(insight => {
+        const layerDiv = document.createElement('div');
+        layerDiv.className = 'layer-analysis';
+        
+        const parts = insight.split('：');
+        layerDiv.innerHTML = `
+            <div class="layer-header">
+                <span class="layer-name">${parts[0]}</span>
+            </div>
+            <div class="layer-insight">${parts[1]}</div>
+        `;
+        layerContainer.appendChild(layerDiv);
+    });
+    
+    // Recommendations
+    const recContent = document.getElementById('recommendationContent');
+    let recHTML = '<ul>';
+    profile.recommendations.forEach(rec => {
+        recHTML += `<li>${rec}</li>`;
+    });
+    recHTML += '</ul>';
+    recContent.innerHTML = recHTML;
+    
+    // Add score breakdown
+    const scoreBreakdown = document.createElement('div');
+    scoreBreakdown.style.marginTop = '30px';
+    scoreBreakdown.style.padding = '20px';
+    scoreBreakdown.style.background = '#f8f9fa';
+    scoreBreakdown.style.borderRadius = '8px';
+    scoreBreakdown.innerHTML = `
+        <h4 style="color: #2c3e50; margin-top: 0;">您的傾向分布</h4>
+        <div style="margin-top: 15px;">
+            <div style="margin-bottom: 10px;">
+                <strong>掌控型:</strong> ${scores.control}/12 
+                <div style="background: #e9ecef; height: 8px; border-radius: 4px; margin-top: 5px;">
+                    <div style="background: #667eea; height: 100%; width: ${(scores.control/12)*100}%; border-radius: 4px;"></div>
+                </div>
+            </div>
+            <div style="margin-bottom: 10px;">
+                <strong>責任型:</strong> ${scores.responsibility}/12
+                <div style="background: #e9ecef; height: 8px; border-radius: 4px; margin-top: 5px;">
+                    <div style="background: #764ba2; height: 100%; width: ${(scores.responsibility/12)*100}%; border-radius: 4px;"></div>
+                </div>
+            </div>
+            <div style="margin-bottom: 10px;">
+                <strong>身份型:</strong> ${scores.identity}/12
+                <div style="background: #e9ecef; height: 8px; border-radius: 4px; margin-top: 5px;">
+                    <div style="background: #f39c12; height: 100%; width: ${(scores.identity/12)*100}%; border-radius: 4px;"></div>
+                </div>
+            </div>
+            <div style="margin-bottom: 10px;">
+                <strong>意義型:</strong> ${scores.meaning}/12
+                <div style="background: #e9ecef; height: 8px; border-radius: 4px; margin-top: 5px;">
+                    <div style="background: #27ae60; height: 100%; width: ${(scores.meaning/12)*100}%; border-radius: 4px;"></div>
+                </div>
+            </div>
+        </div>
+        <p style="margin-top: 15px; font-size: 14px; color: #7f8c8d; line-height: 1.6;">
+            註：大多數人都是混合型,這個分析顯示您的主要傾向。次要傾向也會影響您的決策與感受。
+        </p>
+    `;
+    document.getElementById('recommendationContent').appendChild(scoreBreakdown);
+}
+
+function restartQuestionnaire() {
+    // Reset all
+    answeredQuestions.clear();
+    document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.checked = false;
+    });
+    document.querySelectorAll('.question').forEach(q => {
+        q.classList.remove('answered');
+    });
+    
+    updateProgress();
+    checkCompletion();
+    
+    document.getElementById('questionnaire').style.display = 'block';
+    document.getElementById('results').style.display = 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Show warning on submit attempt when incomplete
+document.getElementById('submitBtn').addEventListener('click', function() {
+    if (this.disabled) {
+        document.getElementById('warning').style.display = 'block';
+    }
+});
+</script>
+
+</body>
+</html>
