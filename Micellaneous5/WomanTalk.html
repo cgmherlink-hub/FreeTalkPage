@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>反直覺女生語言理解力測驗（男生版） - 女人語言翻譯機</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(to bottom, #fff0f5, #f9f9f9);
+            color: #333;
+        }
+        h1, h2 {
+            color: #c2185b;
+            text-align: center;
+        }
+        .intro {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 35px;
+            border: 1px solid #ffc1e3;
+        }
+        .question {
+            background: white;
+            padding: 22px;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            border-left: 5px solid #f06292;
+        }
+        .question h3 {
+            margin: 0 0 15px 0;
+            color: #444;
+        }
+        label {
+            display: block;
+            margin: 12px 0;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+        label:hover {
+            background: #fff0f5;
+        }
+        input[type="radio"] {
+            margin-right: 12px;
+            accent-color: #d81b60;
+        }
+        button {
+            background: #d81b60;
+            color: white;
+            border: none;
+            padding: 14px 40px;
+            font-size: 1.15em;
+            border-radius: 50px;
+            cursor: pointer;
+            display: block;
+            margin: 40px auto;
+            box-shadow: 0 4px 12px rgba(216,27,96,0.3);
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #ad1457;
+            transform: translateY(-2px);
+        }
+        #answers {
+            display: none;
+            background: #fff0f5;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 40px;
+            border: 2px dashed #f06292;
+        }
+        .score h2 {
+            color: #c2185b;
+            margin-top: 0;
+        }
+        .result-text {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #880e4f;
+            text-align: center;
+            margin: 20px 0;
+        }
+        ol li {
+            margin-bottom: 12px;
+        }
+        @media (max-width: 600px) {
+            body { padding: 15px; }
+            .question, .intro { padding: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>反直覺女生語言理解力測驗</h1>
+    <h2>女人語言翻譯機 × 男生求生挑戰</h2>
+
+    <div class="intro">
+        <p>這份測驗故意用「反直覺」方式出題，專測男生能不能抓到女生真正的「隱藏訊號」。</p>
+        <p>越照字面硬答的男生，分數通常越慘（中雷率超高）！</p>
+        <p><strong>規則：</strong>滿分 100 分，每題 10 分。做完按「提交測驗」看分數＋解析～</p>
+        <p><strong>提醒：</strong>純娛樂，現實中每個人不同，別拿來吵架用喔！😈</p>
+        <p><strong>新功能：</strong>選完一題會自動捲動到下一題；若未選完所有題目，按提交時會自動幫你填最常見的「直男雷區」選項</p>
+    </div>
+
+    <form id="quizForm">
+
+        <div class="question" id="q1">
+            <h3>1. 女友突然說：「我今天好胖喔…」<br>你最該立刻回：</h3>
+            <label><input type="radio" name="q1" value="A"> A. 「沒有啊！你一點都不胖！」</label>
+            <label><input type="radio" name="q1" value="B"> B. 「哪有胖？你今天穿這件超顯瘦的」</label>
+            <label><input type="radio" name="q1" value="C"> C. 「你只是水腫吧？多喝水就好了」</label>
+            <label><input type="radio" name="q1" value="D"> D. 「嗯…那我們之後少吃一點？」</label>
+        </div>
+
+        <div class="question" id="q2">
+            <h3>2. 她傳訊息：「今天好累喔…」<br>你回覆最危險的是：</h3>
+            <label><input type="radio" name="q2" value="A"> A. 「辛苦了，早點休息」</label>
+            <label><input type="radio" name="q2" value="B"> B. 「怎麼了？工作很忙嗎？」</label>
+            <label><input type="radio" name="q2" value="C"> C. 「那你早點睡，我不吵你」</label>
+            <label><input type="radio" name="q2" value="D"> D. 「我今天也超累…」</label>
+        </div>
+
+        <div class="question" id="q3">
+            <h3>3. 逛街時她問：「你覺得這件好看嗎？」（你知道她超愛，但你覺得普通）<br>最安全的回答是：</h3>
+            <label><input type="radio" name="q3" value="A"> A. 「還可以啊，一般般」</label>
+            <label><input type="radio" name="q3" value="B"> B. 「好看！很適合你」</label>
+            <label><input type="radio" name="q3" value="C"> C. 「如果你喜歡就買吧」</label>
+            <label><input type="radio" name="q3" value="D"> D. 「比剛剛那件好看多了」</label>
+        </div>
+
+        <div class="question" id="q4">
+            <h3>4. 她說：「我們好久沒出去玩了耶…」<br>這句話真正的意思最接近：</h3>
+            <label><input type="radio" name="q4" value="A"> A. 想跟你討論下次旅遊地點</label>
+            <label><input type="radio" name="q4" value="B"> B. 希望你立刻主動提議一個約會計畫</label>
+            <label><input type="radio" name="q4" value="C"> C. 單純在感慨時間過得快</label>
+            <label><input type="radio" name="q4" value="D"> D. 抱怨你最近都只顧工作</label>
+        </div>
+
+        <div class="question" id="q5">
+            <h3>5. 你遲到20分鐘，她回：「沒關係啦～」<br>你現在最該做的是：</h3>
+            <label><input type="radio" name="q5" value="A"> A. 鬆一口氣，說「太好了我就怕你生氣」</label>
+            <label><input type="radio" name="q5" value="B"> B. 繼續道歉一次就好</label>
+            <label><input type="radio" name="q5" value="C"> C. 馬上說「真的很抱歉，我下次一定準時」並補償（請吃東西／抱抱等）</label>
+            <label><input type="radio" name="q5" value="D"> D. 開玩笑說「女生不是都愛遲到嗎哈哈」</label>
+        </div>
+
+        <div class="question" id="q6">
+            <h3>6. 她發自拍說：「我今天好醜喔」<br>最佳回覆是：</h3>
+            <label><input type="radio" name="q6" value="A"> A. 「才不會！你超可愛」</label>
+            <label><input type="radio" name="q6" value="B"> B. 「哪有醜？根本正妹」</label>
+            <label><input type="radio" name="q6" value="C"> C. 「你這樣說我會心疼耶…在我眼裡你永遠最好看」</label>
+            <label><input type="radio" name="q6" value="D"> D. 「自拍角度問題吧？換個角度再拍」</label>
+        </div>
+
+        <div class="question" id="q7">
+            <h3>7. 半夜她傳：「你睡了嗎？」<br>即使你超想睡，最該回的是：</h3>
+            <label><input type="radio" name="q7" value="A"> A. 「還沒啊，怎麼了？」（然後等她講）</label>
+            <label><input type="radio" name="q7" value="B"> B. 「快睡了，晚安」</label>
+            <label><input type="radio" name="q7" value="C"> C. 「嗯？發生什麼事？」</label>
+            <label><input type="radio" name="q7" value="D"> D. 直接已讀不回</label>
+        </div>
+
+        <div class="question" id="q8">
+            <h3>8. 吵架後她說：「算了，不跟你計較了」<br>這代表：</h3>
+            <label><input type="radio" name="q8" value="A"> A. 她真的原諒你了</label>
+            <label><input type="radio" name="q8" value="B"> B. 她還在氣，但不想繼續吵</label>
+            <label><input type="radio" name="q8" value="C"> C. 她已經決定要冷戰／分手了</label>
+            <label><input type="radio" name="q8" value="D"> D. 她想聽你再多道歉幾次</label>
+        </div>
+
+        <div class="question" id="q9">
+            <h3>9. 她問：「你覺得我跟她誰比較漂亮？」（共同認識的女生）<br>最不能選的回答是：</h3>
+            <label><input type="radio" name="q9" value="A"> A. 「當然是你啊」</label>
+            <label><input type="radio" name="q9" value="B"> B. 「你們各有各的美」</label>
+            <label><input type="radio" name="q9" value="C"> C. 「我覺得你比較有氣質」</label>
+            <label><input type="radio" name="q9" value="D"> D. 「你比較可愛，她比較性感」</label>
+        </div>
+
+        <div class="question" id="q10">
+            <h3>10. 她說：「我們分手吧。」<br>你最該馬上做的事是：</h3>
+            <label><input type="radio" name="q10" value="A"> A. 問「為什麼？」</label>
+            <label><input type="radio" name="q10" value="B"> B. 說「好吧，你決定就好」</label>
+            <label><input type="radio" name="q10" value="C"> C. 立刻說「我不同意，我不想分手」並表達你有多在乎她</label>
+            <label><input type="radio" name="q10" value="D"> D. 冷靜分析「我們最近的問題在哪裡」</label>
+        </div>
+
+        <button type="button" onclick="submitQuiz()">提交測驗 & 查看結果</button>
+
+    </form>
+
+    <div id="answers">
+        <h2>正確答案＆解析</h2>
+        <ol>
+            <li><strong>C</strong> → 直接否認胖她覺得你在敷衍；說少吃更慘。水腫這招最保命</li>
+            <li><strong>D</strong> → 把焦點拉到自己是最雷，比慘超扣分</li>
+            <li><strong>B</strong> → 直接肯定最安全；C 太沒主見，容易被嫌</li>
+            <li><strong>B</strong> → 她要的是你主動出擊，不是「一起討論」</li>
+            <li><strong>C</strong> → 「沒關係」通常是大雷，必須主動補償而非鬆口氣</li>
+            <li><strong>C</strong> → 帶入「心疼」情緒表達，比單純誇漂亮更戳心</li>
+            <li><strong>A</strong> → 半夜找你多半有心事，想被傾聽而非打發</li>
+            <li><strong>B 或 C</strong> → 她還氣，只是先收手，等你繼續哄</li>
+            <li><strong>D</strong> → 任何形式的比較都雷，尤其是把她拆開比</li>
+            <li><strong>C</strong> → 「分手吧」很多是氣話，強烈表態＋秀在乎常能翻盤</li>
+        </ol>
+
+        <div class="score">
+            <h2>你的分數：<span id="score">0</span> / 100</h2>
+            <p id="resultText" class="result-text"></p>
+        </div>
+
+        <p>評語參考：</p>
+        <ul>
+            <li>80~100：女生語言高階解讀者（活得久）🎉</li>
+            <li>50~79：有基本求生意識，但還是會踩雷⚠️</li>
+            <li>30~49：標準直男雷區製造機💥</li>
+            <li>0~29：建議先單身修練…或找超級溫柔的女生😅</li>
+        </ul>
+    </div>
+
+    <script>
+        // 自動捲動到下一題
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const currentQuestion = this.closest('.question');
+                const nextQuestion = currentQuestion.nextElementSibling;
+                if (nextQuestion && nextQuestion.classList.contains('question')) {
+                    setTimeout(() => {
+                        nextQuestion.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 300);
+                }
+            });
+        });
+
+        function submitQuiz() {
+            const correct = ['C','D','B','B','C','C','A','B','D','C'];
+            let score = 0;
+
+            // 自動填入「最雷」的選項（如果該題還沒選）
+            const defaultThunder = ['A','A','A','A','A','A','B','A','B','B']; // 常見直男雷區選項
+
+            for(let i=1; i<=10; i++){
+                const radios = document.getElementsByName(`q${i}`);
+                let selected = null;
+                for(let radio of radios) {
+                    if(radio.checked) {
+                        selected = radio.value;
+                        break;
+                    }
+                }
+                // 如果沒選，自動選 defaultThunder[i-1]
+                if(!selected) {
+                    document.querySelector(`input[name="q${i}"][value="${defaultThunder[i-1]}"]`).checked = true;
+                    selected = defaultThunder[i-1];
+                }
+                if(selected === correct[i-1]){
+                    score += 10;
+                }
+            }
+
+            document.getElementById('score').textContent = score;
+
+            let result = '';
+            if(score >= 80) result = '女生語言高階解讀者（活得久）🎉';
+            else if(score >= 50) result = '有基本求生意識，但還是會踩雷⚠️';
+            else if(score >= 30) result = '標準直男雷區製造機💥';
+            else result = '建議先單身修練…或找超級溫柔的女生😅';
+
+            document.getElementById('resultText').textContent = result;
+            document.getElementById('answers').style.display = 'block';
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+    </script>
+
+</body>
+</html>
