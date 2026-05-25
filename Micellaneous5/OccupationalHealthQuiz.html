@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>職場生存：合理管理 vs 霸凌辨析問卷</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+        }
+        html { scroll-behavior: smooth; }
+        body { font-family: "Microsoft JhengHei", sans-serif; background-color: var(--bg-color); color: var(--primary-color); line-height: 1.6; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: var(--primary-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; }
+        .intro { background: #fff5f5; border-left: 5px solid var(--accent-color); padding: 15px; margin-bottom: 30px; font-size: 0.95em; }
+        .question-block { margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 30px; }
+        .question-title { font-weight: bold; margin-bottom: 15px; display: block; font-size: 1.1em; color: #1a252f; }
+        .options { display: flex; flex-direction: column; gap: 12px; }
+        label { cursor: pointer; padding: 12px; border: 1px solid #ddd; border-radius: 6px; transition: all 0.2s; position: relative; }
+        label:hover { background-color: #f8f9fa; border-color: var(--primary-color); }
+        input[type="radio"] { margin-right: 10px; }
+        .btn-submit { display: block; width: 100%; padding: 18px; background: var(--primary-color); color: white; border: none; border-radius: 6px; font-size: 1.2em; cursor: pointer; margin-top: 40px; font-weight: bold; }
+        .btn-submit:hover { background: #34495e; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .notice { font-size: 0.8em; color: #666; margin-top: 20px; text-align: center; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>職場環境「健康度」辨析</h1>
+    
+    <div class="intro">
+        <strong>醫師導言：</strong>這不是一份測量你「抗壓性」的問卷，而是一份檢測「環境毒性」的報告。請根據直覺勾選最符合你職場現況的描述。這不是你的錯，而是環境可能生病了。
+    </div>
+
+    <form id="quizForm">
+        <div class="question-block" id="q1">
+            <span class="question-title">1. 關於「交辦任務」的透明度：</span>
+            <div class="options">
+                <label><input type="radio" name="q1" value="A" onchange="scrollToNext('q2')"> 即使任務困難，主管會提供必要的資源、範本或明確的達成指標。</label>
+                <label><input type="radio" name="q1" value="B" onchange="scrollToNext('q2')"> 任務指令模糊，像在玩「猜心遊戲」，做錯了才被告知「這不是我要的」。</label>
+                <label><input type="radio" name="q1" value="C" onchange="scrollToNext('q2')"> 故意分配完全不符合專業的瑣事，或給予明顯不可能達成的期限。</label>
+                <label><input type="radio" name="q1" value="D" onchange="scrollToNext('q2')"> 不給予任何工作內容，刻意晾著你，同時又在考核時指責你毫無產出。</label>
+            </div>
+        </div>
+
+        <div class="question-block" id="q2">
+            <span class="question-title">2. 當你在會議中提出不同見解時：</span>
+            <div class="options">
+                <label><input type="radio" name="q2" value="A" onchange="scrollToNext('q3')"> 雖然不一定被採納，但會針對意見本身進行專業討論。</label>
+                <label><input type="radio" name="q2" value="B" onchange="scrollToNext('q3')"> 意見直接被無視，主管甚至會流露不耐煩的神情或翻白眼。</label>
+                <label><input type="radio" name="q2" value="C" onchange="scrollToNext('q3')"> 會遭到人格貶抑的嘲諷，如：「這腦袋想出的東西真特別」或「你是不想幹了」。</label>
+                <label><input type="radio" name="q2" value="D" onchange="scrollToNext('q3')"> 主管會當眾咆哮、拍桌，甚至以肢體動作威嚇，讓你感到生理上的畏怖。</label>
+            </div>
+        </div>
+
+        <div class="question-block" id="q3">
+            <span class="question-title">3. 辦公室的「資訊流」狀態：</span>
+            <div class="options">
+                <label><input type="radio" name="q3" value="A" onchange="scrollToNext('q4')"> 該收到的公務 Email、群組通知，你都在名單內。</label>
+                <label><input type="radio" name="q3" value="B" onchange="scrollToNext('q4')"> 經常在走廊才聽到已經定案的決策，發現自己被排除在「非正式溝通」外。</label>
+                <label><input type="radio" name="q3" value="C" onchange="scrollToNext('q4')"> 所有人都有的資訊唯獨你沒有，且主管有意讓同事不要與你過多接觸。</label>
+                <label><input type="radio" name="q3" value="D" onchange="scrollToNext('q4')"> 被踢出工作群組或移除系統權限，卻要求你繼續達成需要該權限的任務。</label>
+            </div>
+        </div>
+
+        <div class="question-block" id="q4">
+            <span class="question-title">4. 面對「通訊軟體」通知音的反應：</span>
+            <div class="options">
+                <label><input type="radio" name="q4" value="A" onchange="scrollToNext('q5')"> 視內容輕重決定回覆速度，心理壓力在可控範圍。</label>
+                <label><input type="radio" name="q4" value="B" onchange="scrollToNext('q5')"> 不自覺地頻繁確認手機，深怕漏掉主管訊息會引發「災難」。</label>
+                <label><input type="radio" name="q4" value="C" onchange="scrollToNext('q5')"> 聽到通知音會出現瞬間心悸、胃抽搐，甚至有想把手機摔碎的衝動。</label>
+                <label><input type="radio" name="q4" value="D" onchange="scrollToNext('q5')"> 主管要求半夜、連假必須即時回覆，否則次日上班會遭到公開羞辱或處分。</label>
+            </div>
+        </div>
+
+        <div class="question-block" id="q5">
+            <span class="question-title">5. 關於「休假」的心理成本：</span>
+            <div class="options">
+                <label><input type="radio" name="q5" value="A" onchange="scrollToNext('q6')"> 提前排假並交辦好職代，能放心地享受個人時間。</label>
+                <label><input type="radio" name="q5" value="B" onchange="scrollToNext('q5')"> 休假時會有罪惡感，或主管會暗示「現在很忙你還要請？」。</label>
+                <label><input type="radio" name="q5" value="C" onchange="scrollToNext('q6')"> 休假會被要求即時待命，或回公司後發現業務被惡意更動或被刁難。</label>
+                <label><input type="radio" name="q5" value="D" onchange="scrollToNext('q6')"> 主管無正當理由直接否決所有請假申請，或強迫你以「特休」處理病假。</label>
+            </div>
+        </div>
+
+        <div class="question-block" id="q6">
+            <span class="question-title">6. 績效回饋的「具體性」：</span>
+            <div class="options">
+                <label><input type="radio" name="q6" value="A" onchange="scrollToNext('q7')"> 績效面談時，主管能針對數據與具體事件進行優缺點討論。</label>
+                <label><input type="radio" name="q6" value="B" onchange="scrollToNext('q7')"> 主管常用模糊的詞彙，如「感覺你最近不積極」，卻不說哪裡不積極。</label>
+                <label><input type="radio" name="q6" value="C" onchange="scrollToNext('q7')"> 全面否定你的貢獻，將成功的成果剽竊或歸功他人，將失敗全數推給你。</label>
+                <label><input type="radio" name="q6" value="D" onchange="scrollToNext('q7')"> 故意設置不可能達成的 KPI，並以此為由在公開場合嘲笑你領薪水是浪費公司錢。</label>
+            </div>
+        </div>
+
+        <div class="question-block" id="q7">
+            <span class="question-title">7. 關於「工作隱私」與界線：</span>
+            <div class="options">
+                <label><input type="radio" name="q7" value="A" onchange="scrollToNext('q8')"> 主管尊重私人生活，下班後除非重大緊急事件不聯繫。</label>
+                <label><input type="radio" name="q7" value="B" onchange="scrollToNext('q8')"> 常在私人時間詢問公事，雖無強制要求立刻回覆，但讓人無法放鬆。</label>
+                <label><input type="radio" name="q7" value="C" onchange="scrollToNext('q8')"> 會過度打聽私人生活、感情狀態或家庭狀況，並以此作為嘲諷素材。</label>
+                <label><input type="radio" name="q7" value="D" onchange="scrollToNext('q8')"> 在辦公室監視你的一舉一動，甚至翻動私人桌面物件，或監控非公務通訊內容。</label>
+            </div>
+        </div>
+
+        <div class="question-block" id="q8">
+            <span class="question-title">8. 錯誤發生後的「究責方式」：</span>
+            <div class="options">
+                <label><input type="radio" name="q8" value="A" onchange="scrollToNext('q9')"> 釐清流程缺失，共同討論如何避免再次發生。</label>
+                <label><input type="radio" name="q8" value="B" onchange="scrollToNext('q9')"> 主管會酸言酸語一段時間，讓人感覺自己是個麻煩製造者。</label>
+                <label><input type="radio" name="q8" value="C" onchange="scrollToNext('q9')"> 主管會扭曲事實，將不屬於你的錯誤也怪在你頭上，並要求寫悔過書。</label>
+                <label><input type="radio" name="q8" value="D" onchange="scrollToNext('q9')"> 公開處刑：要求在會議中針對輕微錯誤當眾道歉，甚至以減薪、調職威脅。</label>
+            </div>
+        </div>
+
+        <div class="question-block" id="q9">
+            <span class="question-title">9. 關於「專業訓練」與成長：</span>
+            <div class="options">
+                <label><input type="radio" name="q9" value="A" onchange="scrollToNext('q10')"> 公司有明確的受訓機制，主管支持員工提升專業技能。</label>
+                <label><input type="radio" name="q9" value="B" onchange="scrollToNext('q10')"> 受訓機會被視為「獎勵」，只有主管喜愛的人才能參加。</label>
+                <label><input type="radio" name="q9" value="C" onchange="scrollToNext('q10')"> 阻礙你接受必要訓練，卻在工作中嘲笑你的技能過時、跟不上進度。</label>
+                <label><input type="radio" name="q9" value="D" onchange="scrollToNext('q10')"> 強迫你參與無關職務且具貶低性質的「勞動」或「洗腦課程」。</label>
+            </div>
+        </div>
+
+        <div class="question-block" id="q10">
+            <span class="question-title">10. 對職場未來的「直覺體感」：</span>
+            <div class="options">
+                <label><input type="radio" name="q10" value="A" onchange="scrollToNext('submit')"> 雖然累，但覺得職涯還在軌道上，能看到進步空間。</label>
+                <label><input type="radio" name="q10" value="B" onchange="scrollToNext('submit')"> 每天都想離職，但又擔心自己換工作後也無法適應環境。</label>
+                <label><input type="radio" name="q10" value="C" onchange="scrollToNext('submit')"> 覺得自己像在坐牢，對原本熱愛的事物失去興趣，甚至出現社交退縮。</label>
+                <label><input type="radio" name="q10" value="D" onchange="scrollToNext('submit')"> 曾經出現「如果明天醒不來就好了」或「只有消失才能解脫」的念頭。</label>
+            </div>
+        </div>
+
+        <button type="button" id="submit" class="btn-submit" onclick="calculateResult()">查看 2026 新法診斷報告</button>
+    </form>
+    
+    <p class="notice">※ 本問卷依據 2026 年職安法不法侵害預防指引設計，結果僅供參考，不具法律鑑定效力。</p>
+</div>
+
+<script>
+function scrollToNext(nextId) {
+    const nextElement = document.getElementById(nextId);
+    if (nextElement) {
+        const offset = 100; // 預留頂部空間
+        window.scrollTo({
+            top: nextElement.offsetTop - offset,
+            behavior: 'smooth'
+        });
+    }
+}
+
+function calculateResult() {
+    let qCount = 10;
+    let bCount = 0;
+    let cCount = 0;
+    let dCount = 0;
+    
+    for(let i=1; i<=qCount; i++) {
+        let val = document.querySelector(`input[name="q${i}"]:checked`)?.value;
+        if(val === 'B') bCount++;
+        if(val === 'C') cCount++;
+        if(val === 'D') dCount++;
+    }
+
+    if (!document.querySelector('input[name="q10"]:checked')) {
+        alert("請先完成所有題目！");
+        return;
+    }
+
+    let message = "";
+    if (dCount >= 1 || cCount >= 3) {
+        message = "【最高等級警訊：已涉及不法侵害】\n你的處境高度符合 2026 新法定義之霸凌，且可能已造成身心傷害。建議立即尋求職業醫學科或精神科醫師開立診斷證明，並啟動法律救濟程序。你的尊嚴不容踐踏。";
+    } else if (cCount >= 1 || bCount >= 5) {
+        message = "【高度警訊：環境持續惡化】\n環境中存在明顯的權力濫用與人格貶抑。這不是你的抗壓性問題，而是管理系統的失能。建議開始進行去情緒化的「蒐證日誌」。";
+    } else if (bCount >= 1) {
+        message = "【中度風險：灰色地帶】\n職場文化不健康，存在冷暴力或不當管理傾向。請設定心理防衛界線，避免損害擴大。";
+    } else {
+        message = "【正常管理：良性高壓】\n目前的壓力主要來自業務目標。請持續保持溝通，注意身心調適。";
+    }
+    alert(message);
+}
+</script>
+
+</body>
+</html>
