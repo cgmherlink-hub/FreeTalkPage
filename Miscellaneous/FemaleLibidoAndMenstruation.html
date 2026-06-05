@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>女性性慾與月經週期</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f0a1e;--bg2:#1a1030;--card:#1e1535;--card2:#251840;
+  --purple:#9b59b6;--violet:#7c3aed;--pink:#e91e8c;--rose:#f43f5e;
+  --teal:#14b8a6;--blue:#3b82f6;--gold:#f59e0b;
+  --text:#f0e6ff;--muted:#a89bc2;--border:#3d2b5e;
+}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-serif;line-height:1.7}
+a{color:var(--purple)}
+/* NAV */
+nav{background:#0d091aee;backdrop-filter:blur(10px);position:sticky;top:0;z-index:100;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.nav-title{font-size:15px;font-weight:700;background:linear-gradient(90deg,var(--pink),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;gap:16px;flex-wrap:wrap}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:13px;transition:.2s}
+.nav-links a:hover{color:var(--text)}
+/* HERO */
+.hero{text-align:center;padding:64px 24px 48px;background:radial-gradient(ellipse at 50% 0%,#3d1a6633 0%,transparent 70%)}
+.hero h1{font-size:clamp(24px,5vw,42px);font-weight:800;background:linear-gradient(135deg,#f0e6ff,var(--pink),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:16px}
+.hero p{color:var(--muted);max-width:600px;margin:0 auto;font-size:15px}
+.badges{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:20px}
+.badge{background:var(--card2);border:1px solid var(--border);padding:4px 14px;border-radius:999px;font-size:12px;color:var(--muted)}
+/* SECTIONS */
+section{max-width:900px;margin:0 auto;padding:48px 20px}
+.sec-title{font-size:22px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.sec-sub{color:var(--muted);font-size:14px;margin-bottom:28px}
+/* CYCLE */
+#cycle-wrap{display:flex;flex-direction:column;align-items:center;gap:32px}
+.cycle-svg-wrap{position:relative;width:280px;height:280px}
+.phase-info{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;width:100%;max-width:480px;min-height:180px;transition:.3s}
+.phase-info h3{font-size:17px;margin-bottom:8px}
+.phase-info .day-badge{font-size:12px;color:var(--muted);margin-bottom:10px}
+.phase-info p{font-size:14px;color:var(--muted);margin-bottom:8px}
+.libido-bar-wrap{display:flex;align-items:center;gap:10px;margin-top:10px}
+.libido-bar-wrap span{font-size:12px;color:var(--muted);min-width:40px}
+.libido-bar{height:8px;border-radius:4px;transition:width .6s,background .6s}
+@media(min-width:640px){#cycle-wrap{flex-direction:row;align-items:flex-start;justify-content:center}}
+/* HORMONE CHART */
+.chart-area{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;overflow:hidden}
+.chart-legend{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:16px}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;padding:4px 10px;border-radius:8px;border:1px solid transparent;transition:.2s}
+.legend-item.active{border-color:var(--border);background:var(--card2)}
+.legend-dot{width:10px;height:10px;border-radius:50%}
+#hormone-canvas{width:100%;height:220px}
+.chart-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:6px;padding:0 8px}
+/* CONTROVERSY */
+.controversy-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.c-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px}
+.c-card.confirmed{border-color:#14b8a644}
+.c-card.disputed{border-color:#f59e0b44}
+.c-badge{font-size:11px;padding:2px 10px;border-radius:999px;margin-bottom:12px;display:inline-block;font-weight:700}
+.confirmed .c-badge{background:#14b8a622;color:var(--teal)}
+.disputed .c-badge{background:#f59e0b22;color:var(--gold)}
+.c-card h4{font-size:15px;margin-bottom:8px}
+.c-card p{font-size:13px;color:var(--muted)}
+.effect-meter{margin-top:12px}
+.effect-meter .label{font-size:11px;color:var(--muted);margin-bottom:4px}
+.effect-bar-bg{background:#ffffff11;border-radius:4px;height:6px}
+.effect-bar{height:6px;border-radius:4px;transition:width 1s}
+@media(max-width:540px){.controversy-grid{grid-template-columns:1fr}}
+/* CLINICAL */
+.clinical-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.clin-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;cursor:pointer;transition:.25s}
+.clin-card:hover{border-color:var(--purple);transform:translateY(-2px)}
+.clin-icon{font-size:26px;margin-bottom:10px}
+.clin-card h4{font-size:14px;margin-bottom:6px}
+.clin-card p{font-size:12px;color:var(--muted);display:none}
+.clin-card.open p{display:block}
+.clin-card.open{border-color:var(--violet)}
+/* EVOLUTION */
+.evo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-top:8px}
+.evo-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center}
+.evo-item .icon{font-size:22px;margin-bottom:6px}
+.evo-item p{font-size:12px;color:var(--muted)}
+/* REFS */
+.ref-list{font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:8px}
+.ref-list li{border-left:2px solid var(--border);padding-left:12px}
+/* FOOTER */
+footer{text-align:center;padding:24px;font-size:12px;color:var(--muted);border-top:1px solid var(--border)}
+/* DIVIDER */
+.divider{border:none;border-top:1px solid var(--border);margin:0 20px}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-title">🌸 女性性慾與月經週期</span>
+  <div class="nav-links">
+    <a href="#cycle">週期</a>
+    <a href="#hormones">荷爾蒙</a>
+    <a href="#evolution">進化心理</a>
+    <a href="#controversy">爭議</a>
+    <a href="#clinical">臨床因素</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>女性性慾與月經週期</h1>
+  <p>整合進化心理學、生殖內分泌學與行為神經科學的最新研究，帶你了解週期與性慾之間的科學關聯。</p>
+  <div class="badges">
+    <span class="badge">進化心理學</span>
+    <span class="badge">生殖內分泌學</span>
+    <span class="badge">行為神經科學</span>
+    <span class="badge">基於學術研究</span>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- CYCLE SECTION -->
+<section id="cycle">
+  <div class="sec-title">🔄 月經週期互動圖</div>
+  <div class="sec-sub">點擊週期圖中的各階段，查看對應的性慾變化與身體狀態</div>
+  <div id="cycle-wrap">
+    <div class="cycle-svg-wrap">
+      <svg id="cycle-svg" viewBox="0 0 280 280" width="280" height="280">
+        <defs>
+          <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <!-- background -->
+        <circle cx="140" cy="140" r="120" fill="#1e153588" stroke="#3d2b5e" stroke-width="1"/>
+        <!-- phase arcs drawn by JS -->
+        <g id="phases-group"></g>
+        <!-- center -->
+        <circle cx="140" cy="140" r="38" fill="#0f0a1e" stroke="#3d2b5e" stroke-width="1.5"/>
+        <text x="140" y="136" text-anchor="middle" fill="#a89bc2" font-size="11">月經</text>
+        <text x="140" y="150" text-anchor="middle" fill="#a89bc2" font-size="11">週期</text>
+      </svg>
+    </div>
+    <div class="phase-info" id="phase-info">
+      <div style="color:var(--muted);font-size:14px">👆 點擊左側圓圈中的各階段來查看詳情</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- HORMONE SECTION -->
+<section id="hormones">
+  <div class="sec-title">📈 荷爾蒙變化圖表</div>
+  <div class="sec-sub">三種主要荷爾蒙在28天週期中的相對濃度變化（示意圖）</div>
+  <div class="chart-area">
+    <div class="chart-legend" id="legend"></div>
+    <canvas id="hormone-canvas"></canvas>
+    <div class="chart-labels">
+      <span>第1天<br>月經期</span>
+      <span style="text-align:center">第7天<br>濾泡期</span>
+      <span style="text-align:center">第14天<br>排卵期</span>
+      <span style="text-align:center">第21天<br>黃體期</span>
+      <span style="text-align:right">第28天</span>
+    </div>
+  </div>
+  <p style="font-size:12px;color:var(--muted);margin-top:12px">※ 此圖為示意性曲線，實際數值因人而異。點擊圖例可顯示/隱藏各荷爾蒙曲線。</p>
+</section>
+
+<hr class="divider">
+
+<!-- EVOLUTION SECTION -->
+<section id="evolution">
+  <div class="sec-title">🧬 進化心理學：排卵期行為轉變假說</div>
+  <div class="sec-sub">Ovulatory Shift Hypothesis — Gangestad、Thornhill 等人的核心主張</div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:20px">
+    <p style="font-size:14px;margin-bottom:16px">此假說認為，女性在排卵期會更偏好具有「高基因品質」特徵的男性，此傾向被認為有其演化適應意義。研究發現排卵期女性偏好：</p>
+    <div class="evo-grid">
+      <div class="evo-item"><div class="icon">⚖️</div><p>臉部對稱性較高的男性</p></div>
+      <div class="evo-item"><div class="icon">💪</div><p>男性化外貌特徵</p></div>
+      <div class="evo-item"><div class="icon">🎙️</div><p>較低沉的聲音頻率</p></div>
+      <div class="evo-item"><div class="icon">🏋️</div><p>體型力量感較強</p></div>
+      <div class="evo-item"><div class="icon">👗</div><p>穿著更吸引人（自身行為）</p></div>
+      <div class="evo-item"><div class="icon">💄</div><p>使用更多化妝（自身行為）</p></div>
+    </div>
+  </div>
+  <div style="background:#7c3aed11;border:1px solid #7c3aed44;border-radius:12px;padding:16px;font-size:13px;color:var(--muted)">
+    ⚠️ <strong style="color:var(--text)">重要說明：</strong>此假說仍具爭議性，且行為偏好受文化、個體差異、情境脈絡等多重因素影響。進化心理學理論是研究假說，而非個人行為的判斷標準。
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CONTROVERSY -->
+<section id="controversy">
+  <div class="sec-title">⚖️ 研究爭議與現況</div>
+  <div class="sec-sub">近十年的複製危機（Replication Crisis）對本領域的挑戰與目前學界共識</div>
+  <div class="controversy-grid">
+    <div class="c-card confirmed">
+      <span class="c-badge">✅ 較有共識</span>
+      <h4>排卵期性慾平均上升</h4>
+      <p>多項研究發現排卵期前後性慾平均上升約 10–30%（群體平均值）。</p>
+      <div class="effect-meter">
+        <div class="label">研究一致性</div>
+        <div class="effect-bar-bg"><div class="effect-bar" style="width:70%;background:var(--teal)"></div></div>
+      </div>
+    </div>
+    <div class="c-card confirmed">
+      <span class="c-badge">✅ 較有共識</span>
+      <h4>荷爾蒙與性慾關聯</h4>
+      <p>雌激素與睪固酮上升、黃體素較低時，性動機較強的機制已有充分生理依據。</p>
+      <div class="effect-meter">
+        <div class="label">研究一致性</div>
+        <div class="effect-bar-bg"><div class="effect-bar" style="width:80%;background:var(--teal)"></div></div>
+      </div>
+    </div>
+    <div class="c-card disputed">
+      <span class="c-badge">⚠️ 仍有爭議</span>
+      <h4>偏好「基因品質」男性</h4>
+      <p>Benedict Jones 等人發現多項偏好研究無法完全複製，效應量遠小於原始報告。</p>
+      <div class="effect-meter">
+        <div class="label">重複複製成功率</div>
+        <div class="effect-bar-bg"><div class="effect-bar" style="width:40%;background:var(--gold)"></div></div>
+      </div>
+    </div>
+    <div class="c-card disputed">
+      <span class="c-badge">⚠️ 仍有爭議</span>
+      <h4>行為改變（穿著、社交）</h4>
+      <p>Durante 等人的研究有其趣味性，但樣本量、方法論等問題使結論仍需謹慎解讀。</p>
+      <div class="effect-meter">
+        <div class="label">重複複製成功率</div>
+        <div class="effect-bar-bg"><div class="effect-bar" style="width:35%;background:var(--gold)"></div></div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:20px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px">
+    <div style="font-size:15px;font-weight:700;margin-bottom:12px">📌 目前學界共識</div>
+    <div style="display:flex;flex-direction:column;gap:8px;font-size:13px">
+      <div>✔ 排卵期性慾上升的現象 <strong>平均存在</strong></div>
+      <div>✔ 效應量屬於 <strong>中等至小</strong>，非戲劇性變化</div>
+      <div>✔ <strong>個體差異極大</strong>，部分女性無明顯變化</div>
+      <div>✔ 許多特定行為偏好研究 <strong>仍需更多驗證</strong></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CLINICAL -->
+<section id="clinical">
+  <div class="sec-title">🏥 臨床因素</div>
+  <div class="sec-sub">以下因素可能顯著改變或消除週期性性慾變化——點擊卡片查看詳情</div>
+  <div class="clinical-grid">
+    <div class="clin-card" onclick="toggleClin(this)">
+      <div class="clin-icon">💊</div>
+      <h4>口服避孕藥</h4>
+      <p>會抑制排卵，導致荷爾蒙波動消失，排卵期性慾變化也因此不明顯或消失。這是研究中最重要的干擾變項之一。</p>
+    </div>
+    <div class="clin-card" onclick="toggleClin(this)">
+      <div class="clin-icon">😟</div>
+      <h4>壓力</h4>
+      <p>影響下視丘–腦下垂體–腎上腺軸（HPA axis），壓力荷爾蒙皮質醇（cortisol）升高可能抑制性慾，並干擾正常的週期波動。</p>
+    </div>
+    <div class="clin-card" onclick="toggleClin(this)">
+      <div class="clin-icon">😴</div>
+      <h4>睡眠不足</h4>
+      <p>睡眠品質差會影響荷爾蒙分泌節律，包括睪固酮的日常脈衝，進而降低整體性慾水平，使週期性變化更不明顯。</p>
+    </div>
+    <div class="clin-card" onclick="toggleClin(this)">
+      <div class="clin-icon">💙</div>
+      <h4>憂鬱與焦慮</h4>
+      <p>重度憂鬱症（MDD）與廣泛性焦慮症常見症狀包含性慾降低。部分抗憂鬱藥物（如 SSRI）也可能進一步影響性功能。</p>
+    </div>
+    <div class="clin-card" onclick="toggleClin(this)">
+      <div class="clin-icon">🤰</div>
+      <h4>懷孕與哺乳</h4>
+      <p>懷孕期間荷爾蒙環境完全改變，性慾表現差異大。哺乳期催乳素升高、雌激素偏低，可能導致性慾降低及陰道乾燥。</p>
+    </div>
+    <div class="clin-card" onclick="toggleClin(this)">
+      <div class="clin-icon">🩺</div>
+      <h4>子宮內膜異位症等</h4>
+      <p>多囊卵巢症候群（PCOS）、子宮內膜異位症等生殖系統疾病會干擾正常荷爾蒙週期，造成性慾的不規律變化。</p>
+    </div>
+  </div>
+
+  <div style="margin-top:32px;background:var(--card);border:1px solid #14b8a644;border-radius:16px;padding:22px">
+    <div style="font-size:15px;font-weight:700;color:var(--teal);margin-bottom:12px">💡 健康教育重點提醒</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;font-size:13px;color:var(--muted)">
+      <div>📌 性慾波動是正常的生理現象，不代表關係問題</div>
+      <div>📌 週期性變化不一定每位女性都明顯</div>
+      <div>📌 性慾 ≠ 性行為，兩者可以獨立存在</div>
+      <div>📌 若擔心自身狀況，建議諮詢婦產科或性醫學專科</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- REFS -->
+<section>
+  <div class="sec-title">📚 主要參考來源</div>
+  <div class="sec-sub">本頁內容整合以下研究者的著作與期刊論文</div>
+  <ul class="ref-list">
+    <li><strong>Haselton MG & Gangestad SW</strong>（2006）— 排卵期吸引力、慾望與性行為研究</li>
+    <li><strong>Durante KM et al.</strong>（2008）— 排卵期與服飾偏好行為研究</li>
+    <li><strong>Gangestad SW & Thornhill R</strong>（2008）— Ovulatory Shift Hypothesis 整合回顧</li>
+    <li><strong>Buss DM</strong> — The Handbook of Evolutionary Psychology</li>
+    <li><strong>Jones BC & DeBruine LM</strong>（2018+）— 複製危機與效應量再分析</li>
+    <li><strong>Roney JR & Simmons ZL</strong>（2013）— 荷爾蒙與性動機機制研究</li>
+  </ul>
+  <p style="font-size:12px;color:var(--muted);margin-top:16px">⚠️ 本頁內容僅供教育參考，不構成醫療建議。個體情況差異很大，如有疑慮請諮詢專業醫療人員。</p>
+</section>
+
+<footer>
+  © 2025 女性性慾與月經週期 — 學術科普展示頁 | 資料來源：進化心理學與生殖內分泌學期刊文獻
+</footer>
+
+<script>
+// ---- CYCLE SVG ----
+const phases = [
+  {
+    name:'月經期', days:'第 1–5 天', color:'#e91e8c', glow:'#e91e8c',
+    startAngle:-90, endAngle:-25,
+    libido:20, libidoColor:'#e91e8c',
+    desc:'月經期間，雌激素與黃體素均處於低點。多數研究顯示此時性慾相對較低，但個體差異顯著。部分女性因骨盆充血而反而感到性慾較高。',
+    hormones:'雌激素 ↓ · 黃體素 ↓ · 睪固酮 →'
+  },
+  {
+    name:'濾泡期', days:'第 6–13 天', color:'#3b82f6', glow:'#3b82f6',
+    startAngle:-25, endAngle:88,
+    libido:55, libidoColor:'#3b82f6',
+    desc:'雌激素逐漸上升，性慾開始增加。精力通常較旺盛，情緒也較正向。此階段接近排卵期時，性動機明顯提升。',
+    hormones:'雌激素 ↑↑ · 黃體素 ↓ · 睪固酮 ↑'
+  },
+  {
+    name:'排卵期', days:'第 14–16 天', color:'#f59e0b', glow:'#f59e0b',
+    startAngle:88, endAngle:135,
+    libido:90, libidoColor:'#f59e0b',
+    desc:'研究顯示許多女性在此時性慾達到高點。雌激素峰值 + 睪固酮小幅上升 + 黃體素低 → 最有利的性慾荷爾蒙組合。Haselton 等研究指出性慾平均上升 10–30%（群體平均）。',
+    hormones:'雌激素 ⬆ 峰值 · 黃體素 ↓ · 睪固酮 ↑'
+  },
+  {
+    name:'黃體期', days:'第 17–28 天', color:'#14b8a6', glow:'#14b8a6',
+    startAngle:135, endAngle:270,
+    libido:35, libidoColor:'#14b8a6',
+    desc:'排卵後黃體素急升，雌激素下降。黃體素通常具有抑制性動機的作用，多數研究發現此期性慾降低。月經前症候群（PMS）也可能在此期末影響情緒與性慾。',
+    hormones:'雌激素 ↓ · 黃體素 ⬆ 峰值 · 睪固酮 ↓'
+  }
+];
+
+function polarToXY(cx,cy,r,deg){
+  const rad=deg*Math.PI/180;
+  return{x:cx+r*Math.cos(rad),y:cy+r*Math.sin(rad)};
+}
+function arcPath(cx,cy,r,sa,ea){
+  const s=polarToXY(cx,cy,r,sa),e=polarToXY(cx,cy,r,ea);
+  const large=ea-sa>180?1:0;
+  return`M${s.x},${s.y} A${r},${r} 0 ${large},1 ${e.x},${e.y}`;
+}
+
+const g=document.getElementById('phases-group');
+const cx=140,cy=140,r=110,ri=48;
+
+phases.forEach((ph,i)=>{
+  // outer arc (clickable)
+  const sa=ph.startAngle,ea=ph.endAngle;
+  const midDeg=(sa+ea)/2;
+  const oPath=arcPath(cx,cy,r,sa,ea);
+  const iPath=arcPath(cx,cy,ri,ea,sa);
+  // wedge
+  const s1=polarToXY(cx,cy,r,sa),e1=polarToXY(cx,cy,r,ea);
+  const s2=polarToXY(cx,cy,ri,ea),e2=polarToXY(cx,cy,ri,sa);
+  const large=ea-sa>180?1:0;
+  const d=`M${s1.x},${s1.y} A${r},${r} 0 ${large},1 ${e1.x},${e1.y} L${s2.x},${s2.y} A${ri},${ri} 0 ${large},0 ${e2.x},${e2.y} Z`;
+  const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+  path.setAttribute('d',d);
+  path.setAttribute('fill',ph.color+'22');
+  path.setAttribute('stroke',ph.color+'88');
+  path.setAttribute('stroke-width','1.5');
+  path.style.cursor='pointer';
+  path.style.transition='fill .2s';
+  path.addEventListener('mouseenter',()=>path.setAttribute('fill',ph.color+'44'));
+  path.addEventListener('mouseleave',()=>path.setAttribute('fill',ph.color+'22'));
+  path.addEventListener('click',()=>showPhase(i));
+  g.appendChild(path);
+  // label
+  const lPos=polarToXY(cx,cy,(r+ri)/2,midDeg);
+  const txt=document.createElementNS('http://www.w3.org/2000/svg','text');
+  txt.setAttribute('x',lPos.x);txt.setAttribute('y',lPos.y);
+  txt.setAttribute('text-anchor','middle');txt.setAttribute('dominant-baseline','middle');
+  txt.setAttribute('fill',ph.color);txt.setAttribute('font-size','10');txt.setAttribute('font-weight','700');
+  txt.textContent=ph.name;txt.style.pointerEvents='none';
+  g.appendChild(txt);
+});
+
+function showPhase(i){
+  const ph=phases[i];
+  const el=document.getElementById('phase-info');
+  el.innerHTML=`
+    <h3 style="color:${ph.color}">${ph.name}</h3>
+    <div class="day-badge">${ph.days}</div>
+    <p>${ph.desc}</p>
+    <div style="font-size:12px;color:${ph.color};margin-bottom:10px">${ph.hormones}</div>
+    <div class="libido-bar-wrap">
+      <span>性慾指數</span>
+      <div style="flex:1;background:#ffffff11;border-radius:4px;height:8px">
+        <div class="libido-bar" style="width:${ph.libido}%;background:${ph.libidoColor}"></div>
+      </div>
+      <span>${ph.libido}%</span>
+    </div>
+  `;
+}
+
+// ---- HORMONE CHART ----
+const canvas=document.getElementById('hormone-canvas');
+const hormones=[
+  {name:'雌激素 (Estradiol)',color:'#e91e8c',active:true,
+   points:[5,8,22,38,52,68,75,85,95,100,88,72,55,45,55,70,85,80,68,55,42,32,22,15,10,8,7,5]},
+  {name:'黃體素 (Progesterone)',color:'#14b8a6',active:true,
+   points:[3,3,4,4,5,5,6,7,8,8,8,7,6,5,5,6,8,18,32,55,72,82,88,80,55,30,12,4]},
+  {name:'睪固酮 (Testosterone)',color:'#f59e0b',active:true,
+   points:[12,13,14,15,18,22,28,35,42,50,48,45,40,38,35,30,28,26,25,24,22,20,18,16,14,13,12,12]},
+];
+
+const legendEl=document.getElementById('legend');
+hormones.forEach((h,i)=>{
+  const li=document.createElement('div');
+  li.className='legend-item active';
+  li.innerHTML=`<div class="legend-dot" style="background:${h.color}"></div>${h.name}`;
+  li.onclick=()=>{h.active=!h.active;li.classList.toggle('active',h.active);drawChart()};
+  legendEl.appendChild(li);
+});
+
+function drawChart(){
+  const dpr=window.devicePixelRatio||1;
+  const rect=canvas.getBoundingClientRect();
+  canvas.width=rect.width*dpr;canvas.height=rect.height*dpr;
+  const ctx=canvas.getContext('2d');
+  ctx.scale(dpr,dpr);
+  const W=rect.width,H=rect.height,pad={l:32,r:16,t:16,b:16};
+  const cw=W-pad.l-pad.r,ch=H-pad.t-pad.b;
+  ctx.clearRect(0,0,W,H);
+  // grid
+  ctx.strokeStyle='#ffffff0d';ctx.lineWidth=1;
+  for(let i=0;i<=4;i++){
+    const x=pad.l+(cw/4)*i;
+    ctx.beginPath();ctx.moveTo(x,pad.t);ctx.lineTo(x,pad.t+ch);ctx.stroke();
+  }
+  for(let i=0;i<=4;i++){
+    const y=pad.t+(ch/4)*i;
+    ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(pad.l+cw,y);ctx.stroke();
+  }
+  // ovulation marker
+  const ovX=pad.l+(13/27)*cw;
+  ctx.strokeStyle='#f59e0b44';ctx.lineWidth=1.5;ctx.setLineDash([4,4]);
+  ctx.beginPath();ctx.moveTo(ovX,pad.t);ctx.lineTo(ovX,pad.t+ch);ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='#f59e0baa';ctx.font='10px sans-serif';
+  ctx.fillText('排卵',ovX+4,pad.t+12);
+  // curves
+  hormones.forEach(h=>{
+    if(!h.active)return;
+    const pts=h.points;
+    const n=pts.length;
+    ctx.beginPath();
+    ctx.strokeStyle=h.color;ctx.lineWidth=2.5;
+    pts.forEach((v,i)=>{
+      const x=pad.l+(i/(n-1))*cw;
+      const y=pad.t+ch-(v/100)*ch;
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    });
+    ctx.stroke();
+    // gradient fill
+    const grad=ctx.createLinearGradient(0,pad.t,0,pad.t+ch);
+    grad.addColorStop(0,h.color+'33');grad.addColorStop(1,h.color+'00');
+    ctx.beginPath();
+    pts.forEach((v,i)=>{
+      const x=pad.l+(i/(n-1))*cw;
+      const y=pad.t+ch-(v/100)*ch;
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    });
+    ctx.lineTo(pad.l+cw,pad.t+ch);ctx.lineTo(pad.l,pad.t+ch);ctx.closePath();
+    ctx.fillStyle=grad;ctx.fill();
+  });
+  // y labels
+  ctx.fillStyle='#a89bc2';ctx.font='10px sans-serif';ctx.textAlign='right';
+  ['高','','低'].forEach((l,i)=>{
+    ctx.fillText(l,pad.l-4,pad.t+(ch/2)*i+4);
+  });
+  ctx.textAlign='left';
+}
+window.addEventListener('resize',drawChart);
+setTimeout(drawChart,100);
+
+// ---- CLINICAL TOGGLE ----
+function toggleClin(el){el.classList.toggle('open')}
+</script>
+</body>
+</html>
