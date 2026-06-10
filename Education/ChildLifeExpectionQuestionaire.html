@@ -3,23 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>家長反思問卷：你真正希望孩子擁有什麼樣的人生？</title>
+<title>反直覺問卷：如果我們期待理想校園，我們願意賦予老師什麼角色與力量？</title>
 
 <style>
 body{
-    font-family:"Microsoft JhengHei",sans-serif;
-    max-width:900px;
-    margin:auto;
+    font-family:"Microsoft JhengHei","Noto Sans TC",sans-serif;
+    background:#f4f7fb;
+    margin:0;
     padding:30px;
-    background:#f5f7fa;
     line-height:1.8;
 }
 
 .container{
+    max-width:1000px;
+    margin:auto;
     background:white;
     padding:40px;
-    border-radius:15px;
-    box-shadow:0 0 15px rgba(0,0,0,0.1);
+    border-radius:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.1);
 }
 
 h1{
@@ -30,15 +31,23 @@ h1{
 .subtitle{
     text-align:center;
     color:#666;
+    margin-bottom:40px;
+}
+
+.intro{
+    background:#eef7ff;
+    padding:20px;
+    border-left:6px solid #3498db;
+    border-radius:10px;
     margin-bottom:30px;
 }
 
 .question{
-    margin-bottom:35px;
+    background:#fafafa;
+    border-left:5px solid #5dade2;
     padding:20px;
-    border-left:6px solid #3498db;
-    background:#f8fbff;
-    border-radius:8px;
+    margin-bottom:20px;
+    border-radius:10px;
 }
 
 .question h3{
@@ -47,23 +56,19 @@ h1{
 }
 
 .option{
-    margin:10px 0;
+    margin:12px 0;
 }
 
-.result{
-    margin-top:40px;
-    padding:25px;
-    background:#fff8dc;
-    border-radius:10px;
-    border:2px dashed #f39c12;
+.option label{
+    cursor:pointer;
 }
 
 button{
     background:#3498db;
     color:white;
     border:none;
-    padding:15px 30px;
-    border-radius:8px;
+    padding:15px 35px;
+    border-radius:10px;
     font-size:18px;
     cursor:pointer;
 }
@@ -71,205 +76,225 @@ button{
 button:hover{
     background:#2980b9;
 }
-</style>
 
+.btn{
+    text-align:center;
+    margin-top:40px;
+}
+
+.result{
+    display:none;
+    margin-top:40px;
+    background:#fffdf2;
+    border:3px dashed #f1c40f;
+    padding:30px;
+    border-radius:15px;
+}
+
+.quote{
+    background:#eafaf1;
+    padding:20px;
+    border-left:6px solid #27ae60;
+    border-radius:10px;
+    margin-top:20px;
+    font-size:20px;
+    font-weight:bold;
+}
+</style>
 </head>
 
 <body>
 
 <div class="container">
 
-<h1>🤔 家長反直覺思考問卷</h1>
+<h1>🏫 理想校園的反直覺問卷</h1>
+
+<h2 style="text-align:center;">
+如果我們期待理想校園，
+我們願意賦予老師什麼角色與力量？
+</h2>
 
 <p class="subtitle">
-你真正希望孩子擁有什麼樣的人生？<br>
-沒有標準答案，請依照第一直覺選擇。
+沒有標準答案，但每個答案都反映我們對教育的期待。
 </p>
+
+<div class="intro">
+<p>
+許多人期待老師能：
+</p>
+
+<ul>
+<li>照顧學生情緒</li>
+<li>提升學習動機</li>
+<li>培養品格</li>
+<li>建立良好班級氛圍</li>
+<li>協助家長解決問題</li>
+</ul>
+
+<p>
+但我們是否也願意給老師相對應的支持與空間？
+</p>
+</div>
 
 <form>
 
 <div class="question">
-<h3>1. 如果只能選一個：</h3>
-
-<div class="option">
-<input type="radio" name="q1"> A. 孩子考上第一志願，但長期焦慮失眠
-</div>
-
-<div class="option">
-<input type="radio" name="q1"> B. 孩子成績普通，但每天快樂且身心健康
-</div>
-
+<h3>1. 你希望老師最重要的工作是？</h3>
+<div class="option"><label><input type="radio" name="q1"> A. 教完課本內容</label></div>
+<div class="option"><label><input type="radio" name="q1"> B. 幫助孩子面對人生</label></div>
 </div>
 
 <div class="question">
-<h3>2. 你比較擔心哪件事？</h3>
-
-<div class="option">
-<input type="radio" name="q2"> A. 孩子輸在起跑點
-</div>
-
-<div class="option">
-<input type="radio" name="q2"> B. 孩子失去對學習的熱情
-</div>
-
+<h3>2. 如果老師花時間關心學生情緒，導致課程進度稍慢，你能接受嗎？</h3>
+<div class="option"><label><input type="radio" name="q2"> A. 不能</label></div>
+<div class="option"><label><input type="radio" name="q2"> B. 能</label></div>
 </div>
 
 <div class="question">
-<h3>3. 如果孩子未來收入普通，但很熱愛工作，你接受嗎？</h3>
-
-<div class="option">
-<input type="radio" name="q3"> A. 可以
-</div>
-
-<div class="option">
-<input type="radio" name="q3"> B. 不行
-</div>
-
+<h3>3. 你期待老師培養孩子的創造力，但如果創新教學導致考試成績短期波動呢？</h3>
+<div class="option"><label><input type="radio" name="q3"> A. 無法接受</label></div>
+<div class="option"><label><input type="radio" name="q3"> B. 可以接受</label></div>
 </div>
 
 <div class="question">
-<h3>4. 如果孩子未來年薪300萬，但每天都不快樂，你會認為他成功嗎？</h3>
-
-<div class="option">
-<input type="radio" name="q4"> A. 會
-</div>
-
-<div class="option">
-<input type="radio" name="q4"> B. 不會
-</div>
-
+<h3>4. 哪一種老師比較成功？</h3>
+<div class="option"><label><input type="radio" name="q4"> A. 全班平均成績最高</label></div>
+<div class="option"><label><input type="radio" name="q4"> B. 孩子畢業後仍感謝他的人生影響</label></div>
 </div>
 
 <div class="question">
-<h3>5. 以下哪一項能力更重要？</h3>
-
-<div class="option">
-<input type="radio" name="q5"> A. 解出數學難題
-</div>
-
-<div class="option">
-<input type="radio" name="q5"> B. 面對失敗後重新站起來
-</div>
-
+<h3>5. 如果希望孩子勇於發問，老師是否也應有嘗試與犯錯的空間？</h3>
+<div class="option"><label><input type="radio" name="q5"> A. 不需要</label></div>
+<div class="option"><label><input type="radio" name="q5"> B. 需要</label></div>
 </div>
 
 <div class="question">
-<h3>6. 如果孩子永遠不會讓你失望，但也從不做自己想做的事，你願意嗎？</h3>
-
-<div class="option">
-<input type="radio" name="q6"> A. 願意
-</div>
-
-<div class="option">
-<input type="radio" name="q6"> B. 不願意
-</div>
-
+<h3>6. 孩子需要心理安全感，那老師呢？</h3>
+<div class="option"><label><input type="radio" name="q6"> A. 老師應自行承擔壓力</label></div>
+<div class="option"><label><input type="radio" name="q6"> B. 老師也需要支持系統</label></div>
 </div>
 
 <div class="question">
-<h3>7. 孩子最需要的是什麼？</h3>
-
-<div class="option">
-<input type="radio" name="q7"> A. 不斷被要求進步
-</div>
-
-<div class="option">
-<input type="radio" name="q7"> B. 知道自己即使失敗也值得被愛
-</div>
-
+<h3>7. 如果希望老師關心每位學生，你認為老師最需要什麼？</h3>
+<div class="option"><label><input type="radio" name="q7"> A. 更多行政工作</label></div>
+<div class="option"><label><input type="radio" name="q7"> B. 更多與學生相處的時間</label></div>
 </div>
 
 <div class="question">
-<h3>8. 以下哪種人生比較幸福？</h3>
-
-<div class="option">
-<input type="radio" name="q8"> A. 很有成就但沒有朋友
-</div>
-
-<div class="option">
-<input type="radio" name="q8"> B. 成就普通但有愛自己的家人與朋友
-</div>
-
+<h3>8. 如果老師要培養孩子自主學習，老師是否應有課程自主權？</h3>
+<div class="option"><label><input type="radio" name="q8"> A. 不需要</label></div>
+<div class="option"><label><input type="radio" name="q8"> B. 需要</label></div>
 </div>
 
 <div class="question">
-<h3>9. 你希望孩子成為：</h3>
-
-<div class="option">
-<input type="radio" name="q9"> A. 別人眼中的成功人士
-</div>
-
-<div class="option">
-<input type="radio" name="q9"> B. 自己喜歡的自己
-</div>
-
+<h3>9. 我們希望孩子有創造力，那老師應該：</h3>
+<div class="option"><label><input type="radio" name="q9"> A. 完全依照標準流程執行</label></div>
+<div class="option"><label><input type="radio" name="q9"> B. 擁有教學創新空間</label></div>
 </div>
 
 <div class="question">
-<h3>10. 最後一題（最反直覺）</h3>
+<h3>10. 我們希望孩子會合作，那老師最需要的是？</h3>
+<div class="option"><label><input type="radio" name="q10"> A. 單打獨鬥</label></div>
+<div class="option"><label><input type="radio" name="q10"> B. 專業合作團隊</label></div>
+</div>
+
+<div class="question">
+<h3>11. 如果家長期待老師理解孩子，那家長是否也應理解老師的工作現況？</h3>
+<div class="option"><label><input type="radio" name="q11"> A. 不需要</label></div>
+<div class="option"><label><input type="radio" name="q11"> B. 需要</label></div>
+</div>
+
+<div class="question">
+<h3>12. 最反直覺的一題</h3>
 
 <p>
-如果有一天，
-你的孩子成為一個健康、善良、快樂、有責任感的人，
-但沒有達成你曾經替他設定的夢想。
+假設有兩所學校：
 </p>
 
-<p>你會覺得教育失敗了嗎？</p>
+<p>
+<strong>甲校：</strong><br>
+老師高度服從制度<br>
+課程完全一致<br>
+學生考試表現優異
+</p>
 
-<div class="option">
-<input type="radio" name="q10"> A. 會
+<p>
+<strong>乙校：</strong><br>
+老師擁有專業自主<br>
+課程多元創新<br>
+學生具備自主學習、合作與解決問題能力
+</p>
+
+<p>
+你更希望孩子就讀哪一所？
+</p>
+
+<div class="option"><label><input type="radio" name="q12"> A. 甲校</label></div>
+<div class="option"><label><input type="radio" name="q12"> B. 乙校</label></div>
+
 </div>
 
-<div class="option">
-<input type="radio" name="q10"> B. 不會
+<div class="btn">
+<button type="button" onclick="showResult()">查看反思結果</button>
 </div>
-
-</div>
-
-<center>
-<button type="button"
-onclick="showResult()">
-查看反思結果
-</button>
-</center>
 
 </form>
 
-<div id="result" class="result" style="display:none;">
+<div id="result" class="result">
+
 <h2>🌱 問卷反思</h2>
 
 <p>
-如果你在多數題目中選擇了：
+如果你多數選擇了：
 </p>
+
+<ul>
+<li>信任老師</li>
+<li>支持老師</li>
+<li>給予專業自主</li>
+<li>提供創新空間</li>
+<li>重視心理安全感</li>
+<li>建立合作文化</li>
+</ul>
 
 <p>
-✔ 快樂<br>
-✔ 健康<br>
-✔ 關係<br>
-✔ 韌性<br>
-✔ 自主選擇
+那麼你期待的老師，
+其實已經不只是「知識傳授者」。
 </p>
+
+<div class="quote">
+我們希望孩子成為什麼樣的人，
+往往就必須先讓老師成為什麼樣的教育者。
+</div>
 
 <p>
-那麼請思考一個問題：
+如果期待孩子：
 </p>
 
-<h3 style="color:#e74c3c;">
-為什麼我們每天最關心的，
-卻往往是考試、排名與成績？
-</h3>
+<ul>
+<li>有創造力</li>
+<li>有自主性</li>
+<li>有同理心</li>
+<li>有面對未來的能力</li>
+</ul>
 
 <p>
-或許家長真正想給孩子的，
-從來不是第一名的人生，
-而是即使遇到風雨，
-依然能幸福生活的人生。
+那麼老師也需要：
 </p>
 
-<p style="font-size:22px;font-weight:bold;color:#2c3e50;">
-你希望孩子贏在考試裡？<br>
-還是贏在一輩子裡？
-</p>
+<ul>
+<li>被信任</li>
+<li>被支持</li>
+<li>被賦能</li>
+<li>被尊重</li>
+</ul>
+
+<div class="quote">
+真正的教育改革，
+不是要求老師做更多事。
+
+而是讓老師有能力做好最重要的事。
+</div>
 
 </div>
 
@@ -277,10 +302,11 @@ onclick="showResult()">
 
 <script>
 function showResult(){
-    document.getElementById("result").style.display="block";
+    document.getElementById("result").style.display = "block";
+
     window.scrollTo({
-        top:document.body.scrollHeight,
-        behavior:"smooth"
+        top: document.body.scrollHeight,
+        behavior: "smooth"
     });
 }
 </script>
