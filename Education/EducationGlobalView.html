@@ -9,19 +9,19 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --ink:       #1a1a2e;
-      --paper:     #f7f4ef;
-      --sage:      #5a7a5e;
-      --sage-light:#dce8de;
-      --amber:     #c97d2e;
-      --amber-soft:#f3e0c4;
-      --mist:      #e8edf2;
-      --rule:      #d4cfc8;
-      --white:     #ffffff;
+      --ink:        #1a1a2e;
+      --paper:      #f7f4ef;
+      --sage:       #5a7a5e;
+      --sage-light: #dce8de;
+      --amber:      #c97d2e;
+      --amber-soft: #f3e0c4;
+      --indigo:     #6b7fb5;
+      --indigo-soft:#e8ebf5;
+      --rule:       #d4cfc8;
+      --white:      #ffffff;
     }
 
     html { scroll-behavior: smooth; }
-
     body {
       font-family: 'Noto Sans TC', sans-serif;
       background: var(--paper);
@@ -50,22 +50,18 @@
       color: var(--sage);
       text-decoration: none;
     }
-    .nav-breadcrumb {
-      font-size: .78rem;
-      color: #999;
-      letter-spacing: .04em;
-    }
+    .nav-breadcrumb { font-size: .78rem; color: #999; letter-spacing: .04em; }
     .nav-breadcrumb span { color: var(--amber); font-weight: 500; }
 
     /* ── HERO ── */
     .hero {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      min-height: 68vh;
+      min-height: 62vh;
       overflow: hidden;
     }
     .hero-text {
-      padding: 6rem 3rem 4rem 3rem;
+      padding: 5.5rem 3rem 4rem;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -80,11 +76,11 @@
     }
     .hero-title {
       font-family: 'Noto Serif TC', serif;
-      font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
       font-weight: 900;
-      line-height: 1.18;
+      line-height: 1.2;
       color: var(--ink);
-      margin-bottom: 1.6rem;
+      margin-bottom: 1.4rem;
     }
     .hero-title em {
       font-style: normal;
@@ -93,11 +89,11 @@
       padding-bottom: 2px;
     }
     .hero-desc {
-      font-size: 1rem;
+      font-size: .96rem;
       line-height: 1.85;
       color: #555;
       max-width: 420px;
-      margin-bottom: 2.4rem;
+      margin-bottom: 2.2rem;
     }
     .hero-cta {
       display: inline-flex;
@@ -106,8 +102,8 @@
       background: var(--sage);
       color: var(--white);
       text-decoration: none;
-      padding: .85rem 1.8rem;
-      font-size: .88rem;
+      padding: .82rem 1.7rem;
+      font-size: .86rem;
       font-weight: 500;
       letter-spacing: .04em;
       border-radius: 3px;
@@ -115,7 +111,6 @@
       width: fit-content;
     }
     .hero-cta:hover { background: #3f5c43; transform: translateY(-1px); }
-    .hero-cta svg { flex-shrink: 0; }
 
     .hero-visual {
       background: var(--ink);
@@ -133,12 +128,7 @@
         radial-gradient(ellipse 80% 60% at 60% 40%, rgba(90,122,94,.35) 0%, transparent 70%),
         radial-gradient(ellipse 50% 50% at 20% 80%, rgba(201,125,46,.2) 0%, transparent 60%);
     }
-    .hero-visual-inner {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      padding: 3rem;
-    }
+    .hero-visual-inner { position: relative; z-index: 1; padding: 3rem; width: 100%; }
     .hero-stat-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -147,59 +137,79 @@
     .hero-stat {
       background: rgba(255,255,255,.05);
       border: 1px solid rgba(255,255,255,.1);
-      padding: 2rem 1.6rem;
-      text-align: left;
+      padding: 1.8rem 1.5rem;
       backdrop-filter: blur(6px);
     }
-    .hero-stat:first-child { border-radius: 8px 0 0 0; }
+    .hero-stat:first-child  { border-radius: 8px 0 0 0; }
     .hero-stat:nth-child(2) { border-radius: 0 8px 0 0; }
     .hero-stat:nth-child(3) { border-radius: 0 0 0 8px; }
-    .hero-stat:last-child { border-radius: 0 0 8px 0; }
+    .hero-stat:last-child   { border-radius: 0 0 8px 0; }
     .stat-num {
       font-family: 'Noto Serif TC', serif;
-      font-size: 2.4rem;
+      font-size: 2.2rem;
       font-weight: 900;
       color: var(--white);
       line-height: 1;
       margin-bottom: .4rem;
     }
-    .stat-num span { font-size: 1.1rem; color: var(--amber); }
-    .stat-label {
-      font-size: .75rem;
-      color: rgba(255,255,255,.55);
-      letter-spacing: .06em;
-    }
+    .stat-num span { font-size: 1rem; color: var(--amber); }
+    .stat-label { font-size: .73rem; color: rgba(255,255,255,.5); letter-spacing: .06em; }
 
-    /* ── SECTION INTRO ── */
+    /* ── SECTION HEADER ── */
     .section-intro {
-      padding: 5rem 3rem 2.5rem;
+      padding: 4.5rem 3rem 2rem;
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
       gap: 2rem;
       border-top: 1px solid var(--rule);
-      margin-top: 0;
     }
     .section-intro h2 {
       font-family: 'Noto Serif TC', serif;
-      font-size: 1.7rem;
+      font-size: 1.6rem;
       font-weight: 700;
       color: var(--ink);
     }
     .section-intro p {
-      font-size: .9rem;
+      font-size: .88rem;
       color: #777;
-      max-width: 340px;
+      max-width: 320px;
       line-height: 1.7;
       text-align: right;
     }
 
-    /* ── CARDS ── */
+    /* ── TOPIC GROUP LABEL ── */
+    .topic-group {
+      padding: 2rem 3rem .8rem;
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+    }
+    .topic-group-label {
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      padding: .3rem .8rem;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .topic-group-label--campus  { background: var(--sage-light);  color: var(--sage); }
+    .topic-group-label--child   { background: var(--amber-soft);  color: var(--amber); }
+    .topic-group-label--teacher { background: var(--indigo-soft); color: var(--indigo); }
+    .topic-group-line { flex: 1; height: 1px; background: var(--rule); }
+
+    /* ── CARD GRID ── */
     .cards-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5px;
-      padding: 0 3rem 5rem;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.2rem;
+      padding: 0 3rem;
+      margin-bottom: 1.5rem;
+    }
+    .cards-grid--single {
+      grid-template-columns: 1fr;
+      max-width: calc(50% - .6rem);   /* match half-width of 2-col grid */
     }
 
     .card {
@@ -212,129 +222,127 @@
       position: relative;
       overflow: hidden;
       transition: transform .22s ease, box-shadow .22s ease;
-      border-radius: 4px;
+      border-radius: 6px;
     }
     .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 16px 40px rgba(26,26,46,.10);
+      transform: translateY(-4px);
+      box-shadow: 0 14px 36px rgba(26,26,46,.09);
       z-index: 2;
     }
     .card:hover .card-arrow { transform: translate(4px, -4px); }
 
-    .card-accent {
-      height: 5px;
-      width: 100%;
+    /* colour accent bar */
+    .card-accent { height: 4px; width: 100%; }
+    .card--campus  .card-accent { background: var(--sage); }
+    .card--child   .card-accent { background: var(--amber); }
+    .card--teacher .card-accent { background: var(--indigo); }
+
+    /* type badge */
+    .card-type-badge {
+      position: absolute;
+      top: 1.1rem;
+      right: 1.2rem;
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: .22rem .6rem;
+      border-radius: 20px;
     }
-    .card--campus .card-accent { background: var(--sage); }
-    .card--child .card-accent  { background: var(--amber); }
-    .card--teacher .card-accent{ background: #6b7fb5; }
+    .card--campus  .card-type-badge { background: var(--sage-light);  color: var(--sage); }
+    .card--child   .card-type-badge { background: var(--amber-soft);  color: var(--amber); }
+    .card--teacher .card-type-badge { background: var(--indigo-soft); color: var(--indigo); }
 
     .card-body {
-      padding: 2rem 1.8rem;
+      padding: 1.6rem 1.6rem 1.4rem;
       flex: 1;
       display: flex;
       flex-direction: column;
     }
-    .card-tag {
-      font-size: .68rem;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      font-weight: 600;
-      margin-bottom: 1rem;
-      display: inline-flex;
-      align-items: center;
-      gap: .4rem;
-    }
-    .card--campus .card-tag { color: var(--sage); }
-    .card--child .card-tag  { color: var(--amber); }
-    .card--teacher .card-tag{ color: #6b7fb5; }
-
     .card-icon {
-      width: 38px;
-      height: 38px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 1.2rem;
-      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
     }
-    .card--campus .card-icon { background: var(--sage-light); }
-    .card--child .card-icon  { background: var(--amber-soft); }
-    .card--teacher .card-icon{ background: #e8ebf5; }
+    .card--campus  .card-icon { background: var(--sage-light); }
+    .card--child   .card-icon { background: var(--amber-soft); }
+    .card--teacher .card-icon { background: var(--indigo-soft); }
 
     .card-title {
       font-family: 'Noto Serif TC', serif;
-      font-size: 1.18rem;
+      font-size: 1.05rem;
       font-weight: 700;
-      line-height: 1.4;
-      margin-bottom: .8rem;
+      line-height: 1.45;
+      margin-bottom: .65rem;
       color: var(--ink);
+      padding-right: 3rem; /* avoid badge overlap */
     }
     .card-desc {
-      font-size: .84rem;
+      font-size: .82rem;
       line-height: 1.75;
       color: #666;
       flex: 1;
-      margin-bottom: 1.8rem;
+      margin-bottom: 1.4rem;
     }
     .card-footer {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1rem 1.8rem;
+      padding: .85rem 1.6rem;
       border-top: 1px solid var(--rule);
       background: #fafaf8;
     }
     .card-meta {
-      font-size: .75rem;
+      font-size: .73rem;
       color: #aaa;
-      display: flex;
-      align-items: center;
-      gap: .4rem;
-    }
-    .card-link-text {
-      font-size: .78rem;
-      font-weight: 600;
-      letter-spacing: .05em;
       display: flex;
       align-items: center;
       gap: .35rem;
     }
-    .card--campus .card-link-text { color: var(--sage); }
-    .card--child .card-link-text  { color: var(--amber); }
-    .card--teacher .card-link-text{ color: #6b7fb5; }
-
-    .card-arrow {
-      transition: transform .2s ease;
-      display: inline-block;
+    .card-link-text {
+      font-size: .76rem;
+      font-weight: 600;
+      letter-spacing: .05em;
+      display: flex;
+      align-items: center;
+      gap: .32rem;
     }
+    .card--campus  .card-link-text { color: var(--sage); }
+    .card--child   .card-link-text { color: var(--amber); }
+    .card--teacher .card-link-text { color: var(--indigo); }
+    .card-arrow { transition: transform .2s ease; display: inline-block; }
 
     /* ── FOOTER ── */
-    footer {
+    .page-footer {
       border-top: 1px solid var(--rule);
       padding: 2rem 3rem;
+      margin-top: 4rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: .78rem;
+      font-size: .76rem;
       color: #aaa;
     }
-    footer a { color: var(--sage); text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
+    .page-footer a { color: var(--sage); text-decoration: none; }
+    .page-footer a:hover { text-decoration: underline; }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       .hero { grid-template-columns: 1fr; }
-      .hero-visual { min-height: 280px; }
-      .cards-grid { grid-template-columns: 1fr; padding: 0 1.5rem 3rem; }
-      nav { padding: 1rem 1.5rem; }
-      .hero-text { padding: 3.5rem 1.5rem 2.5rem; }
-      .section-intro { flex-direction: column; padding: 3rem 1.5rem 2rem; }
+      .hero-visual { min-height: 260px; }
+      nav, .section-intro, .topic-group, .cards-grid, .page-footer { padding-left: 1.4rem; padding-right: 1.4rem; }
+      .hero-text { padding: 3.2rem 1.4rem 2.5rem; }
+      .section-intro { flex-direction: column; }
       .section-intro p { text-align: left; }
-      footer { flex-direction: column; gap: .8rem; text-align: center; }
+      .cards-grid { grid-template-columns: 1fr; }
+      .cards-grid--single { max-width: 100%; }
+      .page-footer { flex-direction: column; gap: .8rem; text-align: center; }
     }
-
     @media (prefers-reduced-motion: reduce) {
       .card, .card-arrow, .hero-cta { transition: none; }
     }
@@ -361,7 +369,7 @@
       為臺灣教育政策提供真實且有溫度的數據基礎。
     </p>
     <a href="#surveys" class="hero-cta">
-      <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg width="15" height="15" fill="none" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       查看所有問卷
     </a>
   </div>
@@ -370,12 +378,12 @@
     <div class="hero-visual-inner">
       <div class="hero-stat-grid">
         <div class="hero-stat">
-          <div class="stat-num">3<span>份</span></div>
-          <div class="stat-label">現行問卷調查</div>
+          <div class="stat-num">5<span>份</span></div>
+          <div class="stat-label">現行問卷 / 文章</div>
         </div>
         <div class="hero-stat">
-          <div class="stat-num">∞<span></span></div>
-          <div class="stat-label">可蒐集的聲音</div>
+          <div class="stat-num">3<span>題</span></div>
+          <div class="stat-label">核心研究議題</div>
         </div>
         <div class="hero-stat">
           <div class="stat-num">K–12</div>
@@ -390,87 +398,143 @@
   </div>
 </section>
 
-<!-- SURVEY CARDS -->
+<!-- ══════════════ SURVEY CARDS ══════════════ -->
 <div class="section-intro" id="surveys">
-  <h2>教育議題問卷</h2>
-  <p>選擇您感興趣的調查主題，填寫問卷並參與討論，共同推動教育現場的正向改變。</p>
+  <h2>教育議題文章與問卷</h2>
+  <p>選擇議題閱讀深度文章，或直接填寫問卷，共同推動教育現場的正向改變。</p>
+</div>
+
+<!-- ── GROUP 1: 校園環境 ── -->
+<div class="topic-group">
+  <span class="topic-group-label topic-group-label--campus">🏫 校園環境</span>
+  <span class="topic-group-line"></span>
 </div>
 
 <div class="cards-grid">
-
-  <!-- Card 1: Campus Environmental Expectation -->
-  <a href="CampusEnvironmentalExpectionQuetionaire.html" class="card card--campus">
+  <!-- 文章 -->
+  <a href="CampusEnvironmentalExpection.html" class="card card--campus">
     <div class="card-accent"></div>
+    <span class="card-type-badge">閱讀文章</span>
     <div class="card-body">
-      <div class="card-icon">🏫</div>
-      <span class="card-tag">校園環境</span>
-      <h3 class="card-title">校園環境期待問卷</h3>
+      <div class="card-icon">📄</div>
+      <h3 class="card-title">校園環境期待</h3>
       <p class="card-desc">
-        探討師生對於校園硬體設施、綠化空間、安全設計與學習環境的期望與現況落差，
-        為校園規劃決策提供第一線的使用者回饋。
+        深入探討現代校園中硬體設施、綠化空間與安全設計的現況分析，
+        理解師生對理想學習環境的共同期盼與政策落差。
       </p>
     </div>
     <div class="card-footer">
       <span class="card-meta">
-        <svg width="13" height="13" fill="none" viewBox="0 0 24 24"><path d="M12 8v4l3 3" stroke="#bbb" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="#bbb" stroke-width="2"/></svg>
-        約 8 分鐘完成
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24"><path d="M12 8v4l3 3" stroke="#bbb" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="#bbb" stroke-width="2"/></svg>
+        閱讀約 6 分鐘
       </span>
-      <span class="card-link-text">
-        前往填寫 <span class="card-arrow">→</span>
-      </span>
+      <span class="card-link-text">前往閱讀 <span class="card-arrow">→</span></span>
     </div>
   </a>
 
-  <!-- Card 2: Child Life Expectation -->
+  <!-- 問卷 -->
+  <a href="CampusEnvironmentalExpectionQuetionaire.html" class="card card--campus">
+    <div class="card-accent"></div>
+    <span class="card-type-badge">填寫問卷</span>
+    <div class="card-body">
+      <div class="card-icon">📋</div>
+      <h3 class="card-title">校園環境期待問卷</h3>
+      <p class="card-desc">
+        透過結構化問卷，蒐集師生對校園空間、設備維護與學習氛圍的真實感受，
+        為校園規劃提供第一線使用者回饋。
+      </p>
+    </div>
+    <div class="card-footer">
+      <span class="card-meta">
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24"><path d="M12 8v4l3 3" stroke="#bbb" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="#bbb" stroke-width="2"/></svg>
+        約 8 分鐘完成
+      </span>
+      <span class="card-link-text">前往填寫 <span class="card-arrow">→</span></span>
+    </div>
+  </a>
+</div>
+
+<!-- ── GROUP 2: 兒童生命教育 ── -->
+<div class="topic-group">
+  <span class="topic-group-label topic-group-label--child">🌱 兒童生命教育</span>
+  <span class="topic-group-line"></span>
+</div>
+
+<div class="cards-grid cards-grid--single">
+  <!-- 問卷（此主題目前僅有問卷）-->
   <a href="ChildLifeExpectionQuestionaire.html" class="card card--child">
     <div class="card-accent"></div>
+    <span class="card-type-badge">填寫問卷</span>
     <div class="card-body">
-      <div class="card-icon">🌱</div>
-      <span class="card-tag">兒童生命教育</span>
+      <div class="card-icon">📋</div>
       <h3 class="card-title">兒童生命期待問卷</h3>
       <p class="card-desc">
-        聚焦兒童對未來生涯、人際關係與自我實現的期望，理解不同成長背景下，
+        聚焦兒童對未來生涯、人際關係與自我實現的期望，理解不同成長背景下
         孩子心中所描繪的人生藍圖，以利更貼近兒童需求的課程設計。
       </p>
     </div>
     <div class="card-footer">
       <span class="card-meta">
-        <svg width="13" height="13" fill="none" viewBox="0 0 24 24"><path d="M12 8v4l3 3" stroke="#bbb" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="#bbb" stroke-width="2"/></svg>
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24"><path d="M12 8v4l3 3" stroke="#bbb" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="#bbb" stroke-width="2"/></svg>
         約 10 分鐘完成
       </span>
-      <span class="card-link-text">
-        前往填寫 <span class="card-arrow">→</span>
-      </span>
+      <span class="card-link-text">前往填寫 <span class="card-arrow">→</span></span>
     </div>
   </a>
+</div>
 
-  <!-- Card 3: Teacher Power -->
-  <a href="TeacherPowerQuestionaire.html" class="card card--teacher">
+<!-- ── GROUP 3: 教師賦權 ── -->
+<div class="topic-group">
+  <span class="topic-group-label topic-group-label--teacher">🎓 教師賦權</span>
+  <span class="topic-group-line"></span>
+</div>
+
+<div class="cards-grid">
+  <!-- 文章 -->
+  <a href="TeacherPowerExpection.html" class="card card--teacher">
     <div class="card-accent"></div>
+    <span class="card-type-badge">閱讀文章</span>
     <div class="card-body">
-      <div class="card-icon">🎓</div>
-      <span class="card-tag">教師賦權</span>
-      <h3 class="card-title">教師權力關係問卷</h3>
+      <div class="card-icon">📄</div>
+      <h3 class="card-title">教師權力關係期待</h3>
       <p class="card-desc">
-        審視教師在課堂、校園行政與親師溝通中的自主性與權力動態，
-        探討如何建立更平等、尊重的教育夥伴關係，促進教師的專業尊嚴與工作滿意度。
+        深入剖析教師在課堂管理、校務行政與親師溝通中的自主性現況，
+        探討平等夥伴關係如何提升教師的專業尊嚴與教學品質。
       </p>
     </div>
     <div class="card-footer">
       <span class="card-meta">
-        <svg width="13" height="13" fill="none" viewBox="0 0 24 24"><path d="M12 8v4l3 3" stroke="#bbb" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="#bbb" stroke-width="2"/></svg>
-        約 12 分鐘完成
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24"><path d="M12 8v4l3 3" stroke="#bbb" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="#bbb" stroke-width="2"/></svg>
+        閱讀約 7 分鐘
       </span>
-      <span class="card-link-text">
-        前往填寫 <span class="card-arrow">→</span>
-      </span>
+      <span class="card-link-text">前往閱讀 <span class="card-arrow">→</span></span>
     </div>
   </a>
 
+  <!-- 問卷 -->
+  <a href="TeacherPowerQuestionaire.html" class="card card--teacher">
+    <div class="card-accent"></div>
+    <span class="card-type-badge">填寫問卷</span>
+    <div class="card-body">
+      <div class="card-icon">📋</div>
+      <h3 class="card-title">教師權力關係問卷</h3>
+      <p class="card-desc">
+        審視教師對課堂自主、行政決策參與度與親師溝通模式的實際感受，
+        協助建立更尊重教師專業的教育生態。
+      </p>
+    </div>
+    <div class="card-footer">
+      <span class="card-meta">
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24"><path d="M12 8v4l3 3" stroke="#bbb" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="#bbb" stroke-width="2"/></svg>
+        約 12 分鐘完成
+      </span>
+      <span class="card-link-text">前往填寫 <span class="card-arrow">→</span></span>
+    </div>
+  </a>
 </div>
 
 <!-- FOOTER -->
-<footer>
+<footer class="page-footer">
   <span>© 2025 FreeTalkPage · 教育議題研究計畫</span>
   <span>
     <a href="../index.html">回到首頁</a>
