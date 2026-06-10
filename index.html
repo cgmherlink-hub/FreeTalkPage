@@ -23,7 +23,6 @@
       margin: 0;
       background-image: radial-gradient(circle at 90% 10%, #fff4e6 0%, transparent 20%);
     }
-
     .top-nav {
       position: sticky;
       top: 0;
@@ -66,7 +65,6 @@
     .vb-label { font-size: 0.65rem; color: #999; letter-spacing: 0.05em; font-family: Arial, sans-serif; }
     .vb-count { font-size: 1rem; font-weight: 600; color: var(--primary-color); letter-spacing: 0.06em; font-family: Arial, sans-serif; }
     .vb-sub { font-size: 0.62rem; color: #b0b0b0; font-family: Arial, sans-serif; }
-
     header {
       background: linear-gradient(to bottom, #ffffff, var(--bg-color));
       padding: 4rem 2rem 2.5rem;
@@ -84,7 +82,6 @@
       letter-spacing: 0.1rem;
       margin: 0;
     }
-
     .container {
       max-width: 960px;
       margin: 0 auto;
@@ -168,13 +165,85 @@
     }
     .category-item:last-child { border-bottom: none; }
 
+    /* ── 教育議題卡片專屬樣式 ── */
+    .edu-card {
+      border-top: 3px solid #5a7a5e;
+    }
+    .edu-card h3::before {
+      content: "✦";
+      color: #5a7a5e;
+    }
+    .edu-sub-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+    .edu-sub-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.9rem;
+      background: rgba(90,122,94,0.06);
+      border: 1px solid rgba(90,122,94,0.18);
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+      text-decoration: none;
+      color: var(--text-color);
+      transition: background 0.25s, transform 0.2s;
+    }
+    .edu-sub-card:hover {
+      background: rgba(90,122,94,0.13);
+      transform: translateX(3px);
+      color: var(--text-color);
+    }
+    .edu-sub-icon {
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .edu-sub-content { flex: 1; }
+    .edu-sub-title {
+      font-weight: 600;
+      font-size: 0.92rem;
+      color: #3f5c43;
+      line-height: 1.4;
+      margin-bottom: 0.2rem;
+    }
+    .edu-sub-desc {
+      font-size: 0.76rem;
+      color: #888;
+      line-height: 1.5;
+    }
+    .edu-sub-arrow {
+      font-size: 0.85rem;
+      color: #5a7a5e;
+      flex-shrink: 0;
+      align-self: center;
+      opacity: 0.6;
+    }
+    .edu-hub-link {
+      display: block;
+      text-align: center;
+      margin-top: 1rem;
+      padding: 0.55rem 0;
+      font-size: 0.8rem;
+      color: #5a7a5e;
+      border: 1px dashed rgba(90,122,94,0.4);
+      border-radius: 8px;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: background 0.2s;
+    }
+    .edu-hub-link:hover {
+      background: rgba(90,122,94,0.08);
+    }
+
     footer {
       text-align: center;
       padding: 5rem 2rem;
       color: #b0b0b0;
       font-size: 0.85rem;
     }
-
     @media (max-width: 600px) {
       .nav-link span { display: none; }
       header h1 { font-size: 1.4rem; letter-spacing: 0.15rem; }
@@ -182,7 +251,6 @@
   </style>
 </head>
 <body>
-
 <nav class="top-nav">
   <div class="nav-left">
     <a href="https://d8600010-gmail.github.io/DRJimmyHealthExaminationMedicalEducation/" class="nav-link">🏠 <span>回到首頁</span></a>
@@ -194,19 +262,15 @@
     <span class="vb-sub">累計 <span id="total-count">—</span> 人次</span>
   </div>
 </nav>
-
 <header>
   <h1>歲月拾光 | 生活浮光繪影</h1>
   <p>Capture the moments, Paint the memories.</p>
 </header>
-
 <div class="container">
   <section class="quote-section">
     「那些遺落在時光裡的片段，都是生命最美的投影。」
   </section>
-
   <div class="grid">
-
     <!-- Card 1: 浮光隨筆 -->
     <div class="card">
       <h3>浮光隨筆</h3>
@@ -237,7 +301,6 @@
         </li>
       </ul>
     </div>
-
     <!-- Card 2: 影蹤分類 -->
     <div class="card">
       <h3>影蹤分類</h3>
@@ -276,7 +339,6 @@
         </li>
       </ul>
     </div>
-
     <!-- Card 3: 溝通的陷阱 -->
     <div class="card">
       <h3>溝通的陷阱</h3>
@@ -295,8 +357,7 @@
         </li>
       </ul>
     </div>
-
-    <!-- Card 4: 保健補充品 (新增) -->
+    <!-- Card 4: 保健補充品 -->
     <div class="card">
       <h3>保健補充品</h3>
       <ul>
@@ -326,7 +387,6 @@
         </li>
       </ul>
     </div>
-
     <!-- Card 5: 其他 -->
     <div class="card">
       <h3>其他</h3>
@@ -375,7 +435,6 @@
           <a href="Others/ItchingEar.html" class="featured-link">📌 耳朵癢得難受</a>
           <span class="date">APR 21</span>
         </li>
-
         <!-- Miscellaneous/ (1–8) -->
         <li><span style="color:#4a6362; font-size:0.8rem; font-weight:600; letter-spacing:0.05em;">─── Miscellaneous ───</span></li>
         <li>
@@ -402,7 +461,6 @@
         <li>
           <a href="Miscellaneous/TirzepatideEffect2022.html" class="featured-link">8. 替爾泊肽效應 2022</a>
         </li>
-
         <!-- Miscellaneous2/ (11–18) -->
         <li><span style="color:#4a6362; font-size:0.8rem; font-weight:600; letter-spacing:0.05em;">─── Miscellaneous 2 ───</span></li>
         <li>
@@ -429,7 +487,6 @@
         <li>
           <a href="Miscellaneous2/SelectiveBias.html" class="featured-link">18. 選擇性偏誤</a>
         </li>
-
         <!-- Miscellaneous3/ (21–28) -->
         <li><span style="color:#4a6362; font-size:0.8rem; font-weight:600; letter-spacing:0.05em;">─── Miscellaneous 3 ───</span></li>
         <li>
@@ -458,7 +515,6 @@
         </li>
       </ul>
     </div>
-
     <!-- Card 6: 提昇你的認知 -->
     <div class="card">
       <h3>提昇你的認知</h3>
@@ -510,8 +566,47 @@
       </ul>
     </div>
 
-  </div>
+    <!-- ★ Card 7: 教育議題（新增）★ -->
+    <div class="card edu-card">
+      <h3>教育議題</h3>
+      <div class="edu-sub-cards">
+        <a href="Education/EducationGlobalView.html" class="edu-sub-card" style="background:rgba(90,122,94,0.10); border-color:rgba(90,122,94,0.3);">
+          <span class="edu-sub-icon">🗂️</span>
+          <div class="edu-sub-content">
+            <div class="edu-sub-title">教育議題總覽</div>
+            <div class="edu-sub-desc">查看所有教育相關問卷與研究議題的完整入口</div>
+          </div>
+          <span class="edu-sub-arrow">→</span>
+        </a>
+        <a href="Education/CampusEnvironmentalExpectionQuetionaire.html" class="edu-sub-card">
+          <span class="edu-sub-icon">🏫</span>
+          <div class="edu-sub-content">
+            <div class="edu-sub-title">校園環境期待問卷</div>
+            <div class="edu-sub-desc">探討師生對校園硬體、空間與學習環境的期望與落差</div>
+          </div>
+          <span class="edu-sub-arrow">→</span>
+        </a>
+        <a href="Education/ChildLifeExpectionQuestionaire.html" class="edu-sub-card">
+          <span class="edu-sub-icon">🌱</span>
+          <div class="edu-sub-content">
+            <div class="edu-sub-title">兒童生命期待問卷</div>
+            <div class="edu-sub-desc">聚焦兒童對未來、人際與自我實現的期望與生命藍圖</div>
+          </div>
+          <span class="edu-sub-arrow">→</span>
+        </a>
+        <a href="Education/TeacherPowerQuestionaire.html" class="edu-sub-card">
+          <span class="edu-sub-icon">🎓</span>
+          <div class="edu-sub-content">
+            <div class="edu-sub-title">教師權力關係問卷</div>
+            <div class="edu-sub-desc">審視教師自主性與課堂、行政、親師間的權力動態</div>
+          </div>
+          <span class="edu-sub-arrow">→</span>
+        </a>
+      </div>
+      <a href="Education/EducationGlobalView.html" class="edu-hub-link">📖 進入教育議題專區 →</a>
+    </div>
 
+  </div>
   <!-- Archive -->
   <section style="margin-top: 3rem; margin-bottom: 1rem;">
     <div class="card">
@@ -524,11 +619,9 @@
     </div>
   </section>
 </div>
-
 <footer>
   <p>&copy; 2026 歲月拾光 | 生活浮光繪影 BY CHING-MING CHEN</p>
 </footer>
-
 <script>
   (function () {
     var today = new Date().toISOString().slice(0, 10);
@@ -546,6 +639,5 @@
     document.getElementById('total-count').textContent = totalCount.toLocaleString();
   })();
 </script>
-
 </body>
 </html>
