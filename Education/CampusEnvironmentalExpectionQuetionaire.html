@@ -3,19 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>校園環境篇：家長期待學校培養什麼？</title>
+
+<title>反直覺問卷：你真正期待學校培養什麼？</title>
 
 <style>
-*{
-    box-sizing:border-box;
-}
 
 body{
-    font-family:"Microsoft JhengHei","Noto Sans TC",sans-serif;
-    background:#f4f7fb;
+    font-family:"Microsoft JhengHei",sans-serif;
+    background:#f4f6f9;
     margin:0;
     padding:30px;
-    line-height:1.8;
 }
 
 .container{
@@ -24,69 +21,57 @@ body{
     background:white;
     padding:40px;
     border-radius:20px;
-    box-shadow:0 5px 20px rgba(0,0,0,0.1);
+    box-shadow:0 0 20px rgba(0,0,0,.1);
 }
 
 h1{
     text-align:center;
     color:#2c3e50;
-    margin-bottom:10px;
 }
 
 .subtitle{
     text-align:center;
-    color:#666;
+    color:#777;
     margin-bottom:40px;
 }
 
-.intro{
-    background:#eef7ff;
-    border-left:6px solid #3498db;
+.warning{
+    background:#fff8e1;
+    border-left:6px solid #f39c12;
     padding:20px;
-    border-radius:10px;
     margin-bottom:30px;
+    border-radius:10px;
 }
 
 .question{
-    background:#fafafa;
+    margin-bottom:30px;
     padding:20px;
-    margin-bottom:20px;
-    border-radius:12px;
-    border-left:5px solid #5dade2;
+    background:#fafafa;
+    border-radius:10px;
+    border-left:5px solid #3498db;
 }
 
 .question h3{
     margin-top:0;
-    color:#2c3e50;
 }
 
 .option{
-    margin:12px 0;
+    margin:15px 0;
 }
 
 .option label{
     cursor:pointer;
 }
 
-.highlight{
-    background:#fff7df;
-    padding:20px;
-    border-radius:10px;
-    margin-top:20px;
-}
-
-.btn-area{
-    text-align:center;
-    margin-top:40px;
-}
-
 button{
+    display:block;
+    margin:40px auto;
     background:#3498db;
     color:white;
     border:none;
-    padding:15px 40px;
+    padding:15px 35px;
+    border-radius:8px;
     font-size:18px;
-    border-radius:10px;
     cursor:pointer;
 }
 
@@ -96,10 +81,9 @@ button:hover{
 
 .result{
     display:none;
-    margin-top:40px;
+    background:#fffbea;
+    border:2px dashed #f1c40f;
     padding:30px;
-    background:#fffdf2;
-    border:3px dashed #f1c40f;
     border-radius:15px;
 }
 
@@ -108,245 +92,312 @@ button:hover{
 }
 
 .quote{
+    margin-top:20px;
     background:#f8f9fa;
     padding:20px;
     border-left:5px solid #27ae60;
-    margin-top:20px;
-    border-radius:8px;
-    font-size:20px;
+    font-size:22px;
 }
 
-.footer-question{
-    margin-top:30px;
-    padding:25px;
-    background:#eafaf1;
-    border-radius:10px;
-    font-weight:bold;
-}
 </style>
+
 </head>
 
 <body>
 
 <div class="container">
 
-<h1>🏫 校園環境篇</h1>
-<h2 style="text-align:center;">家長期待學校培養什麼？</h2>
+<h1>🤔 反直覺問卷</h1>
+
+<h2 style="text-align:center;">
+你真正期待學校培養什麼？
+</h2>
 
 <p class="subtitle">
-反直覺思考問卷｜沒有標準答案，只有價值選擇
+請依照第一直覺作答。<br>
+沒有標準答案，但可能有讓人不舒服的答案。
 </p>
 
-<div class="intro">
+<div class="warning">
+
+<strong>注意：</strong>
+
+這不是教育測驗。
+
+而是一面鏡子。
+
+幫助我們看見：
+
+「自己真正重視的是什麼？」
+
+</div>
+
+<form>
+
+<div class="question">
+<h3>1.</h3>
+
 <p>
-許多家長希望孩子：
-</p>
-<ul>
-<li>成績好</li>
-<li>有競爭力</li>
-<li>考上好學校</li>
-</ul>
-
-<p>
-但如果深入思考：
-</p>
-
-<p style="font-size:20px;font-weight:bold;color:#e74c3c;">
-「什麼能力能陪伴孩子一輩子？」
+有兩所學校：
 </p>
 
 <p>
-這份問卷邀請您重新思考：
-您真正期待學校培養的是什麼？
+A校：升學率全市第一，但學生普遍焦慮失眠。
 </p>
+
+<p>
+B校：升學率普通，但學生快樂、自信且願意學習。
+</p>
+
+<div class="option">
+<label><input type="radio" name="q1"> A校</label>
 </div>
 
-<form id="surveyForm">
-
-<div class="question">
-<h3>1. 學校最重要的功能是什麼？</h3>
-<div class="option"><label><input type="radio" name="q1"> A. 提升升學率</label></div>
-<div class="option"><label><input type="radio" name="q1"> B. 培養面對人生的能力</label></div>
+<div class="option">
+<label><input type="radio" name="q1"> B校</label>
 </div>
 
-<div class="question">
-<h3>2. 哪種老師比較理想？</h3>
-<div class="option"><label><input type="radio" name="q2"> A. 班級成績第一名</label></div>
-<div class="option"><label><input type="radio" name="q2"> B. 孩子十年後仍感謝的老師</label></div>
-</div>
-
-<div class="question">
-<h3>3. 孩子最需要學會什麼？</h3>
-<div class="option"><label><input type="radio" name="q3"> A. 解題技巧</label></div>
-<div class="option"><label><input type="radio" name="q3"> B. 與人合作</label></div>
 </div>
 
 <div class="question">
-<h3>4. 哪種孩子未來更可能成功？</h3>
-<div class="option"><label><input type="radio" name="q4"> A. 從不失敗</label></div>
-<div class="option"><label><input type="radio" name="q4"> B. 失敗後願意再站起來</label></div>
+<h3>2.</h3>
+
+<p>
+你比較希望孩子：
+</p>
+
+<div class="option">
+<label><input type="radio" name="q2">
+永遠考前10名，但害怕失敗
+</label>
+</div>
+
+<div class="option">
+<label><input type="radio" name="q2">
+願意挑戰困難，即使偶爾失敗
+</label>
+</div>
+
 </div>
 
 <div class="question">
-<h3>5. 如果只能教一種能力？</h3>
-<div class="option"><label><input type="radio" name="q5"> A. 記住知識</label></div>
-<div class="option"><label><input type="radio" name="q5"> B. 學會學習</label></div>
+<h3>3.</h3>
+
+<p>
+畢業20年後：
+</p>
+
+<div class="option">
+<label><input type="radio" name="q3">
+孩子記得學校教過的知識
+</label>
+</div>
+
+<div class="option">
+<label><input type="radio" name="q3">
+孩子記得學校教會他如何面對人生
+</label>
+</div>
+
 </div>
 
 <div class="question">
-<h3>6. 當孩子被排擠時，最重要的是？</h3>
-<div class="option"><label><input type="radio" name="q6"> A. 學業能力</label></div>
-<div class="option"><label><input type="radio" name="q6"> B. 情緒調適能力</label></div>
+<h3>4.</h3>
+
+<p>
+如果只能選一個：
+</p>
+
+<div class="option">
+<label><input type="radio" name="q4">
+孩子很優秀，但不快樂
+</label>
+</div>
+
+<div class="option">
+<label><input type="radio" name="q4">
+孩子很快樂，但不是最優秀
+</label>
+</div>
+
 </div>
 
 <div class="question">
-<h3>7. 哪種校園讓你最放心？</h3>
-<div class="option"><label><input type="radio" name="q7"> A. 全校成績頂尖</label></div>
-<div class="option"><label><input type="radio" name="q7"> B. 孩子敢求助、不怕犯錯</label></div>
+<h3>5.</h3>
+
+<p>
+未來AI可以回答大部分知識問題。
+</p>
+
+<p>
+你認為學校最該培養的是？
+</p>
+
+<div class="option">
+<label><input type="radio" name="q5">
+更多知識
+</label>
+</div>
+
+<div class="option">
+<label><input type="radio" name="q5">
+更多判斷力
+</label>
+</div>
+
 </div>
 
 <div class="question">
-<h3>8. 哪件事更值得驕傲？</h3>
-<div class="option"><label><input type="radio" name="q8"> A. 全校第一名</label></div>
-<div class="option"><label><input type="radio" name="q8"> B. 主動幫助同學</label></div>
+<h3>6.</h3>
+
+<p>
+如果孩子畢業後收入普通，
+但每天都喜歡自己的工作。
+</p>
+
+<div class="option">
+<label><input type="radio" name="q6">
+這算失敗
+</label>
+</div>
+
+<div class="option">
+<label><input type="radio" name="q6">
+這算成功
+</label>
+</div>
+
 </div>
 
 <div class="question">
-<h3>9. AI時代最不容易被取代的是？</h3>
-<div class="option"><label><input type="radio" name="q9"> A. 背誦知識</label></div>
-<div class="option"><label><input type="radio" name="q9"> B. 同理心與創造力</label></div>
+<h3>7.</h3>
+
+<p>
+哪一個能力比較重要？
+</p>
+
+<div class="option">
+<label><input type="radio" name="q7">
+贏過別人
+</label>
+</div>
+
+<div class="option">
+<label><input type="radio" name="q7">
+管理自己
+</label>
+</div>
+
 </div>
 
 <div class="question">
-<h3>10. 如果孩子忘記大部分課本內容，但學會終身學習？</h3>
-<div class="option"><label><input type="radio" name="q10"> A. 不接受</label></div>
-<div class="option"><label><input type="radio" name="q10"> B. 接受</label></div>
+<h3>8.</h3>
+
+<p>
+如果孩子每天都怕犯錯，
+但考試成績很好。
+</p>
+
+<div class="option">
+<label><input type="radio" name="q8">
+可以接受
+</label>
+</div>
+
+<div class="option">
+<label><input type="radio" name="q8">
+不能接受
+</label>
+</div>
+
 </div>
 
 <div class="question">
-<h3>11. 成績普通但人際關係良好，你認為成功嗎？</h3>
-<div class="option"><label><input type="radio" name="q11"> A. 不算</label></div>
-<div class="option"><label><input type="radio" name="q11"> B. 算</label></div>
+<h3>9.</h3>
+
+<p>
+以下哪一個比較像真正的教育？
+</p>
+
+<div class="option">
+<label><input type="radio" name="q9">
+讓孩子比別人強
+</label>
+</div>
+
+<div class="option">
+<label><input type="radio" name="q9">
+讓孩子成為更好的自己
+</label>
+</div>
+
 </div>
 
 <div class="question">
-<h3>12. 哪種能力最影響幸福？</h3>
-<div class="option"><label><input type="radio" name="q12"> A. 考試能力</label></div>
-<div class="option"><label><input type="radio" name="q12"> B. 建立關係能力</label></div>
+<h3>10.</h3>
+
+<p>
+如果有一天，
+孩子成為一個善良、自律、有責任感的人。
+</p>
+
+<p>
+但沒有達到你曾經期待的成績。
+</p>
+
+<div class="option">
+<label><input type="radio" name="q10">
+教育失敗
+</label>
 </div>
 
-<div class="question">
-<h3>13. 哪種校園文化更重要？</h3>
-<div class="option"><label><input type="radio" name="q13"> A. 競爭第一</label></div>
-<div class="option"><label><input type="radio" name="q13"> B. 合作共好</label></div>
+<div class="option">
+<label><input type="radio" name="q10">
+教育成功
+</label>
 </div>
 
-<div class="question">
-<h3>14. 孩子不敢發問但考高分，你滿意嗎？</h3>
-<div class="option"><label><input type="radio" name="q14"> A. 滿意</label></div>
-<div class="option"><label><input type="radio" name="q14"> B. 不滿意</label></div>
 </div>
 
-<div class="question">
-<h3>15. 最值得培養的能力？</h3>
-<div class="option"><label><input type="radio" name="q15"> A. 不犯錯</label></div>
-<div class="option"><label><input type="radio" name="q15"> B. 從錯誤中學習</label></div>
-</div>
-
-<div class="question">
-<h3>16. 哪種學生更符合未來需求？</h3>
-<div class="option"><label><input type="radio" name="q16"> A. 等待指令的人</label></div>
-<div class="option"><label><input type="radio" name="q16"> B. 主動解決問題的人</label></div>
-</div>
-
-<div class="question">
-<h3>17. 快樂但不是頂尖學生，你能接受嗎？</h3>
-<div class="option"><label><input type="radio" name="q17"> A. 不能</label></div>
-<div class="option"><label><input type="radio" name="q17"> B. 能</label></div>
-</div>
-
-<div class="question">
-<h3>18. 品格教育重要但升學率較低，你支持嗎？</h3>
-<div class="option"><label><input type="radio" name="q18"> A. 不支持</label></div>
-<div class="option"><label><input type="radio" name="q18"> B. 支持</label></div>
-</div>
-
-<div class="question">
-<h3>19. 哪件事更重要？</h3>
-<div class="option"><label><input type="radio" name="q19"> A. 贏過別人</label></div>
-<div class="option"><label><input type="radio" name="q19"> B. 超越昨天的自己</label></div>
-</div>
-
-<div class="question">
-<h3>20. 最反直覺的一題</h3>
-
-<div class="highlight">
-<p><strong>學校甲：</strong></p>
-<ul>
-<li>升學率全市第一</li>
-<li>競爭激烈</li>
-<li>壓力大</li>
-<li>害怕失敗</li>
-</ul>
-
-<p><strong>學校乙：</strong></p>
-<ul>
-<li>升學率普通</li>
-<li>樂於學習</li>
-<li>具備同理心</li>
-<li>勇於面對挫折</li>
-<li>願意合作</li>
-</ul>
-
-<div class="option"><label><input type="radio" name="q20"> A. 學校甲</label></div>
-<div class="option"><label><input type="radio" name="q20"> B. 學校乙</label></div>
-
-</div>
-</div>
-
-<div class="btn-area">
-<button type="button" onclick="showResult()">查看反思結果</button>
-</div>
+<button type="button" onclick="showResult()">
+查看結果
+</button>
 
 </form>
 
-<div id="result" class="result">
+<div class="result" id="result">
 
-<h2>🌱 問卷反思結果</h2>
+<h2>🌱 問卷反思</h2>
 
 <p>
-如果您大部分選擇的是：
+這份問卷沒有分數。
+</p>
+
+<p>
+因為真正重要的不是答案。
+</p>
+
+<p>
+而是你是否發現：
 </p>
 
 <ul>
-<li>面對人生的能力</li>
-<li>情緒調適能力</li>
-<li>人際合作能力</li>
-<li>自主學習能力</li>
-<li>品格與責任感</li>
-<li>心理安全感</li>
+<li>自己希望孩子快樂，卻常只問成績。</li>
+<li>自己希望孩子有自信，卻常拿他和別人比較。</li>
+<li>自己希望孩子有創造力，卻總要求標準答案。</li>
+<li>自己希望孩子有韌性，卻不允許他失敗。</li>
 </ul>
 
-<p>
-那麼您期待的學校，其實不只是教知識。
-</p>
-
 <div class="quote">
-真正的教育，不只是讓孩子考上理想大學，
-而是讓孩子在離開校園後，
-依然有能力過好自己的人生。
-</div>
 
-<div class="footer-question">
-🤔 最後請思考：<br><br>
+如果你希望孩子擁有幸福的人生，
 
-二十年後，您最希望孩子說的是：<br><br>
+那麼學校最重要的任務，
 
-「幸好當年我考上好學校。」<br><br>
+或許不是培養「最會考試的人」，
 
-還是<br><br>
+而是培養「最有能力面對人生的人」。
 
-「幸好當年學校讓我相信自己有能力面對人生。」
 </div>
 
 </div>
@@ -354,6 +405,7 @@ button:hover{
 </div>
 
 <script>
+
 function showResult(){
     document.getElementById("result").style.display="block";
 
@@ -362,6 +414,7 @@ function showResult(){
         behavior:"smooth"
     });
 }
+
 </script>
 
 </body>
