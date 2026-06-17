@@ -1,1 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>有毒人格類型檢測（自動計分版）</title>
+<style>
+body{font-family:"Microsoft JhengHei",sans-serif;max-width:1000px;margin:auto;padding:20px;line-height:1.8}
+h1,h2{color:#222}
+.section{border:1px solid #ddd;border-radius:8px;padding:15px;margin:20px 0}
+.question{margin:12px 0}
+.result{display:none;border:2px solid #333;padding:20px;margin-top:30px;border-radius:10px}
+select{padding:5px}
+button{padding:12px 24px;font-size:18px;cursor:pointer}
+.score-item{margin:8px 0}
+</style>
+</head>
+<body>
 
+<h1>🧪 反直覺人格問卷：有毒類型檢測</h1>
+
+<p>請依照最近半年最真實的自己作答：</p>
+<p>1=完全不像我　2=偶爾如此　3=有時如此　4=經常如此　5=非常符合我</p>
+
+<form id="quiz"></form>
+
+<div style="text-align:center;margin-top:30px;">
+<button type="button" onclick="calculate()">查看結果</button>
+</div>
+
+<div id="result" class="result"></div>
+
+<script>
+
+const questions = [
+["控制型傾向","當別人做出我認為錯誤的決定時，我很難不介入。"],
+["控制型傾向","如果對方不接受我的建議，我會有點不舒服。"],
+["控制型傾向","我常覺得很多人的問題其實是因為沒有照我的方法做。"],
+["控制型傾向","我認為真正關心一個人，就是要糾正他的錯誤。"],
+
+["批判型傾向","比起稱讚別人，我更容易看到問題在哪裡。"],
+["批判型傾向","我覺得指出缺點是在幫助人成長。"],
+["批判型傾向","別人成功時，我會先思考他還有哪些不足。"],
+["批判型傾向","我不喜歡過度鼓勵，因為那會讓人鬆懈。"],
+
+["情緒勒索型","當別人拒絕我時，我會讓他知道我有多失望。"],
+["情緒勒索型","我曾經用『如果你在乎我』來說服別人。"],
+["情緒勒索型","我覺得真正愛我的人，應該知道我的需求。"],
+["情緒勒索型","當我受傷時，我希望對方因此改變。"],
+
+["受害者型","我常覺得別人比我幸運。"],
+["受害者型","我的困境大多是因為別人的決定造成的。"],
+["受害者型","別人很少真正理解我的委屈。"],
+["受害者型","如果環境好一點，我的人生會完全不同。"],
+
+["自戀型","我希望別人認可我的能力與成就。"],
+["自戀型","我不喜歡被忽略。"],
+["自戀型","如果別人不欣賞我，我會覺得是他的問題。"],
+["自戀型","我相信自己比多數人更有想法。"],
+
+["嫉妒競爭型","朋友成功時，我會不自覺拿自己比較。"],
+["嫉妒競爭型","看到同儕進步很快，我會有些不舒服。"],
+["嫉妒競爭型","別人獲得掌聲時，我會思考他是否真的值得。"],
+["嫉妒競爭型","我不太喜歡輸的感覺。"],
+
+["情緒爆炸型","我生氣時，很難控制說出口的話。"],
+["情緒爆炸型","情緒上來時，我會想立刻解決問題。"],
+["情緒爆炸型","我曾因情緒失控而後悔。"],
+["情緒爆炸型","身邊的人知道我生氣時最好不要惹我。"],
+
+["隱藏題","我很常說：我都是為你好。"],
+["隱藏題","我很難接受別人不需要我的幫助。"],
+["隱藏題","我常在腦中重播別人對不起我的事。"],
+["隱藏題","我認為很多人太脆弱了。"],
+["隱藏題","如果別人誤會我，我一定要解釋到他懂。"],
+["隱藏題","我其實很害怕被拒絕。"],
+["隱藏題","我希望重要的人把我放在第一順位。"],
+["隱藏題","我不喜歡失去掌控感。"]
+];
+
+const form=document.getElementById("quiz");
+
+questions.forEach((q,i)=>{
+let div=document.createElement("div");
+div.className="question";
+div.innerHTML=`<strong>${i+1}. ${q[1]}</strong><br>`;
+
+let select=document.createElement("select");
+select.id="q"+(i+1);
+
+for(let j=1;j<=5;j++){
+let opt=document.createElement("option");
+opt.value=j;
+opt.text=j;
+select.appendChild(opt);
+}
+div.appendChild(select);
+form.appendChild(div);
+});
+
+function get(n){return parseInt(document.getElementById("q"+n).value);}
+
+function level(score){
+if(score<=10) return "幾乎沒有此類傾向";
+if(score<=18) return "輕度傾向";
+if(score<=24) return "中度傾向";
+return "高度傾向";
+}
+
+function calculate(){
+
+let result={
+"控制型":get(1)+get(2)+get(3)+get(4)+get(29)+get(36),
+"批判型":get(5)+get(6)+get(7)+get(8)+get(32),
+"情緒勒索型":get(9)+get(10)+get(11)+get(12)+get(35),
+"受害者型":get(13)+get(14)+get(15)+get(16)+get(31),
+"自戀型":get(17)+get(18)+get(19)+get(20)+get(33),
+"嫉妒競爭型":get(21)+get(22)+get(23)+get(24),
+"情緒爆炸型":get(25)+get(26)+get(27)+get(28),
+"依附焦慮型":get(30)+get(31)+get(34)+get(35)
+};
+
+let highest="";
+let highestScore=0;
+
+let html="<h2>📊 測驗結果</h2>";
+
+for(let key in result){
+html+=`<div class='score-item'><strong>${key}</strong>：${result[key]} 分（${level(result[key])}）</div>`;
+
+if(result[key]>highestScore){
+highestScore=result[key];
+highest=key;
+}
+}
+
+const advice={
+"控制型":"學習尊重他人的選擇權，關心不等於控制。",
+"批判型":"多給予肯定與欣賞，別讓建議掩蓋了支持。",
+"情緒勒索型":"直接表達需求，而不是透過愧疚感影響他人。",
+"受害者型":"將注意力放回自己能改變的事情。",
+"自戀型":"培養同理心，理解他人的需求與感受。",
+"嫉妒競爭型":"把他人的成功當成學習，而非威脅。",
+"情緒爆炸型":"先處理情緒，再處理問題。",
+"依附焦慮型":"建立穩定自我價值感，不把安全感完全交給他人。"
+};
+
+html+=`<hr><h3>最主要的人際風險類型：${highest}</h3>`;
+html+=`<p>${advice[highest]}</p>`;
+
+html+=`<blockquote><strong>反思問題：</strong><br>
+當我進入一個房間時，人們是感到比較放鬆，還是比較緊張？</blockquote>`;
+
+document.getElementById("result").innerHTML=html;
+document.getElementById("result").style.display="block";
+window.scrollTo(0,document.body.scrollHeight);
+}
+</script>
+
+</body>
+</html>
