@@ -1,1 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>反本能螃蟹心態測驗問卷</title>
+  <style>
+    :root {
+      --primary: #c45c26;
+      --primary-dark: #9a3f15;
+      --bg: #fdf6f0;
+      --card: #ffffff;
+      --text: #2c2c2c;
+      --muted: #6b6b6b;
+      --success: #2e7d32;
+      --warning: #ed6c02;
+      --danger: #c62828;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", sans-serif;
+      background: linear-gradient(160deg, #fdf6f0 0%, #f5e6d8 100%);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding: 28px 20px;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(196, 92, 38, 0.08);
+    }
+    h1 {
+      font-size: 1.85rem;
+      color: var(--primary-dark);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .intro {
+      background: var(--card);
+      padding: 24px 28px;
+      border-radius: 14px;
+      margin-bottom: 28px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      border-left: 5px solid var(--primary);
+    }
+    .intro h2 {
+      font-size: 1.15rem;
+      margin-bottom: 10px;
+      color: var(--primary-dark);
+    }
+    .intro p {
+      font-size: 0.95rem;
+      color: #444;
+      margin-bottom: 8px;
+    }
+    .question-card {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 22px 24px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+      transition: transform 0.2s;
+    }
+    .question-card:hover {
+      transform: translateY(-2px);
+    }
+    .q-num {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 28px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-right: 10px;
+    }
+    .q-text {
+      font-size: 1.05rem;
+      font-weight: 500;
+      margin-bottom: 16px;
+      display: inline;
+    }
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: space-between;
+    }
+    .option {
+      flex: 1;
+      min-width: 90px;
+      text-align: center;
+    }
+    .option input {
+      display: none;
+    }
+    .option label {
+      display: block;
+      padding: 10px 6px;
+      border: 2px solid #e8d9c8;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      transition: all 0.2s;
+      background: #faf7f2;
+    }
+    .option input:checked + label {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      font-weight: 600;
+    }
+    .option label:hover {
+      border-color: var(--primary);
+    }
+    .scale-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 6px;
+      padding: 0 4px;
+    }
+    .btn-area {
+      text-align: center;
+      margin: 36px 0 20px;
+    }
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 14px 48px;
+      font-size: 1.1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 600;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 15px rgba(196, 92, 38, 0.3);
+      transition: all 0.25s;
+    }
+    button:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(196, 92, 38, 0.4);
+    }
+    #result {
+      display: none;
+      background: var(--card);
+      border-radius: 16px;
+      padding: 28px;
+      margin-top: 28px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      animation: fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .score-box {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+    .score-value {
+      font-size: 3.2rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      line-height: 1;
+    }
+    .score-label {
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    .level {
+      display: inline-block;
+      padding: 6px 18px;
+      border-radius: 30px;
+      font-weight: 600;
+      margin: 12px 0 18px;
+      font-size: 1.05rem;
+    }
+    .level-low { background: #e8f5e9; color: var(--success); }
+    .level-mid { background: #fff3e0; color: var(--warning); }
+    .level-high { background: #ffebee; color: var(--danger); }
+    .interpretation {
+      background: #faf7f2;
+      padding: 18px 20px;
+      border-radius: 12px;
+      font-size: 0.98rem;
+      line-height: 1.8;
+    }
+    .tips {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px dashed #e0d0c0;
+    }
+    .tips h3 {
+      font-size: 1.05rem;
+      color: var(--primary-dark);
+      margin-bottom: 8px;
+    }
+    .tips ul {
+      padding-left: 22px;
+      color: #444;
+    }
+    .tips li { margin-bottom: 6px; }
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    @media (max-width: 600px) {
+      .options { flex-direction: column; }
+      .option { min-width: 100%; }
+      h1 { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🦀 反本能螃蟹心態測驗</h1>
+      <p class="subtitle">Counter-Instinct Crab Mentality Questionnaire</p>
+    </header>
 
+    <div class="intro">
+      <h2>什麼是「反本能」測驗？</h2>
+      <p>螃蟹心態源自「桶中螃蟹」現象：當一隻螃蟹想爬出去，其他螃蟹會本能地把它拉下來。人類也常有類似的本能——嫉妒、零和思維、幸災樂禍。</p>
+      <p>本問卷刻意設計「反本能」題目，幫助你覺察自己在面對他人成功時的第一反應，並對照更成熟、支持性的選擇。請根據<strong>真實的第一直覺</strong>作答，而非「應該怎麼答」。</p>
+      <p style="margin-top:12px;font-size:0.9rem;color:#666;">計分方式：1 = 非常不同意　2 = 不同意　3 = 普通　4 = 同意　5 = 非常同意<br>
+      部分題目為反向計分（支持他人、非零和思維），系統會自動處理。</p>
+    </div>
+
+    <form id="quizForm">
+      <!-- 題目 1 -->
+      <div class="question-card">
+        <span class="q-num">1</span>
+        <span class="q-text">當朋友或同事突然取得重大成功時，我內心的第一反應是不安或嫉妒，而非純粹的開心。</span>
+        <div class="options">
+          <div class="option"><input type="radio" name="q1" value="1" id="q1_1"><label for="q1_1">1</label></div>
+          <div class="option"><input type="radio" name="q1" value="2" id="q1_2"><label for="q1_2">2</label></div>
+          <div class="option"><input type="radio" name="q1" value="3" id="q1_3"><label for="q1_3">3</label></div>
+          <div class="option"><input type="radio" name="q1" value="4" id="q1_4"><label for="q1_4">4</label></div>
+          <div class="option"><input type="radio" name="q1" value="5" id="q1_5"><label for="q1_5">5</label></div>
+        </div>
+        <div class="scale-labels"><span>非常不同意</span><span>非常同意</span></div>
+      </div>
+
+      <!-- 題目 2 -->
+      <div class="question-card">
+        <span class="q-num">2</span>
+        <span class="q-text">我潛意識裡認為：別人成功了，就代表我的機會變少了。</span>
+        <div class="options">
+          <div class="option"><input type="radio" name="q2" value="1" id="q2_1"><label for="q2_1">1</label></div>
+          <div class="option"><input type="radio" name="q2" value="2" id="q2_2"><label for="q2_2">2</label></div>
+          <div class="option"><input type="radio" name="q2" value="3" id="q2_3"><label for="q2_3">3</label></div>
+          <div class="option"><input type="radio" name="q2" value="4" id="q2_4"><label for="q2_4">4</label></div>
+          <div class="option"><input type="radio" name="q2" value="5" id="q2_5"><label for="q2_5">5</label></div>
+        </div>
+        <div class="scale-labels"><span>非常不同意</span><span>非常同意</span></div>
+      </div>
+
+      <!-- 題目 3 -->
+      <div class="question-card">
+        <span class="q-num">3</span>
+        <span class="q-text">當有人表現得比我出色時，我會忍不住想找他的缺點，或在背後議論。</span>
+        <div class="options">
+          <div class="option"><input type="radio" name="q3" value="1" id="q3_1"><label for="q3_1">1</label></div>
+          <div class="option"><input type="radio" name="q3" value="2" id="q3_2"><label for="q3_2">2</label></div>
+          <div class="option"><input type="radio" name="q3" value="3" id="q3_3"><label for="q3_3">3</label></div>
+          <div class="option"><input type="radio" name="q3" value="4" id="q3_4"><label for="q3_4">4</label></div>
+          <div class="option"><input type="radio" name="q3" value="5" id="q3_5"><label for="q3_5">5</label></div>
+        </div>
+        <div class="scale-labels"><span>非常不同意</span><span>非常同意</span></div>
+      </div>
+
+      <!-- 題目 4（反向） -->
+      <div class="question-card">
+        <span class="q-num">4</span>
+        <span class="q-text">我樂於主動分享知識、資源或人脈，真心希望幫助身邊的人變得更好。</span>
+        <div class="options">
+          <div class="option"><input type="radio" name="q4" value="1" id="q4_1"><label for="q4_1">1</label></div>
+          <div class="option"><input type="radio" name="q4" value="2" id="q4_2"><label for="q4_2">2</label></div>
+          <div class="option"><input type="radio" name="q4" value="3" id="q4_3"><label for="q4_3">3</label></div>
+          <div class="option"><input type="radio" name="q4" value="4" id="q4_4"><label for="q4_4">4</label></div>
+          <div class="option"><input type="radio" name="q4" value="5" id="q4_5"><label for="q4_5">5</label></div>
+        </div>
+        <div class="scale-labels"><span>非常不同意</span><span>非常同意</span></div>
+      </div>
+
+      <!-- 題目 5 -->
+      <div class="question-card">
+        <span class="q-num">5</span>
+        <span class="q-text">看到曾經比我優秀的人遭遇挫折或失敗時，我內心會暗自鬆一口氣或感到痛快。</span>
+        <div class="options">
+          <div class="option"><input type="radio" name="q5" value="1" id="q5_1"><label for="q5_1">1</label></div>
+          <div class="option"><input type="radio" name="q5" value="2" id="q5_2"><label for="q5_2">2</label></div>
+          <div class="option"><input type="radio" name="q5" value="3" id="q5_3"><label for="q5_3">3</label></div>
+          <div class="option"><input type="radio" name="q5" value="4" id="q5_4"><label for="q5_4">4</label></div>
+          <div class="option"><input type="radio" name="q5" value="5" id="q5_5"><label for="q5_5">5</label></div>
+        </div>
+        <div class="scale-labels"><span>非常不同意</span><span>非常同意</span></div>
+      </div>
+
+      <!-- 題目 6 -->
+      <div class="question-card">
+        <span class="q-num">6</span>
+        <span class="q-text">我不太希望身邊親近的人（同事、朋友、家人）在某些領域明顯超越我。</span>
+        <div class="options">
+          <div class="option"><input type="radio" name="q6" value="1" id="q6_1"><label for="q6_1">1</label></div>
+          <div class="option"><input type="radio" name="q6" value="2" id="q6_2"><label for="q6_2">2</label></div>
+          <div class="option"><input type="radio" name="q6" value="3" id="q6_3"><label for="q6_3">3</label></div>
+          <div class="option"><input type="radio" name="q6" value="4" id="q6_4"><label for="q6_4">4</label></div>
+          <div class="option"><input type="radio" name="q6" value="5" id="q6_5"><label for="q6_5">5</label></div>
+        </div>
+        <div class="scale-labels"><span>非常不同意</span><span>非常同意</span></div>
+      </div>
+
+      <!-- 題目 7（反向） -->
+      <div class="question-card">
+        <span class="q-num">7</span>
+        <span class="q-text">當他人獲得讚美或成就時，我能真誠地為他們感到高興，並給予公開肯定。</span>
+        <div class="options">
+          <div class="option"><input type="radio" name="q7" value="1" id="q7_1"><label for="q7_1">1</label></div>
+          <div class="option"><input type="radio" name="q7" value="2" id="q7_2"><label for="q7_2">2</label></div>
+          <div class="option"><input type="radio" name="q7" value="3" id="q7_3"><label for="q7_3">3</label></div>
+          <div class="option"><input type="radio" name="q7" value="4" id="q7_4"><label for="q7_4">4</label></div>
+          <div class="option"><input type="radio" name="q7" value="5" id="q7_5"><label for="q7_5">5</label></div>
+        </div>
+        <div class="scale-labels"><span>非常不同意</span><span>非常同意</span></div>
+      </div>
+
+      <!-- 題目 8 -->
+      <div class="question-card">
+        <span class="q-num">8</span>
+        <span class="q-text">在團隊合作中，我更在意自己是否被比下去，而不是整體成果。</span>
+        <div class="options">
+          <div class="option"><input type="radio" name="q8" value="1" id="q8_1"><label for="q8_1">1</label></div>
+          <div class="option"><input type="radio" name="q8" value="2" id="q8_2"><label for="q8_2">2</label></div>
+          <div class="option"><input type="radio" name="q8" value="3" id="q8_3"><label for="q8_3">3</label></div>
+          <div class="option"><input type="radio" name="q8" value="4" id="q8_4"><label for="q8_4">4</label></div>
+          <div class="option"><input type="radio" name="q8" value="5" id="q8_5"><label for="q8_5">5</label></div>
+        </div>
+        <div class="scale-labels"><span>非常不同意</span><span>非常同意</span></div>
+      </div>
+
+      <!-- 題目 9 -->
+      <div class="question-card">
+        <span class="q-num">9</span>
+        <span class="q-text">如果我無法得到某樣東西（機會、認可、資源），我也不希望別人輕易得到。</span>
+        <div class="options">
+          <div class="option"><input type="radio" name="q9" value="1" id="q9_1"><label for="q9_1">1</label></div>
+          <div class="option"><input type="radio" name="q9" value="2" id="q9_2"><label for="q9_2">2</label></div>
+          <div class="option"><input type="radio" name="q9" value="3" id="q9_3"><label for="q9_3">3</label></div>
+          <div class="option"><input type="radio" name="q9" value="4" id="q9_4"><label for="q9_4">4</label></div>
+          <div class="option"><input type="radio" name="q9" value="5" id="q9_5"><label for="q9_5">5</label></div>
+        </div>
+        <div class="scale-labels"><span>非常不同意</span><span>非常同意</span></div>
+      </div>
+
+      <!-- 題目 10（反向） -->
+      <div class="question-card">
+        <span class="q-num">10</span>
+        <span class="q-text">我相信成功不是零和遊戲——別人成功並不會真正削弱我的價值或機會。</span>
+        <div class="options">
+          <div class="option"><input type="radio" name="q10" value="1" id="q10_1"><label for="q10_1">1</label></div>
+          <div class="option"><input type="radio" name="q10" value="2" id="q10_2"><label for="q10_2">2</label></div>
+          <div class="option"><input type="radio" name="q10" value="3" id="q10_3"><label for="q10_3">3</label></div>
+          <div class="option"><input type="radio" name="q10" value="4" id="q10_4"><label for="q10_4">4</label></div>
+          <div class="option"><input type="radio" name="q10" value="5" id="q10_5"><label for="q10_5">5</label></div>
+        </div>
+        <div class="scale-labels"><span>非常不同意</span><span>非常同意</span></div>
+      </div>
+
+      <!-- 題目 11 -->
+      <div class="question-card">
+        <span class="q-num">11</span>
+        <span class="q-text">當有人想改變現狀、追求突破時，我常會用「現實一點」「別想太多」等話勸阻。</span>
+        <div class="options">
+          <div class="option"><input type="radio" name="q11" value="1" id="q11_1"><label for="q11_1">1</label></div>
+          <div class="option"><input type="radio" name="q11" value="2" id="q11_2"><label for="q11_2">2</label></div>
+          <div class="option"><input type="radio" name="q11" value="3" id="q11_3"><label for="q11_3">3</label></div>
+          <div class="option"><input type="radio" name="q11" value="4" id="q11_4"><label for="q11_4">4</label></div>
+          <div class="option"><input type="radio" name="q11" value="5" id="q11_5"><label for="q11_5">5</label></div>
+        </div>
+        <div class="scale-labels"><span>非常不同意</span><span>非常同意</span></div>
+      </div>
+
+      <!-- 題目 12（反向） -->
+      <div class="question-card">
+        <span class="q-num">12</span>
+        <span class="q-text">我願意為了團隊或他人的長期成功，暫時放下自己的短期利益或面子。</span>
+        <div class="options">
+          <div class="option"><input type="radio" name="q12" value="1" id="q12_1"><label for="q12_1">1</label></div>
+          <div class="option"><input type="radio" name="q12" value="2" id="q12_2"><label for="q12_2">2</label></div>
+          <div class="option"><input type="radio" name="q12" value="3" id="q12_3"><label for="q12_3">3</label></div>
+          <div class="option"><input type="radio" name="q12" value="4" id="q12_4"><label for="q12_4">4</label></div>
+          <div class="option"><input type="radio" name="q12" value="5" id="q12_5"><label for="q12_5">5</label></div>
+        </div>
+        <div class="scale-labels"><span>非常不同意</span><span>非常同意</span></div>
+      </div>
+
+      <div class="btn-area">
+        <button type="button" onclick="calculateScore()">查看我的螃蟹指數</button>
+      </div>
+    </form>
+
+    <div id="result">
+      <div class="score-box">
+        <div class="score-value" id="scoreValue">0</div>
+        <div class="score-label">螃蟹心態指數（滿分 60）</div>
+        <div class="level" id="levelBadge"></div>
+      </div>
+      <div class="interpretation" id="interpretation"></div>
+      <div class="tips" id="tips"></div>
+    </div>
+
+    <footer>
+      本測驗僅供自我覺察與反思使用，非專業心理診斷工具。<br>
+      設計理念：透過反本能題目，幫助使用者看見「嫉妒與零和思維」的自動化反應。
+    </footer>
+  </div>
+
+  <script>
+    // 反向計分題：4, 7, 10, 12
+    const reverseItems = [4, 7, 10, 12];
+
+    function calculateScore() {
+      let total = 0;
+      let answered = 0;
+
+      for (let i = 1; i <= 12; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (!selected) {
+          alert(`請完成第 ${i} 題後再提交。`);
+          return;
+        }
+        answered++;
+        let val = parseInt(selected.value);
+        if (reverseItems.includes(i)) {
+          val = 6 - val; // 反向計分
+        }
+        total += val;
+      }
+
+      // 顯示結果
+      document.getElementById('result').style.display = 'block';
+      document.getElementById('scoreValue').textContent = total;
+
+      let level, levelClass, interpretation, tips;
+
+      if (total <= 24) {
+        level = '低螃蟹心態';
+        levelClass = 'level-low';
+        interpretation = `
+          <strong>你的本能反應偏向支持與成長。</strong><br>
+          你較少被「零和思維」或嫉妒本能綁架，能夠真心為他人成功感到開心，也願意分享資源。這是一種成熟的心理狀態，有助於建立信任與長期關係。你已經能較好地「反本能」——用意識選擇合作而非拉低他人。
+        `;
+        tips = `
+          <h3>持續保持的建議</h3>
+          <ul>
+            <li>繼續練習公開肯定他人成就，這會強化正向循環。</li>
+            <li>偶爾檢查自己是否在壓力大時仍能維持這個狀態。</li>
+            <li>可以成為「反螃蟹」的榜樣，影響身邊的人。</li>
+          </ul>
+        `;
+      } else if (total <= 42) {
+        level = '中度螃蟹心態';
+        levelClass = 'level-mid';
+        interpretation = `
+          <strong>你有一定程度的螃蟹本能，但仍有覺察空間。</strong><br>
+          在面對他人成功時，你可能會混合著羨慕、比較與不安。這很正常——人類大腦天生對「相對地位」敏感。好消息是，你已經能部分意識到這些反應，並在某些題目上選擇了更支持性的答案。這正是「反本能」練習的起點。
+        `;
+        tips = `
+          <h3>反本能練習建議</h3>
+          <ul>
+            <li>下次聽到別人好消息時，先停 3 秒，再回應「真心替你高興」。</li>
+            <li>把「別人成功 = 我的損失」改寫成「別人成功證明這條路可行」。</li>
+            <li>主動分享一次你的知識或資源，觀察自己的感受變化。</li>
+            <li>減少在背後議論他人缺點的習慣，改為私下給建設性回饋。</li>
+          </ul>
+        `;
+      } else {
+        level = '高度螃蟹心態';
+        levelClass = 'level-high';
+        interpretation = `
+          <strong>你的本能反應明顯偏向「拉低他人」模式。</strong><br>
+          嫉妒、零和思維、幸災樂禍或勸阻他人突破，可能在你的日常中頻繁出現。這通常來自不安全感、稀缺心態或過去的比較經驗。請記住：這不是「你是壞人」，而是大腦的自動化防禦機制。真正的力量來自<strong>看見本能、然後選擇不同</strong>。
+        `;
+        tips = `
+          <h3>強烈建議的反本能練習</h3>
+          <ul>
+            <li><strong>每日覺察</strong>：每當產生「為什麼是他不是我」的念頭，立刻在心中標記「這是螃蟹本能」。</li>
+            <li><strong>反向行動</strong>：刻意公開讚美一位你原本想批評的人，連續做一週。</li>
+            <li><strong>重寫信念</strong>：寫下「成功是可以擴散的，不是固定總量」並每天讀一次。</li>
+            <li><strong>遠離桶子</strong>：減少與愛比較、愛議論的人過度相處，增加與成長型心態的人互動。</li>
+            <li>如果這些模式嚴重影響人際或情緒，建議尋求專業心理諮商協助。</li>
+          </ul>
+        `;
+      }
+
+      const badge = document.getElementById('levelBadge');
+      badge.textContent = level;
+      badge.className = 'level ' + levelClass;
+
+      document.getElementById('interpretation').innerHTML = interpretation;
+      document.getElementById('tips').innerHTML = tips;
+
+      // 滾動到結果
+      document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  </script>
+</body>
+</html>
