@@ -164,7 +164,6 @@
       align-items: center;
     }
     .category-item:last-child { border-bottom: none; }
-
     /* ── 教育議題卡片專屬樣式 ── */
     .edu-card {
       border-top: 3px solid #5a7a5e;
@@ -237,7 +236,53 @@
     .edu-hub-link:hover {
       background: rgba(90,122,94,0.08);
     }
-
+    /* ── 問卷集卡片樣式 ── */
+    .ciq-card {
+      border-top: 3px solid #6b5b95;
+    }
+    .ciq-card h3::before {
+      content: "✦";
+      color: #6b5b95;
+    }
+    .ciq-link {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      background: rgba(107,91,149,0.07);
+      border: 1px solid rgba(107,91,149,0.2);
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
+      text-decoration: none;
+      color: var(--text-color);
+      transition: background 0.25s, transform 0.2s;
+      margin-top: 0.5rem;
+    }
+    .ciq-link:hover {
+      background: rgba(107,91,149,0.14);
+      transform: translateX(3px);
+      color: var(--text-color);
+    }
+    .ciq-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    .ciq-content { flex: 1; }
+    .ciq-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #4a3f6b;
+      margin-bottom: 0.2rem;
+    }
+    .ciq-desc {
+      font-size: 0.76rem;
+      color: #888;
+      line-height: 1.5;
+    }
+    .ciq-arrow {
+      font-size: 0.9rem;
+      color: #6b5b95;
+      opacity: 0.7;
+    }
     footer {
       text-align: center;
       padding: 5rem 2rem;
@@ -571,8 +616,7 @@
         </li>
       </ul>
     </div>
-
-    <!-- ★ Card 7: 教育議題（新增）★ -->
+    <!-- ★ Card 7: 教育議題 ★ -->
     <div class="card edu-card">
       <h3>教育議題</h3>
       <div class="edu-sub-cards">
@@ -612,6 +656,18 @@
       <a href="Education/EducationGlobalView.html" class="edu-hub-link">📖 進入教育議題專區 →</a>
     </div>
 
+    <!-- ★ Card 8: 問卷集（新增）★ -->
+    <div class="card ciq-card">
+      <h3>問卷集</h3>
+      <a href="Counter-Intuitive-Questionaire/CIQView.html" class="ciq-link">
+        <span class="ciq-icon">📋</span>
+        <div class="ciq-content">
+          <div class="ciq-title">反直覺問卷總覽</div>
+          <div class="ciq-desc">探索那些顛覆常識、挑戰直覺的問卷與思考練習</div>
+        </div>
+        <span class="ciq-arrow">→</span>
+      </a>
+    </div>
   </div>
   <!-- Archive -->
   <section style="margin-top: 3rem; margin-bottom: 1rem;">
