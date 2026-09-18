@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>師生倫理界線與反直覺思考問卷 | Teacher-Student Boundary Assessment</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Noto Sans TC -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Noto Sans TC', 'Inter', sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+        }
+        .card-glass {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        .dark-card-glass {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur border-b border-slate-800">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-indigo-600/20 text-indigo-400 rounded-lg border border-indigo-500/30">
+                    <i data-lucide="shield-alert" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-base sm:text-lg text-slate-100 leading-tight">師生倫理界線思考探討</h1>
+                    <p class="text-xs text-indigo-400 hidden sm:block">年輕男教師與女學生互動之反直覺剖析</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <div id="progress-container" class="hidden sm:flex items-center gap-2 text-xs font-medium text-slate-400">
+                    <span>進度</span>
+                    <div class="w-24 bg-slate-800 rounded-full h-2 overflow-hidden border border-slate-700">
+                        <div id="progress-bar" class="bg-indigo-500 h-full w-0 transition-all duration-300"></div>
+                    </div>
+                    <span id="progress-text">0/6</span>
+                </div>
+                <button id="reset-btn" onclick="resetSurvey()" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition flex items-center gap-1.5 border border-slate-700">
+                    <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> 重置問卷
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 flex flex-col gap-8">
+
+        <!-- Hero Introduction Section -->
+        <section class="bg-gradient-to-br from-slate-800 via-slate-800/90 to-indigo-950/60 rounded-2xl p-6 sm:p-8 border border-slate-700/60 shadow-xl relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 w-60 h-60 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="relative z-10">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold mb-4">
+                    <i data-lucide="brain-circuit" class="w-4 h-4"></i> 反直覺倫理思考
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-3 leading-snug">
+                    善意與界線的迷思：<br class="hidden sm:block"><span class="text-indigo-400">年輕男教師與年輕女學生</span>的倫理臨界點
+                </h2>
+                <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-4">
+                    在教育現場，許多師生互動問題並非源於「惡意騷擾」，而是源於**「過度熱心」**、**「無感越界」**與**「忽視權力不對等（Power Imbalance）」**。
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs text-slate-300 mt-4 border-t border-slate-700/50 pt-4">
+                    <div class="flex items-start gap-2">
+                        <i data-lucide="zap" class="w-4 h-4 text-amber-400 shrink-0 mt-0.5"></i>
+                        <span><strong>直覺陷阱：</strong>認為只要出自「好心與關懷」，就不算越界。</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <i data-lucide="scale" class="w-4 h-4 text-indigo-400 shrink-0 mt-0.5"></i>
+                        <span><strong>權力不對等：</strong>評分、資源掌控與年長威信，使學生難以拒絕。</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"></i>
+                        <span><strong>專業倫理：</strong>建構透明、安全的邊界，保護學生也保護教師。</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Questionnaire Section -->
+        <section id="questionnaire" class="space-y-8">
+            <!-- Questions rendered via JS -->
+        </section>
+
+        <!-- Final Reflection Dashboard (Hidden initially) -->
+        <section id="reflection-dashboard" class="hidden bg-slate-800/80 rounded-2xl p-6 sm:p-8 border border-indigo-500/30 shadow-2xl space-y-6">
+            <div class="text-center space-y-2">
+                <div class="inline-flex items-center justify-center p-3 bg-indigo-600/20 text-indigo-400 rounded-full border border-indigo-500/30 mb-2">
+                    <i data-lucide="award" class="w-8 h-8"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white">問卷完成與專業倫理洞察報告</h3>
+                <p class="text-slate-400 text-sm">感謝您的思考！以下是根據您的選擇對照現代校園專業倫理標準（Professional Boundaries Framework）之綜合評估。</p>
+            </div>
+
+            <!-- Score / Awareness Level Card -->
+            <div id="awareness-score-card" class="bg-slate-900/80 p-6 rounded-xl border border-slate-700 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="text-center md:text-left space-y-1">
+                    <span class="text-xs uppercase tracking-wider text-indigo-400 font-semibold">專業倫理界線敏銳度</span>
+                    <h4 id="score-title" class="text-xl font-bold text-slate-100">分析中...</h4>
+                    <p id="score-description" class="text-sm text-slate-300 leading-relaxed max-w-lg">...</p>
+                </div>
+                <div class="shrink-0 flex flex-col items-center justify-center p-4 bg-slate-800 rounded-xl border border-slate-700 min-w-[140px]">
+                    <span class="text-xs text-slate-400">界線敏銳得分</span>
+                    <span id="score-number" class="text-3xl font-extrabold text-indigo-400 my-1">0/6</span>
+                    <span id="score-tag" class="text-[10px] px-2 py-0.5 rounded-full bg-slate-700 text-slate-300">完全作答</span>
+                </div>
+            </div>
+
+            <!-- Counter-Intuitive Boundary Framework Comparison Table -->
+            <div class="space-y-4 pt-4 border-t border-slate-700">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="table" class="w-5 h-5 text-indigo-400"></i>
+                    <h4 class="text-lg font-bold text-white">師生倫理界線：直覺誤區 vs 反直覺真相對照表</h4>
+                </div>
+                <div class="overflow-x-auto rounded-xl border border-slate-700">
+                    <table class="w-full text-left text-xs sm:text-sm text-slate-300">
+                        <thead class="bg-slate-900 text-slate-200 uppercase text-[11px] border-b border-slate-700">
+                            <tr>
+                                <th class="p-3.5 sm:p-4 min-w-[120px]">互動維度</th>
+                                <th class="p-3.5 sm:p-4 text-rose-300 min-w-[180px]">傳統直覺誤區 (Intuitive Trap)</th>
+                                <th class="p-3.5 sm:p-4 text-amber-300 min-w-[200px]">反直覺倫理真相 (Counter-Intuitive Truth)</th>
+                                <th class="p-3.5 sm:p-4 text-emerald-300 min-w-[200px]">專業倫理最佳實踐 (Best Practice)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800 bg-slate-800/40">
+                            <tr>
+                                <td class="p-3.5 sm:p-4 font-semibold text-slate-200">深夜通訊與關懷</td>
+                                <td class="p-3.5 sm:p-4 text-rose-300/90">「學生難過找我，我及時開導是展現同理心與熱忱。」</td>
+                                <td class="p-3.5 sm:p-4 text-amber-300/90">深夜一對一私聊容易建立「情感依附」與私密模糊感，模糊師生專業的角色分際。</td>
+                                <td class="p-3.5 sm:p-4 text-emerald-300/90">轉介學校專業心理輔導資源，並堅持公務通訊時間與公務管道。</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3.5 sm:p-4 font-semibold text-slate-200">社群互動與按讚</td>
+                                <td class="p-3.5 sm:p-4 text-rose-300/90">「按讚和留言學生日常生活照片是親民、拉近師生距離。」</td>
+                                <td class="p-3.5 sm:p-4 text-amber-300/90">對外貌、私生活的關注具有微凝視效果，會引起其他學生偏袒質疑，並侵入私領域。</td>
+                                <td class="p-3.5 sm:p-4 text-emerald-300/90">保持社群媒體的公私分明，避免評論學生個人外貌或私生活照片。</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3.5 sm:p-4 font-semibold text-slate-200">密閉空間輔導</td>
+                                <td class="p-3.5 sm:p-4 text-rose-300/90">「關門讓哭泣的學生保有隱私與尊嚴，避免被同學看到。」</td>
+                                <td class="p-3.5 sm:p-4 text-amber-300/90">密閉空間極易形成孤立感與權力壓迫感，同時也讓教師喪失公信力保護。</td>
+                                <td class="p-3.5 sm:p-4 text-emerald-300/90">保持視線透明（開門、透明玻璃窗）或尋找開放式諮商空間。</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3.5 sm:p-4 font-semibold text-slate-200">校外單獨用餐</td>
+                                <td class="p-3.5 sm:p-4 text-rose-300/90">「請優秀學生吃個飯/喝咖啡討論職涯，是獎勵與提攜。」</td>
+                                <td class="p-3.5 sm:p-4 text-amber-300/90">校外一對一私人約會模式會產生「特殊偏愛（Favoritism）」假象，模糊公私界線。</td>
+                                <td class="p-3.5 sm:p-4 text-emerald-300/90">導師輔導應於校內公共空間或辦公室進行；團體聚會代替單獨約會。</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3.5 sm:p-4 font-semibold text-slate-200">肢體安慰與觸碰</td>
+                                <td class="p-3.5 sm:p-4 text-rose-300/90">「拍拍肩膀、握手安慰是人性化的自然關懷。」</td>
+                                <td class="p-3.5 sm:p-4 text-amber-300/90">在權力不對等下，學生即便感到不適也難以當下拒絕，身體界線應有絕對安全距離。</td>
+                                <td class="p-3.5 sm:p-4 text-emerald-300/90">以言語鼓勵與遞面紙替代任何肢體觸碰（非必要接觸原則）。</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3.5 sm:p-4 font-semibold text-slate-200">教師自我揭露</td>
+                                <td class="p-3.5 sm:p-4 text-rose-300/90">「分享個人感情挫折與孤獨，能建立真正的真誠連結。」</td>
+                                <td class="p-3.5 sm:p-4 text-amber-300/90">將學生轉化為情感傾聽者或安慰者，反轉了專業輔導責任，屬於情緒剝削。</td>
+                                <td class="p-3.5 sm:p-4 text-emerald-300/90">保持專業自我揭露的界線，專注於學生的需求而非教師自身情緒需求。</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-12 bg-slate-950 border-t border-slate-800 py-6 text-center text-xs text-slate-500">
+        <div class="max-w-5xl mx-auto px-4">
+            <p>本問卷旨在提供校園師生倫理界線、權力不對等與性別平等教育法（Gender Equity Education Act）概念之反思宣導。</p>
+            <p class="mt-1">© 2026 現代校園專業倫理與性別平等倡議小組 | 敬告：遭遇校園騷擾或性平疑慮請即時洽詢各校性平會或撥打 113 保護專線</p>
+        </div>
+    </footer>
+
+    <script>
+        // Data Structure for the Questionnaire
+        const questionnaireData = [
+            {
+                section: "第一部分：數位互動與私人通訊 (Digital Interaction & Personal Communication)",
+                icon: "message-square",
+                questions: [
+                    {
+                        id: 1,
+                        title: "1. 深夜關懷 (Late-night messaging / emotional support)",
+                        scenario: "晚上 11:30，一名年輕女學生透過 IG 或 LINE 私訊年輕男教師，表示自己因課業壓力大且家庭關係緊張而情緒崩潰、非常痛苦。男教師為了安撫學生情緒，立刻回覆訊息並持續陪伴私聊近一小時，給予溫暖的鼓勵與安慰。",
+                        options: [
+                            {
+                                text: "A. 完全符合優秀教師規範：充滿熱忱與同理心，在學生最脆弱時提供即時情緒支援。",
+                                isCorrect: false
+                            },
+                            {
+                                text: "B. 出於善意但極具風險：建立了不當的深夜私下依附關係，越過了公務通訊與輔導倫理界線。",
+                                isCorrect: true
+                            },
+                            {
+                                text: "C. 無所謂：只要內容不帶有性暗示，任何時間的訊息關懷都是個人自由。",
+                                isCorrect: false
+                            }
+                        ],
+                        analysis: {
+                            title: "反直覺剖析：熱心關懷為何會變成倫理風險？",
+                            content: "直覺上，深夜及時開導學生看似是「盡責與有愛心」的表現。然而在校園倫理中：<br><br>1. **情感依附與模糊化：** 一對一的深夜私聊創造了極高的私密感（Intimacy），學生容易將老師視為「唯一的心理支柱」，導致角色過度涉入（Over-involvement）。<br>2. **專業代勞陷阱：** 教師並非心理諮商師，過度承接深層情緒危機反而可能延誤學生尋求專業心理輔導（如輔導室、心輔中心）的時機。<br>3. **最佳實踐：** 教師應於次日透過官方管道關心，並引導轉介專業輔導資源，同時保持明確的公私通訊界線。"
+                        }
+                    },
+                    {
+                        id: 2,
+                        title: "2. 社群媒體互動 (Social media likes & comments on personal photos)",
+                        scenario: "男教師追蹤了女學生的公開 Instagram 帳號，並經常在其發布的個人生活照或穿搭照下方按讚，甚至留言讚美：「今天這身搭配很有氣質喔！」或「這張照片真有好看！」。",
+                        options: [
+                            {
+                                text: "A. 完全正常：社群媒體按讚留言是現代師生建立親密信任關係（Rapport）的好方法。",
+                                isCorrect: false
+                            },
+                            {
+                                text: "B. 越界行為：評論學生外貌或私人生活照片，構成了微微凝視（Micro-gaze）與偏袒疑慮。",
+                                isCorrect: true
+                            },
+                            {
+                                text: "C. 只要學生沒有表達不滿，就可以繼續互動。",
+                                isCorrect: false
+                            }
+                        ],
+                        analysis: {
+                            title: "反直覺剖析：按讚與誇獎為何含有權力壓迫？",
+                            content: "看似稀松平常的社群互動，在師生關係中極具敏感性：<br><br>1. **外貌凝視（Male Gaze）：** 來自掌握評分權利的男教師對女學生外貌、身材或私生活的評論，即使是褒義，也會讓學生產生「被監視/被評價」的心理壓迫。<br>2. **不公平與偏袒假象：** 其他同學若注意到教師特別頻繁關注特定女學生，會引發評分不公或偏袒（Favoritism）的質疑。<br>3. **最佳實踐：** 教師應劃清公私帳號，避免對學生的私人生活照片進行身材或外貌層面的評價。"
+                        }
+                    }
+                ]
+            },
+            {
+                section: "第二部分：空間獨處與導師機制 (Spatial Isolation & Mentorship Dynamics)",
+                icon: "door-closed",
+                questions: [
+                    {
+                        id: 3,
+                        title: "3. 關門輔導 (Closed-door guidance for emotional students)",
+                        scenario: "一名女學生因論文進度落後或學習挫折在研究室/辦公室內失聲痛哭。男教師為了保護學生的尊嚴與隱私，避免門外經過的同學指指點點，於是順手將辦公室門鎖上並拉起窗簾，單獨進行輔導。",
+                        options: [
+                            {
+                                text: "A. 貼心之舉：展現了對學生隱私與尊嚴的尊重的保護。",
+                                isCorrect: false
+                            },
+                            {
+                                text: "B. 嚴重倫理危機：創造了密閉孤立空間，將雙方置於極高風險與權力不對等的環境中。",
+                                isCorrect: true
+                            },
+                            {
+                                text: "C. 只要鎖門前告知學生理由，就完全沒問題。",
+                                isCorrect: false
+                            }
+                        ],
+                        analysis: {
+                            title: "反直覺剖析：保護隱私還是製造風險？",
+                            content: "直覺以為關門鎖窗是「貼心」，實則觸犯了校園安全防護的核心原則：<br><br>1. **空間孤立與密室效應：** 密閉空間大大加劇了權力不對等造成的威脅感，即使教師完全無惡意，也會讓學生產生逃離困難的焦慮。<br>2. **缺乏第三方透明度（Transparency）：** 若發生任何誤會或爭議，教師將完全失去空間上的「舉證自白能力」，無法證明自身清白。<br>3. **最佳實踐：** 輔導時務必保持「視線透明度」（門保持開縫、使用玻璃透光房），若學生情緒潰堤，可尋求女性同仁或輔導室專員共同陪同。"
+                        }
+                    },
+                    {
+                        id: 4,
+                        title: "4. 校外單獨用餐/咖啡 (1-on-1 off-campus meals for career planning)",
+                        scenario: "為了幫優秀女學生進行未來研究所推甄與職涯規劃，男教師主動提議並自費請該學生至校外高檔咖啡廳或餐廳進行一對一指導與談心。",
+                        options: [
+                            {
+                                text: "A. 值得鼓勵的導師風範：願意犧牲私人時間與金錢提攜後進。",
+                                isCorrect: false
+                            },
+                            {
+                                text: "B. 界線模糊：校外一對一私人約會模式， blurred 專業指導與私人社交的界線。",
+                                isCorrect: true
+                            },
+                            {
+                                text: "C. 只要由學生挑選餐廳，就沒有倫理問題。",
+                                isCorrect: false
+                            }
+                        ],
+                        analysis: {
+                            title: "反直覺剖析：請客吃飯為何會變成「情感曖昧化」？",
+                            content: "職涯指導是教師職責，但場域與形式的選擇至關重要：<br><br>1. **約會情境模擬（Dating Dynamics）：** 校外、單獨、教師請客，這些要素高度重疊了社交約會（Dating）的模式，極易讓師生關係從「學術指導」轉向「私人情愫」。<br>2. **利益交換與壓力：** 學生面對老師的請客與私下邀約，往往因權力關係（擔心影響推薦信或分數）而不敢拒絕，心裡卻深感不安。<br>3. **最佳實踐：** 職涯討論應在校內公共空間（如開放式討論區、辦公室）進行，或以小組團體聚會（Group Mentoring）替代單獨約會。"
+                        }
+                    }
+                ]
+            },
+            {
+                section: "第三部分：肢體接觸與情感過度揭露 (Physical Contact & Personal Disclosures)",
+                icon: "user-check",
+                questions: [
+                    {
+                        id: 5,
+                        title: "5. 肢體安慰 (Consoling touch / shoulder pat before exams)",
+                        scenario: "重要考試或競賽前夕，女學生表現得極度緊張焦慮、手抖不止。男教師為了讓她放鬆，走過去拍拍她的肩膀、輕握她的手說：「別擔心，我相信你一定可以的！」",
+                        options: [
+                            {
+                                text: "A. 人性化的展現：適度的肢體接觸能給予學生極大的心理安全感與鼓勵。",
+                                isCorrect: false
+                            },
+                            {
+                                text: "B. 侵犯身體界線：在權力不對等下，非必要的肢體接觸常帶來強迫感與騷擾疑慮。",
+                                isCorrect: true
+                            },
+                            {
+                                text: "C. 拍肩膀可以，握手不行；肢體部位是唯一的衡量標準。",
+                                isCorrect: false
+                            }
+                        ],
+                        analysis: {
+                            title: "反直覺剖析：「善意撫慰」為何可能構成騷擾？",
+                            content: "在性別平等教育法與校園騷擾申訴實務中，肢體接觸是最常見的爭議點：<br><br>1. **自主權喪失：** 學生面對老師突然的肢體觸碰（拍肩、牽手、擁抱），即便心裡感到侵犯或噁心，當下通常因震驚與權力壓制而不敢肢體反抗或拒絕。<br>2. **主觀感受優先原則：** 性騷擾的認定是以「受害者主觀感受」而非「加害者意圖」為核心。教師自認的「純潔鼓勵」，在法律上可能已被認定為侵犯身體界線。<br>3. **最佳實踐：** 採用「零非必要肢體接觸」原則。以言語鼓勵、遞上紙巾或點頭眼神等方式表達關懷。"
+                        }
+                    },
+                    {
+                        id: 6,
+                        title: "6. 教師自我揭露 (Teacher sharing personal/romantic loneliness)",
+                        scenario: "男教師在與女學生討論課業之餘，主動提起自己剛與女朋友分手、心裡非常孤獨寂寞，並向女學生感嘆：「現在要遇到像你這麼聰明又懂我的女生真的太難了…」",
+                        options: [
+                            {
+                                text: "A. 真誠分享：教師向學生展現脆弱的一面，能拉近心靈距離，建立深層信任。",
+                                isCorrect: false
+                            },
+                            {
+                                text: "B. 情感轉嫁與微誘惑：將學生轉化為情緒照顧者，屬於嚴重的專業角色倒置（Role Reversal）。",
+                                isCorrect: true
+                            },
+                            {
+                                text: "C. 只要沒有直接提出追求，這只是普通的心事吐露。",
+                                isCorrect: false
+                            }
+                        ],
+                        analysis: {
+                            title: "反直覺剖析：吐露孤獨為何是情緒剝削與誘惑？",
+                            content: "教師向學生傾訴個人情感創傷，是極具隱蔽性的越界手段：<br><br>1. **角色倒置（Role Reversal）：** 教師原本應是輔導與照顧者，卻將自身情感需求轉嫁給學生，強迫學生扮演「傾聽者」與「情感安慰者」。<br>2. **情感索求與試探（Grooming）：** 透露孤獨並誇讚學生「懂我」，實質上是在測試學生的反應，為進一步發展師生戀（Teacher-Student Romance）鋪路。<br>3. **最佳實踐：** 教師應向同儕、專業心理諮商師尋求個人情感支持，絕不應將學生捲入教師個人的私人感情困境。"
+                        }
+                    }
+                ]
+            }
+        ];
+
+        // State Store
+        const userAnswers = {};
+
+        // Render Questions on Load
+        function renderQuestionnaire() {
+            const container = document.getElementById('questionnaire');
+            container.innerHTML = '';
+
+            questionnaireData.forEach((sec, secIdx) => {
+                const sectionEl = document.createElement('div');
+                sectionEl.className = 'space-y-6';
+
+                // Section Header
+                sectionEl.innerHTML = `
+                    <div class="flex items-center gap-3 border-b border-slate-700/80 pb-3 mt-4">
+                        <div class="p-2 bg-indigo-500/10 text-indigo-400 rounded-lg">
+                            <i data-lucide="${sec.icon}" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-100">${sec.section}</h3>
+                    </div>
+                `;
+
+                const questionsList = document.createElement('div');
+                questionsList.className = 'space-y-6';
+
+                sec.questions.forEach(q => {
+                    const qCard = document.createElement('div');
+                    qCard.id = `question-card-${q.id}`;
+                    qCard.className = 'bg-slate-800/60 rounded-xl p-5 sm:p-6 border border-slate-700 shadow-md transition duration-300 hover:border-slate-600';
+
+                    qCard.innerHTML = `
+                        <div class="space-y-4">
+                            <!-- Question Title & Scenario -->
+                            <div>
+                                <span class="text-xs font-semibold uppercase tracking-wider text-indigo-400 bg-indigo-950/60 px-2.5 py-1 rounded-md border border-indigo-800/50">情境案例 ${q.id}</span>
+                                <h4 class="text-lg font-bold text-white mt-2">${q.title}</h4>
+                                <div class="mt-3 p-4 bg-slate-900/80 rounded-lg border border-slate-700/60 text-slate-300 text-sm leading-relaxed">
+                                    <strong class="text-indigo-300 block mb-1 flex items-center gap-1.5">
+                                        <i data-lucide="book-open-check" class="w-4 h-4"></i> 情境描述：
+                                    </strong>
+                                    ${q.scenario}
+                                </div>
+                            </div>
+
+                            <!-- Options -->
+                            <div class="space-y-2.5 pt-2">
+                                <label class="block text-xs font-semibold text-slate-400 mb-1">請選擇您認為最符合現代校園專業倫理規範的評估：</label>
+                                ${q.options.map((opt, optIdx) => `
+                                    <button 
+                                        onclick="selectOption(${q.id}, ${optIdx})" 
+                                        id="opt-btn-${q.id}-${optIdx}"
+                                        class="w-full text-left p-3.5 rounded-lg border border-slate-700 bg-slate-800/90 text-slate-200 text-sm hover:bg-slate-700/80 hover:border-slate-500 transition duration-200 flex items-start gap-3 group"
+                                    >
+                                        <span id="opt-icon-${q.id}-${optIdx}" class="w-5 h-5 rounded-full border border-slate-500 flex items-center justify-center shrink-0 mt-0.5 text-xs text-slate-400 group-hover:border-indigo-400">
+                                            ${String.fromCharCode(65 + optIdx)}
+                                        </span>
+                                        <span class="flex-1">${opt.text}</span>
+                                    </button>
+                                `).join('')}
+                            </div>
+
+                            <!-- Analysis Box (Hidden until answer chosen) -->
+                            <div id="analysis-${q.id}" class="hidden mt-5 p-5 bg-indigo-950/40 rounded-xl border border-indigo-500/30 text-slate-200 space-y-2 animate-fadeIn">
+                                <div class="flex items-center gap-2 text-indigo-300 font-bold text-sm border-b border-indigo-500/20 pb-2">
+                                    <i data-lucide="lightbulb" class="w-4 h-4 text-amber-400"></i>
+                                    <span>${q.analysis.title}</span>
+                                </div>
+                                <div class="text-xs sm:text-sm text-slate-300 leading-relaxed pt-1">
+                                    ${q.analysis.content}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    questionsList.appendChild(qCard);
+                });
+
+                sectionEl.appendChild(questionsList);
+                container.appendChild(sectionEl);
+            });
+
+            // Re-initialize Lucide Icons
+            lucide.createIcons();
+            document.getElementById('progress-container').classList.remove('hidden');
+        }
+
+        // Handle Option Selection
+        function selectOption(qId, optIdx) {
+            // Find Question Data
+            let currentQ = null;
+            questionnaireData.forEach(sec => {
+                const found = sec.questions.find(q => q.id === qId);
+                if (found) currentQ = found;
+            });
+
+            if (!currentQ) return;
+
+            // Save Answer
+            userAnswers[qId] = {
+                selectedIdx: optIdx,
+                isCorrect: currentQ.options[optIdx].isCorrect
+            };
+
+            // Update UI for Option Buttons
+            currentQ.options.forEach((opt, idx) => {
+                const btn = document.getElementById(`opt-btn-${qId}-${idx}`);
+                const icon = document.getElementById(`opt-icon-${qId}-${idx}`);
+
+                btn.disabled = false;
+                
+                if (idx === optIdx) {
+                    if (opt.isCorrect) {
+                        btn.className = 'w-full text-left p-3.5 rounded-lg border-2 border-emerald-500 bg-emerald-950/30 text-emerald-100 text-sm font-medium transition flex items-start gap-3 shadow-lg';
+                        icon.className = 'w-5 h-5 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold';
+                        icon.innerHTML = '✓';
+                    } else {
+                        btn.className = 'w-full text-left p-3.5 rounded-lg border-2 border-rose-500 bg-rose-950/30 text-rose-100 text-sm font-medium transition flex items-start gap-3 shadow-lg';
+                        icon.className = 'w-5 h-5 rounded-full bg-rose-500 text-white flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold';
+                        icon.innerHTML = '✕';
+                    }
+                } else {
+                    if (opt.isCorrect) {
+                        // Highlight the correct answer even if not selected
+                        btn.className = 'w-full text-left p-3.5 rounded-lg border border-emerald-500/50 bg-slate-800/40 text-slate-300 text-sm opacity-90 transition flex items-start gap-3';
+                        icon.className = 'w-5 h-5 rounded-full border border-emerald-500 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold';
+                        icon.innerHTML = '✓';
+                    } else {
+                        btn.className = 'w-full text-left p-3.5 rounded-lg border border-slate-700/50 bg-slate-900/40 text-slate-500 text-sm opacity-60 transition flex items-start gap-3';
+                        icon.className = 'w-5 h-5 rounded-full border border-slate-700 text-slate-600 flex items-center justify-center shrink-0 mt-0.5 text-xs';
+                        icon.innerHTML = String.fromCharCode(65 + idx);
+                    }
+                }
+            });
+
+            // Reveal Analysis
+            const analysisBox = document.getElementById(`analysis-${qId}`);
+            analysisBox.classList.remove('hidden');
+
+            // Update Overall Progress
+            updateProgress();
+        }
+
+        // Update Progress & Trigger Dashboard
+        function updateProgress() {
+            const totalQuestions = 6;
+            const answeredCount = Object.keys(userAnswers).length;
+            const percentage = (answeredCount / totalQuestions) * 100;
+
+            document.getElementById('progress-bar').style.width = `${percentage}%`;
+            document.getElementById('progress-text').innerText = `${answeredCount}/${totalQuestions}`;
+
+            // If all answered, reveal Reflection Dashboard
+            if (answeredCount === totalQuestions) {
+                calculateSummary();
+            }
+        }
+
+        // Calculate Score & Show Summary
+        function calculateSummary() {
+            let correctCount = 0;
+            Object.values(userAnswers).forEach(ans => {
+                if (ans.isCorrect) correctCount++;
+            });
+
+            const dashboard = document.getElementById('reflection-dashboard');
+            dashboard.classList.remove('hidden');
+
+            // Update Score Card Text
+            document.getElementById('score-number').innerText = `${correctCount}/6`;
+
+            const titleEl = document.getElementById('score-title');
+            const descEl = document.getElementById('score-description');
+
+            if (correctCount === 6) {
+                titleEl.innerText = "倫理界線專家：高度敏銳的專業倫理思維";
+                titleEl.className = "text-xl font-bold text-emerald-400";
+                descEl.innerText = "您精準辨識出所有隱蔽型越界行為！您非常清楚權力不對等（Power Imbalance）對師生關係的微觀影響，能以專業倫理與客觀機制守護學生與自身。";
+            } else if (correctCount >= 4) {
+                titleEl.innerText = "倫理意識良好：具備基本界線概念";
+                titleEl.className = "text-xl font-bold text-indigo-400";
+                descEl.innerText = "您了解大部分校園倫理規範，但在某些「出自善意」或「社群互動」的模糊情境中，仍可能掉入傳統直覺陷阱。建議對照下方對照表強化盲點！";
+            } else {
+                titleEl.innerText = "高倫理風險警訊：容易落入「善意誤區」";
+                titleEl.className = "text-xl font-bold text-rose-400";
+                descEl.innerText = "您的選擇傾向於依賴直覺與善意來處理師生互動。在現代校園規範中，忽略權力關係的「熱心」往往容易被認定為越界或性騷擾，請務必詳細閱讀下方剖析！";
+            }
+
+            // Scroll smoothly to dashboard
+            dashboard.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Reset Survey
+        function resetSurvey() {
+            for (let key in userAnswers) {
+                delete userAnswers[key];
+            }
+            document.getElementById('reflection-dashboard').classList.add('hidden');
+            document.getElementById('progress-bar').style.width = '0%';
+            document.getElementById('progress-text').innerText = '0/6';
+            renderQuestionnaire();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize on Window Load
+        window.onload = function() {
+            renderQuestionnaire();
+        };
+    </script>
+</body>
+</html>
