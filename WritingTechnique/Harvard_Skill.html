@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>槑喆醫師｜非虛構故事生成器</title>
+
+<style>
+    body {
+        font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+        background: #f5f5f5;
+        margin: 0;
+        padding: 20px;
+        color: #333;
+    }
+
+    .container {
+        max-width: 850px;
+        margin: auto;
+        background: white;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 5px;
+    }
+
+    .subtitle {
+        text-align: center;
+        color: #777;
+        margin-bottom: 30px;
+    }
+
+    .progress {
+        height: 10px;
+        background: #eee;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 30px;
+    }
+
+    .progress-bar {
+        height: 100%;
+        width: 0%;
+        background: #555;
+        transition: width 0.3s;
+    }
+
+    .step {
+        display: none;
+    }
+
+    .step.active {
+        display: block;
+    }
+
+    .question-number {
+        font-size: 14px;
+        color: #888;
+        margin-bottom: 10px;
+    }
+
+    .question {
+        font-size: 24px;
+        font-weight: bold;
+        line-height: 1.5;
+        margin-bottom: 12px;
+    }
+
+    .hint {
+        color: #777;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    textarea,
+    input,
+    select {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 14px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        font-size: 16px;
+        margin-bottom: 20px;
+        font-family: inherit;
+    }
+
+    textarea {
+        min-height: 130px;
+        resize: vertical;
+    }
+
+    button {
+        border: none;
+        padding: 13px 24px;
+        border-radius: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-right: 8px;
+    }
+
+    .next-btn {
+        background: #333;
+        color: white;
+    }
+
+    .back-btn {
+        background: #eee;
+        color: #333;
+    }
+
+    .generate-btn {
+        background: #222;
+        color: white;
+        font-size: 18px;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .story-box {
+        background: #fafafa;
+        border: 1px solid #ddd;
+        padding: 25px;
+        border-radius: 12px;
+        line-height: 1.9;
+        white-space: pre-wrap;
+        margin-top: 20px;
+    }
+
+    .copy-btn {
+        background: #555;
+        color: white;
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    .restart-btn {
+        background: #eee;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .option {
+        border: 1px solid #ddd;
+        padding: 14px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        cursor: pointer;
+    }
+
+    .option:hover {
+        background: #f5f5f5;
+    }
+
+    .small {
+        font-size: 13px;
+        color: #888;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>槑喆醫師｜非虛構故事生成器</h1>
+
+    <div class="subtitle">
+        從一件事情，找到一個真正值得說的故事
+    </div>
+
+    <div class="progress">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- STEP 1 -->
+    <div class="step active">
+        <div class="question-number">問題 1 / 10</div>
+
+        <div class="question">
+            這是一個關於誰的故事？
+        </div>
+
+        <div class="hint">
+            請描述故事主角。<br>
+            可以是真實人物，也可以用「一位病人」、「一名主管」、「一位父親」等方式描述。
+        </div>
+
+        <textarea id="q1"
+            placeholder="例如：一位45歲的男性主管，工作能力很好，但最近開始出現失眠……"></textarea>
+
+        <button class="next-btn" onclick="nextStep()">下一題 →</button>
+    </div>
+
+
+    <!-- STEP 2 -->
+    <div class="step">
+        <div class="question-number">問題 2 / 10</div>
+
+        <div class="question">
+            他真正想要的是什麼？
+        </div>
+
+        <div class="hint">
+            不一定是表面上的需求。<br>
+            他可能說「想要休息」，但真正想要的可能是「被理解」。
+        </div>
+
+        <textarea id="q2"
+            placeholder="例如：他表面上想辭職，但其實他想重新找回生活的掌控感……"></textarea>
+
+        <button class="back-btn" onclick="prevStep()">← 上一題</button>
+        <button class="next-btn" onclick="nextStep()">下一題 →</button>
+    </div>
+
+
+    <!-- STEP 3 -->
+    <div class="step">
+        <div class="question-number">問題 3 / 10</div>
+
+        <div class="question">
+            發生了什麼衝突？
+        </div>
+
+        <div class="hint">
+            什麼事情阻止他得到自己想要的東西？
+        </div>
+
+        <textarea id="q3"
+            placeholder="例如：主管要求越來越高，他又不敢拒絕，因此每天工作到深夜……"></textarea>
+
+        <button class="back-btn" onclick="prevStep()">← 上一題</button>
+        <button class="next-btn" onclick="nextStep()">下一題 →</button>
+    </div>
+
+
+    <!-- STEP 4 -->
+    <div class="step">
+        <div class="question-number">問題 4 / 10</div>
+
+        <div class="question">
+            故事發生在哪裡？
+        </div>
+
+        <div class="hint">
+            請盡量提供具體的時間與地點，讓讀者可以「走進現場」。
+        </div>
+
+        <textarea id="q4"
+            placeholder="例如：星期五晚上十點半，公司辦公室，只剩下他一個人……"></textarea>
+
+        <button class="back-btn" onclick="prevStep()">← 上一題</button>
+        <button class="next-btn" onclick="nextStep()">下一題 →</button>
+    </div>
+
+
+    <!-- STEP 5 -->
+    <div class="step">
+        <div class="question-number">問題 5 / 10</div>
+
+        <div class="question">
+            現場發生了什麼？
+        </div>
+
+        <div class="hint">
+            請描述可以「看見」的動作、表情、環境與細節。
+        </div>
+
+        <textarea id="q5"
+            placeholder="例如：他看著手機上的訊息，手指停在螢幕上很久，卻一直沒有回覆……"></textarea>
+
+        <button class="back-btn" onclick="prevStep()">← 上一題</button>
+        <button class="next-btn" onclick="nextStep()">下一題 →</button>
+    </div>
+
+
+    <!-- STEP 6 -->
+    <div class="step">
+        <div class="question-number">問題 6 / 10</div>
+
+        <div class="question">
+            他說了什麼？
+        </div>
+
+        <div class="hint">
+            如果有一句真正重要的話，請寫下來。<br>
+            不需要修飾，越接近原本說法越好。
+        </div>
+
+        <textarea id="q6"
+            placeholder="例如：「醫師，我不是不想回家，我是不知道回家以後要面對什麼。」"></textarea>
+
+        <button class="back-btn" onclick="prevStep()">← 上一題</button>
+        <button class="next-btn" onclick="nextStep()">下一題 →</button>
+    </div>
+
+
+    <!-- STEP 7 -->
+    <div class="step">
+        <div class="question-number">問題 7 / 10</div>
+
+        <div class="question">
+            有沒有一個「原來如此」的轉折？
+        </div>
+
+        <div class="hint">
+            例如：原本以為是 A，後來才發現其實是 B。
+        </div>
+
+        <textarea id="q7"
+            placeholder="例如：原本以為他只是工作太累，後來才知道，他真正害怕的是回到家……"></textarea>
+
+        <button class="back-btn" onclick="prevStep()">← 上一題</button>
+        <button class="next-btn" onclick="nextStep()">下一題 →</button>
+    </div>
+
+
+    <!-- STEP 8 -->
+    <div class="step">
+        <div class="question-number">問題 8 / 10</div>
+
+        <div class="question">
+            這個故事背後有什麼專業知識？
+        </div>
+
+        <div class="hint">
+            如果是醫療、心理、職場或教育故事，請提供你希望加入的專業觀點。
+            如果沒有，可以留白。
+        </div>
+
+        <textarea id="q8"
+            placeholder="例如：長期壓力與失眠的關係、burnout、睡眠衛生……"></textarea>
+
+        <button class="back-btn" onclick="prevStep()">← 上一題</button>
+        <button class="next-btn" onclick="nextStep()">下一題 →</button>
+    </div>
+
+
+    <!-- STEP 9 -->
+    <div class="step">
+        <div class="question-number">問題 9 / 10</div>
+
+        <div class="question">
+            最後，他有什麼改變？
+        </div>
+
+        <div class="hint">
+            可以是行動上的改變，也可以只是心理上的一個轉念。
+        </div>
+
+        <textarea id="q9"
+            placeholder="例如：他第一次拒絕了主管週末加班的要求，回家陪孩子吃晚餐……"></textarea>
+
+        <button class="back-btn" onclick="prevStep()">← 上一題</button>
+        <button class="next-btn" onclick="nextStep()">下一題 →</button>
+    </div>
+
+
+    <!-- STEP 10 -->
+    <div class="step">
+        <div class="question-number">問題 10 / 10</div>
+
+        <div class="question">
+            如果故事最後只留下三句話，你想讓讀者記住什麼？
+        </div>
+
+        <div class="hint">
+            不要急著說教。可以是一句話、一個畫面、一種情緒。
+        </div>
+
+        <textarea id="q10"
+            placeholder="例如：有些人不是不累，只是不敢停下來……"></textarea>
+
+        <button class="back-btn" onclick="prevStep()">← 上一題</button>
+
+        <button class="generate-btn" onclick="generateStory()">
+            ✦ 生成我的故事
+        </button>
+    </div>
+
+
+    <!-- RESULT -->
+    <div id="result" style="display:none;">
+
+        <h2>你的非虛構故事</h2>
+
+        <div class="small">
+            已依照「人物 → 慾望 → 衝突 → 場景 → 對話 → 轉折 → 改變 → 餘韻」整理
+        </div>
+
+        <div class="story-box" id="storyOutput"></div>
+
+        <button class="copy-btn" onclick="copyStory()">
+            複製故事
+        </button>
+
+        <button class="restart-btn" onclick="restart()">
+            重新開始
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+let currentStep = 0;
+
+const steps = document.querySelectorAll(".step");
+
+function updateProgress() {
+
+    const percent = (currentStep / 10) * 100;
+
+    document.getElementById("progressBar").style.width =
+        percent + "%";
+}
+
+function showStep(index) {
+
+    steps.forEach((step, i) => {
+
+        step.classList.toggle(
+            "active",
+            i === index
+        );
+
+    });
+
+    currentStep = index;
+
+    updateProgress();
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+function nextStep() {
+
+    const textarea =
+        steps[currentStep].querySelector("textarea");
+
+    if (textarea && !textarea.value.trim()) {
+
+        alert("請先回答這個問題，再進入下一題。");
+
+        textarea.focus();
+
+        return;
+    }
+
+    if (currentStep < 9) {
+
+        showStep(currentStep + 1);
+
+    }
+}
+
+function prevStep() {
+
+    if (currentStep > 0) {
+
+        showStep(currentStep - 1);
+
+    }
+}
+
+function getAnswers() {
+
+    let answers = [];
+
+    for (let i = 1; i <= 10; i++) {
+
+        answers.push(
+            document.getElementById("q" + i).value.trim()
+        );
+
+    }
+
+    return answers;
+}
+
+function generateStory() {
+
+    const answers = getAnswers();
+
+    if (answers.some(a => !a)) {
+
+        alert("請完成所有問題，再生成故事。");
+
+        return;
+    }
+
+    /*
+        這裡不直接假裝 AI 已經生成文章。
+        先建立一份結構化 Prompt。
+        使用者可以將 Prompt 貼給 ChatGPT、
+        Claude、Gemini 或其他 AI。
+    */
+
+    const prompt = `
+請根據以下真實素材，寫成一篇高品質的繁體中文非虛構故事。
+
+寫作精神參考《哈佛非虛構寫作課：怎樣講好一個故事》：
+
+核心原則：
+1. 人物優先，而不是知識優先。
+2. 先讓讀者進入場景，再提供解釋。
+3. Show, don't tell。
+4. 適度使用真實對話。
+5. 建立懸念。
+6. 清楚呈現人物的慾望與衝突。
+7. 安排合理的轉折。
+8. 呈現人物的改變。
+9. 專業知識服務於故事。
+10. 結尾留下餘韻，不要過度說教。
+
+故事資料：
+
+【人物】
+${answers[0]}
+
+【人物真正想要的】
+${answers[1]}
+
+【主要衝突】
+${answers[2]}
+
+【時間與地點】
+${answers[3]}
+
+【現場發生的事情】
+${answers[4]}
+
+【重要對話】
+${answers[5]}
+
+【故事轉折】
+${answers[6]}
+
+【專業知識】
+${answers[7]}
+
+【人物最後的改變】
+${answers[8]}
+
+【希望讀者帶走的想法】
+${answers[9]}
+
+
+請按照以下結構完成：
+
+① 一個具有吸引力的開場
+
+② 進入具體場景
+
+③ 介紹人物
+
+④ 呈現人物真正想要的東西
+
+⑤ 建立衝突
+
+⑥ 使用自然對話推進故事
+
+⑦ 發展懸念
+
+⑧ 呈現「原本以為A，其實是B」的轉折
+
+⑨ 加入必要的醫療／心理／職場專業解釋
+
+⑩ 描寫人物的改變
+
+⑪ 用一個具有畫面感的結尾留下餘韻
+
+文章風格：
+
+- 繁體中文
+- 自然
+- 溫暖
+- 有畫面
+- 有情緒
+- 不八股
+- 不過度說教
+- 不刻意煽情
+- 對話自然
+- 避免過度使用醫學術語
+
+重要限制：
+
+- 不可以虛構沒有提供的醫療資料。
+- 不可以自行增加人物背景。
+- 不可以改變事件原意。
+- 如果資料不足，請保持模糊。
+- 對話只能依照提供內容整理，不可創造關鍵事實。
+- 如果涉及醫療資訊，請使用正確且謹慎的醫學描述。
+
+最後以「槑喆醫師」的第一人稱視角呈現。
+
+請輸出完整故事，不要輸出分析過程。
+`;
+
+    document.getElementById("storyOutput").textContent = prompt;
+
+    for (let step of steps) {
+
+        step.classList.remove("active");
+
+    }
+
+    document.getElementById("result").style.display = "block";
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+function copyStory() {
+
+    const text =
+        document.getElementById("storyOutput").textContent;
+
+    navigator.clipboard.writeText(text)
+        .then(() => {
+
+            alert("故事 Prompt 已複製，可以貼到 AI 生成完整故事。");
+
+        });
+
+}
+
+function restart() {
+
+    for (let i = 1; i <= 10; i++) {
+
+        document.getElementById("q" + i).value = "";
+
+    }
+
+    document.getElementById("result").style.display = "none";
+
+    showStep(0);
+}
+
+updateProgress();
+
+</script>
+
+</body>
+</html>
